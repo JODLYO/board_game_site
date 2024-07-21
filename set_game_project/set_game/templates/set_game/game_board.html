@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SET Game Board</title>
+    <style>
+        .card {
+            display: inline-block;
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .selected {
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>SET Game Board</h1>
+    <div id="game-board">
+        {% for card in cards %}
+        <div class="card" data-card-id="{{ card.id }}">
+            <p>{{ card.number }} {{ card.shading }} {{ card.color }} {{ card.symbol }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <button id="check-set-button" ChatGPT onclick="checkSet()">Check Set</button>
+    <p id="message"></p>
+    <div id="scores"></div>
+    <a href="{% url 'home' %}">Back to Home</a>
+    <script src="{% static 'set_game/js/game.js' %}"></script>
+</body>
+
+</html>

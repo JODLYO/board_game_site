@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "set-game-project"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^5.0.6"
+channels = "^4.1.0"
+channels-redis = "^4.2.0"
+pytest = "^8.2.2"
+pytest-django = "^4.8.0"
+pytest-asyncio = "^0.23.7"
+gunicorn = "^22.0.0"
+daphne = "^4.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

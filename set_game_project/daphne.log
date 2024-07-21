@@ -1,0 +1,19 @@
+2024-07-21 12:54:51,938 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
+2024-07-21 12:54:51,938 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2024-07-21 12:54:51,939 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
+2024-07-21 12:54:51,940 INFO     Listening on TCP address 0.0.0.0:8000
+192.168.80.4:51458 - - [21/Jul/2024:12:55:02] "GET /game/" 200 1989
+192.168.80.4:51462 - - [21/Jul/2024:12:55:02] "WSCONNECTING /ws/game/" - -
+192.168.80.4:51462 - - [21/Jul/2024:12:55:02] "WSCONNECT /ws/game/" - -
+{'type': 'start_game'}
+zsdcfg
+/app/set_game_project
+192.168.80.4:42296 - - [21/Jul/2024:12:55:08] "GET /game/" 200 1989
+192.168.80.4:51462 - - [21/Jul/2024:12:55:08] "WSDISCONNECT /ws/game/" - -
+192.168.80.4:42298 - - [21/Jul/2024:12:55:08] "WSCONNECTING /ws/game/" - -
+192.168.80.4:42298 - - [21/Jul/2024:12:55:08] "WSCONNECT /ws/game/" - -
+{'type': 'start_game'}
+zsdcfg
+/app/set_game_project
+192.168.80.4:42298 - - [21/Jul/2024:12:55:41] "WSDISCONNECT /ws/game/" - -
+2024-07-21 12:55:41,462 INFO     Killed 0 pending application instances
