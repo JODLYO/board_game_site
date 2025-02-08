@@ -1,0 +1,97 @@
+<div id="players">
+    <!-- Player info will be dynamically loaded here -->
+</div>
+
+<div id="ready-button">
+    <!-- Ready button will be dynamically loaded here -->
+</div>
+
+<script>
+    function updateLobbyStatus(data) {
+        const playersDiv = document.getElementById('players');
+        playersDiv.innerHTML = `
+            <p>Player 1: ${data.player1} ${data.player1_ready ? '(Ready)' : '(Not Ready)'}</p>
+            <p>Player 2: ${data.player2 || 'Waiting for a player...'} ${data.player2_ready ? '(Ready)' : data.player2 ? '(Not Ready)' : ''}</p>
+        `;
+
+        const readyButtonDiv = document.getElementById('ready-button');
+        // if (data.is_full && !data.all_ready) {
+        //     readyButtonDiv.innerHTML = `
+        //         <form id="ready-form" method="post">
+        //             <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
+        //             <button type="submit">I'm Ready</button>
+        //         </form>
+        //     `;
+
+        if (data.is_full && !data.all_ready) {
+            readyButtonDiv.innerHTML = `
+                <form id="ready-form" method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
+                    <button type="submit">I'm Ready</button>
+                </form>
+            `;
+
+            // Add an event listener to the form to prevent default submission
+            const readyForm = document.getElementById('ready-form');
+            readyForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Send a POST request using fetch
+                fetch('/lobby/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': data.csrf_token
+                    },
+                    body: new URLSearchParams(new FormData(readyForm))
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data); // For debugging purposes
+                        updateLobbyStatus(data);
+                    })
+                    .catch(error => console.error('Error submitting ready status:', error));
+            });
+
+        } else {
+            readyButtonDiv.innerHTML = '';
+        }
+
+        if (data.is_full && data.all_ready && data.game_state_id) {
+            // Redirect to the game board when both players are ready
+            console.log("2")
+            window.location.href = `/game/${data.game_state_id}/`;
+        }
+    }
+
+    // setInterval(() => {
+    //     fetch('/api/lobby_status/{{ lobby.id }}/')
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data); // For debugging purposes
+    //             if (data.game_state_id) {
+    //                 // Redirect to the game board
+    //                 window.location.href = `/game/${data.game_state_id}/`;
+    //             } else {
+    //                 // Update the lobby status
+    //                 updateLobbyStatus(data);
+    //             }
+    //         })
+    //         .catch(error => console.error('Error fetching lobby status:', error));
+    // }, 3000);
+    setInterval(() => {
+    fetch('/api/lobby_status/{{ lobby.id }}/')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // For debugging purposes
+            if (data.game_state_id) {
+                // Redirect to the game board
+                window.location.href = `/game/${data.game_state_id}/`;
+            } else {
+                // Update the lobby status
+                updateLobbyStatus(data);
+            }
+        })
+        .catch(error => console.error('Error fetching lobby status:', error));
+}, 3000);
+</script>

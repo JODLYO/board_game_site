@@ -23,8 +23,8 @@
     <h1>SET Game Board</h1>
     <div id="game-board">
         {% for card in cards %}
-        <div class="card" data-card-id="{{ card.id }}">
-            <p>{{ card.number }} {{ card.shading }} {{ card.color }} {{ card.symbol }}</p>
+        <div class="card" data-card-id="{{ card.id }}" data-number="{{ card.number }}" data-symbol="{{ card.symbol }}" data-shading="{{ card.shading }}" data-color="{{ card.color }}">
+            <div class="card-content"></div>
         </div>
         {% endfor %}
     </div>

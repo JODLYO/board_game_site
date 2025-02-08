@@ -100,7 +100,7 @@ function setupWebSocket() {
     }
 
     gameSocket = new WebSocket(
-        'ws://' + window.location.host + ':8000/ws/game/'
+        'ws://' + window.location.host + '/ws/game/'
     );
 
     gameSocket.onopen = function() {
@@ -166,13 +166,28 @@ function updateGameState(state) {
 
 
 function createCardElement(cardId, cardData) {
+    // const cardElement = document.createElement('div');
+    // cardElement.classList.add('card');
+    // cardElement.setAttribute('data-card-id', cardId);
+
+    // const cardText = document.createElement('p');
+    // cardText.innerText = `${cardData.number} ${cardData.shading} ${cardData.color} ${cardData.symbol}`;
+    // cardElement.appendChild(cardText);
     const cardElement = document.createElement('div');
     cardElement.classList.add('card');
     cardElement.setAttribute('data-card-id', cardId);
 
-    const cardText = document.createElement('p');
-    cardText.innerText = `${cardData.number} ${cardData.shading} ${cardData.color} ${cardData.symbol}`;
-    cardElement.appendChild(cardText);
+    const cardContent = document.createElement('div');
+    cardContent.classList.add('card-content');
+
+    // Add symbols based on the number
+    for (let i = 0; i < cardData.number; i++) {
+        const symbol = document.createElement('div');
+        symbol.classList.add('symbol', cardData.symbol.toLowerCase(), 'shading', cardData.shading.toLowerCase(), 'color', `color-${cardData.color.toLowerCase()}`);
+        cardContent.appendChild(symbol);
+    }
+
+    cardElement.appendChild(cardContent);
 
     // Add click event listener to select cards
     cardElement.addEventListener('click', () => {
@@ -189,4 +204,3 @@ function createCardElement(cardId, cardData) {
 
     return cardElement;
 }
-// delete this comment 2

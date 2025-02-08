@@ -1,6 +1,7 @@
 # set_game/models.py
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from random import sample, shuffle
 
@@ -111,3 +112,23 @@ class GameMove(models.Model):
 
     def __str__(self):
         return f"Move by {self.player} in {self.session}"
+
+
+class Lobby(models.Model):
+    player1 = models.ForeignKey(User, related_name='lobby_player1', on_delete=models.CASCADE)
+    player2 = models.ForeignKey(User, related_name='lobby_player2', on_delete=models.CASCADE, null=True, blank=True)
+    player1_ready = models.BooleanField(default=False)
+    player2_ready = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_full(self):
+        return self.player2 is not None
+
+    def all_ready(self):
+        return self.player1_ready and self.player2_ready
+
+class GameState(models.Model):
+    # lobby = models.OneToOneField(Lobby, on_delete=models.CASCADE)
+    lobby = models.OneToOneField(Lobby, on_delete=models.CASCADE, related_name='game_state')
+    state_data = models.JSONField(default=dict)
+    created_at = models.DateTimeField(auto_now_add=True)

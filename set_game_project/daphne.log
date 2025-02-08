@@ -1,19 +1,72 @@
-2024-07-21 12:54:51,938 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
-2024-07-21 12:54:51,938 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2024-07-21 12:54:51,939 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
-2024-07-21 12:54:51,940 INFO     Listening on TCP address 0.0.0.0:8000
-192.168.80.4:51458 - - [21/Jul/2024:12:55:02] "GET /game/" 200 1989
-192.168.80.4:51462 - - [21/Jul/2024:12:55:02] "WSCONNECTING /ws/game/" - -
-192.168.80.4:51462 - - [21/Jul/2024:12:55:02] "WSCONNECT /ws/game/" - -
+2025-02-08 10:14:18,578 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
+2025-02-08 10:14:18,579 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-02-08 10:14:18,579 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
+2025-02-08 10:14:18,579 INFO     Listening on TCP address 0.0.0.0:8000
+172.18.0.4:45400 - - [08/Feb/2025:10:14:40] "GET /" 200 421
+Not Found: /favicon.ico
+2025-02-08 10:14:41,391 WARNING  Not Found: /favicon.ico
+172.18.0.4:45402 - - [08/Feb/2025:10:14:41] "GET /favicon.ico" 404 3016
+New user created: jbhn
+172.18.0.4:45414 - - [08/Feb/2025:10:14:44] "POST /" 302 -
+Current user: jbhn
+Creating new lobby as Player1: jbhn
+Lobby: Player1=jbhn, Player2=None
+172.18.0.4:45424 - - [08/Feb/2025:10:14:44] "GET /lobby/" 200 3920
+172.18.0.4:55848 - - [08/Feb/2025:10:14:47] "GET /api/lobby_status/93/" 200 194
+172.18.0.4:55856 - - [08/Feb/2025:10:14:50] "GET /api/lobby_status/93/" 200 194
+172.18.0.4:55868 - - [08/Feb/2025:10:14:53] "GET /" 200 421
+172.18.0.4:55878 - - [08/Feb/2025:10:14:53] "GET /api/lobby_status/93/" 200 194
+New user created: l m,
+172.18.0.4:53884 - - [08/Feb/2025:10:14:56] "POST /" 302 -
+Current user: l m,
+Joining existing lobby as Player2: l m,
+Lobby: Player1=jbhn, Player2=l m,
+172.18.0.4:53888 - - [08/Feb/2025:10:14:56] "GET /lobby/" 200 3920
+172.18.0.4:53892 - - [08/Feb/2025:10:14:56] "GET /api/lobby_status/93/" 200 196
+172.18.0.4:53898 - - [08/Feb/2025:10:14:59] "GET /api/lobby_status/93/" 200 196
+172.18.0.4:53900 - - [08/Feb/2025:10:14:59] "GET /api/lobby_status/93/" 200 196
+Current user: l m,
+Lobby: Player1=jbhn, Player2=l m,
+Handling POST request for user: l m,
+Lobby before update: Player1=jbhn, Player1 Ready=False, Player2=l m,, Player2 Ready=False
+Updating Player2 ready status
+Lobby after update: Player1=jbhn, Player1 Ready=False, Player2=l m,, Player2 Ready=True
+172.18.0.4:53912 - - [08/Feb/2025:10:15:00] "POST /lobby/" 200 172
+172.18.0.4:53928 - - [08/Feb/2025:10:15:02] "GET /api/lobby_status/93/" 200 195
+172.18.0.4:53934 - - [08/Feb/2025:10:15:02] "GET /api/lobby_status/93/" 200 195
+Current user: jbhn
+Lobby: Player1=jbhn, Player2=l m,
+Handling POST request for user: jbhn
+Lobby before update: Player1=jbhn, Player1 Ready=False, Player2=l m,, Player2 Ready=True
+Updating Player1 ready status
+Lobby after update: Player1=jbhn, Player1 Ready=True, Player2=l m,, Player2 Ready=True
+Both players are ready. Creating game state.
+GameState created: 11
+Lobby updated with GameState: 11
+172.18.0.4:53946 - - [08/Feb/2025:10:15:03] "POST /lobby/" 200 170
+lobby.game_state from lobby_status id GameState object (11)
+172.18.0.4:49254 - - [08/Feb/2025:10:15:05] "GET /api/lobby_status/93/" 200 191
+172.18.0.4:49268 - - [08/Feb/2025:10:15:05] "GET /game/11/" 200 676
+172.18.0.4:49270 - - [08/Feb/2025:10:15:05] "WSCONNECTING /ws/game/" - -
+lobby.game_state from lobby_status id GameState object (11)
+172.18.0.4:49270 - - [08/Feb/2025:10:15:05] "WSCONNECT /ws/game/" - -
+172.18.0.4:49276 - - [08/Feb/2025:10:15:05] "GET /api/lobby_status/93/" 200 191
 {'type': 'start_game'}
 zsdcfg
 /app/set_game_project
-192.168.80.4:42296 - - [21/Jul/2024:12:55:08] "GET /game/" 200 1989
-192.168.80.4:51462 - - [21/Jul/2024:12:55:08] "WSDISCONNECT /ws/game/" - -
-192.168.80.4:42298 - - [21/Jul/2024:12:55:08] "WSCONNECTING /ws/game/" - -
-192.168.80.4:42298 - - [21/Jul/2024:12:55:08] "WSCONNECT /ws/game/" - -
+172.18.0.4:49280 - - [08/Feb/2025:10:15:05] "GET /game/11/" 200 676
+172.18.0.4:49284 - - [08/Feb/2025:10:15:05] "WSCONNECTING /ws/game/" - -
+172.18.0.4:49284 - - [08/Feb/2025:10:15:05] "WSCONNECT /ws/game/" - -
 {'type': 'start_game'}
 zsdcfg
 /app/set_game_project
-192.168.80.4:42298 - - [21/Jul/2024:12:55:41] "WSDISCONNECT /ws/game/" - -
-2024-07-21 12:55:41,462 INFO     Killed 0 pending application instances
+172.18.0.4:48996 - - [08/Feb/2025:10:15:33] "GET /game/11/" 200 676
+172.18.0.4:49284 - - [08/Feb/2025:10:15:34] "WSDISCONNECT /ws/game/" - -
+172.18.0.4:49006 - - [08/Feb/2025:10:15:34] "WSCONNECTING /ws/game/" - -
+172.18.0.4:49006 - - [08/Feb/2025:10:15:34] "WSCONNECT /ws/game/" - -
+{'type': 'start_game'}
+Not Found: /favicon.ico
+2025-02-08 10:15:34,103 WARNING  Not Found: /favicon.ico
+172.18.0.4:49018 - - [08/Feb/2025:10:15:34] "GET /favicon.ico" 404 3016
+zsdcfg
+/app/set_game_project

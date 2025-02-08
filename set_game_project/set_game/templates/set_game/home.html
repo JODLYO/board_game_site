@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SET Game</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1>Welcome to the SET Game!</h1>
-    <a href="{% url 'game_board' %}">Start Game</a>
+    <h1>Enter Your Name</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="username" required>
+        <button type="submit">Join Lobby</button>
+    </form>
 </body>
 </html>

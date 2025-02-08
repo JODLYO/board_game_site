@@ -86,9 +86,9 @@ function isValidSet(cards) {
     const colors = new Set(cards.map(card => card.color));
 
     return (numbers.size === 1 || numbers.size === 3) &&
-        (symbols.size === 1 || symbols.size === 3) &&
-        (shadings.size === 1 || shadings.size === 3) &&
-        (colors.size === 1 || colors.size === 3);
+           (symbols.size === 1 || symbols.size === 3) &&
+           (shadings.size === 1 || shadings.size === 3) &&
+           (colors.size === 1 || colors.size === 3);
 }
 
 // WebSocket setup
@@ -103,7 +103,7 @@ function setupWebSocket() {
         'ws://' + window.location.host + '/ws/game/'
     );
 
-    gameSocket.onopen = function () {
+    gameSocket.onopen = function() {
         // Function to send a message to start a new game
         function startGame() {
             gameSocket.send(JSON.stringify({
@@ -115,7 +115,7 @@ function setupWebSocket() {
         startGame();
     };
 
-    gameSocket.onmessage = function (e) {
+    gameSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         console.log('WebSocket message received:', data);
 
@@ -129,7 +129,7 @@ function setupWebSocket() {
         }
     };
 
-    gameSocket.onclose = function (e) {
+    gameSocket.onclose = function(e) {
         console.error('Socket closed unexpectedly');
     };
 }
@@ -169,6 +169,7 @@ function createCardElement(cardId, cardData) {
     const cardElement = document.createElement('div');
     cardElement.classList.add('card');
     cardElement.setAttribute('data-card-id', cardId);
+
     const cardText = document.createElement('p');
     cardText.innerText = `${cardData.number} ${cardData.shading} ${cardData.color} ${cardData.symbol}`;
     cardElement.appendChild(cardText);
@@ -188,4 +189,4 @@ function createCardElement(cardId, cardData) {
 
     return cardElement;
 }
-// delete this comment
+// delete this comment 2

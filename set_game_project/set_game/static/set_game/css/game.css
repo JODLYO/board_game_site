@@ -1,0 +1,82 @@
+/* Card styling */
+.card {
+    display: inline-block;
+    width: 100px;
+    height: 150px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 10px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card.selected {
+    border-color: #ffcc00;
+    background-color: #ffffcc;
+}
+
+.card-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Symbol styling */
+.symbol {
+    width: 30px;
+    height: 30px;
+    background-color: currentColor;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+}
+
+/* Define symbols using masks */
+.symbol.oval {
+    mask-image: url('{% static "set_game/images/oval.svg" %}');
+}
+
+.symbol.squiggle {
+    mask-image: url('{% static "set_game/images/squiggle.svg" %}');
+}
+
+.symbol.diamond {
+    mask-image: url('{% static "set_game/images/diamond.svg" %}');
+}
+
+/* Shading styles */
+.shading.solid {
+    opacity: 1;
+}
+
+.shading.striped {
+    opacity: 0.5;
+}
+
+.shading.outlined {
+    background-color: transparent;
+    border: 2px solid currentColor;
+}
+
+/* Color styles */
+.color-red {
+    color: #ff0000;
+}
+
+.color-green {
+    color: #00ff00;
+}
+
+.color-purple {
+    color: #800080;
+}
