@@ -1,5 +1,5 @@
 let selectedCards = [];
-let playerId = null;
+let playerIds = null;
 let sessionId = null;
 
 // Function to handle card selection
@@ -52,14 +52,24 @@ function checkSet() {
 
     const cards = selectedCards.map(id => {
         const cardElement = document.querySelector(`.card[data-card-id="${id}"]`);
-        const cardText = cardElement.querySelector('p').innerText.split(' ');
+        if (!cardElement) {
+            console.error(`Card with ID ${id} not found.`);
+            return null;
+        }
         return {
-            number: cardText[0],
-            shading: cardText[1],
-            color: cardText[2],
-            symbol: cardText[3]
+            number: parseInt(cardElement.getAttribute('data-number')),
+            // number: cardElement.getAttribute('data-number'),
+            shading: cardElement.getAttribute('data-shading'),
+            color: cardElement.getAttribute('data-color'),
+            symbol: cardElement.getAttribute('data-symbol')
         };
     });
+
+    // Check if any card is null
+    if (cards.some(card => card === null)) {
+        document.getElementById('message').innerText = 'Error: One or more cards not found.';
+        return;
+    }
 
     const isValid = isValidSet(cards);
     if (isValid) {
@@ -73,7 +83,9 @@ function checkSet() {
     // Reset selected cards
     selectedCards.forEach(cardId => {
         const cardElement = document.querySelector(`.card[data-card-id="${cardId}"]`);
-        cardElement.classList.remove('selected');
+        if (cardElement) {
+            cardElement.classList.remove('selected');
+        }
     });
     selectedCards = [];
 }
@@ -86,9 +98,9 @@ function isValidSet(cards) {
     const colors = new Set(cards.map(card => card.color));
 
     return (numbers.size === 1 || numbers.size === 3) &&
-           (symbols.size === 1 || symbols.size === 3) &&
-           (shadings.size === 1 || shadings.size === 3) &&
-           (colors.size === 1 || colors.size === 3);
+        (symbols.size === 1 || symbols.size === 3) &&
+        (shadings.size === 1 || shadings.size === 3) &&
+        (colors.size === 1 || colors.size === 3);
 }
 
 // WebSocket setup
@@ -103,7 +115,7 @@ function setupWebSocket() {
         'ws://' + window.location.host + '/ws/game/'
     );
 
-    gameSocket.onopen = function() {
+    gameSocket.onopen = function () {
         // Function to send a message to start a new game
         function startGame() {
             gameSocket.send(JSON.stringify({
@@ -115,7 +127,21 @@ function setupWebSocket() {
         startGame();
     };
 
-    gameSocket.onmessage = function(e) {
+    // gameSocket.onmessage = function (e) {
+    //     const data = JSON.parse(e.data);
+    //     console.log('WebSocket message received:', data);
+
+    //     if (data.type === 'game_state') {
+    //         updateGameState(data.state);
+    //     } else if (data.type === 'game_started') {
+    //         sessionId = data.session_id;  // Store the received session ID
+    //         console.log('Game started with session ID:', sessionId);
+    //         playerId = data.player_ids[0];
+    //         console.log('Player ID set to:', playerId);
+    //     }
+    // };
+
+    gameSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
         console.log('WebSocket message received:', data);
 
@@ -123,13 +149,13 @@ function setupWebSocket() {
             updateGameState(data.state);
         } else if (data.type === 'game_started') {
             sessionId = data.session_id;  // Store the received session ID
+            playerIds = data.player_ids;  // Store all player IDs
             console.log('Game started with session ID:', sessionId);
-            playerId = data.player_ids[0];
-            console.log('Player ID set to:', playerId);
+            console.log('Player IDs:', playerIds);
         }
     };
 
-    gameSocket.onclose = function(e) {
+    gameSocket.onclose = function (e) {
         console.error('Socket closed unexpectedly');
     };
 }
@@ -154,9 +180,9 @@ function updateGameState(state) {
     // Update the scores
     const scoresContainer = document.getElementById('scores');
     scoresContainer.innerHTML = '';  // Clear current scores
-    for (const [playerId, score] of Object.entries(state.scores)) {
+    for (const [playerName, score] of Object.entries(state.scores)) {
         const scoreElement = document.createElement('div');
-        scoreElement.innerText = `Player ${playerId}: ${score}`;
+        scoreElement.innerText = `Player ${playerName}: ${score}`;
         scoresContainer.appendChild(scoreElement);
     }
 
@@ -164,15 +190,27 @@ function updateGameState(state) {
     document.getElementById('message').innerText = '';
 }
 
-
 function createCardElement(cardId, cardData) {
     const cardElement = document.createElement('div');
     cardElement.classList.add('card');
     cardElement.setAttribute('data-card-id', cardId);
+    cardElement.setAttribute('data-number', cardData.number);
+    cardElement.setAttribute('data-symbol', cardData.symbol);
+    cardElement.setAttribute('data-shading', cardData.shading);
+    cardElement.setAttribute('data-color', cardData.color);
 
-    const cardText = document.createElement('p');
-    cardText.innerText = `${cardData.number} ${cardData.shading} ${cardData.color} ${cardData.symbol}`;
-    cardElement.appendChild(cardText);
+    const cardContent = document.createElement('div');
+    cardContent.classList.add('card-content');
+
+    // Add symbols based on the number
+    for (let i = 0; i < cardData.number; i++) {
+        const symbol = document.createElement('div');
+        symbol.classList.add('symbol', cardData.symbol.toLowerCase(), 'shading', cardData.shading.toLowerCase(), 'color', `color-${cardData.color.toLowerCase()}`);
+        // symbol.innerHTML = getSvgForSymbol(cardData.symbol); // Add inline SVG
+        cardContent.appendChild(symbol);
+    }
+
+    cardElement.appendChild(cardContent);
 
     // Add click event listener to select cards
     cardElement.addEventListener('click', () => {
@@ -189,4 +227,3 @@ function createCardElement(cardId, cardData) {
 
     return cardElement;
 }
-// delete this comment 2

@@ -1,72 +1,62 @@
-2025-02-08 10:14:18,578 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
-2025-02-08 10:14:18,579 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-02-08 10:14:18,579 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
-2025-02-08 10:14:18,579 INFO     Listening on TCP address 0.0.0.0:8000
-172.18.0.4:45400 - - [08/Feb/2025:10:14:40] "GET /" 200 421
-Not Found: /favicon.ico
-2025-02-08 10:14:41,391 WARNING  Not Found: /favicon.ico
-172.18.0.4:45402 - - [08/Feb/2025:10:14:41] "GET /favicon.ico" 404 3016
-New user created: jbhn
-172.18.0.4:45414 - - [08/Feb/2025:10:14:44] "POST /" 302 -
-Current user: jbhn
-Creating new lobby as Player1: jbhn
-Lobby: Player1=jbhn, Player2=None
-172.18.0.4:45424 - - [08/Feb/2025:10:14:44] "GET /lobby/" 200 3920
-172.18.0.4:55848 - - [08/Feb/2025:10:14:47] "GET /api/lobby_status/93/" 200 194
-172.18.0.4:55856 - - [08/Feb/2025:10:14:50] "GET /api/lobby_status/93/" 200 194
-172.18.0.4:55868 - - [08/Feb/2025:10:14:53] "GET /" 200 421
-172.18.0.4:55878 - - [08/Feb/2025:10:14:53] "GET /api/lobby_status/93/" 200 194
-New user created: l m,
-172.18.0.4:53884 - - [08/Feb/2025:10:14:56] "POST /" 302 -
-Current user: l m,
-Joining existing lobby as Player2: l m,
-Lobby: Player1=jbhn, Player2=l m,
-172.18.0.4:53888 - - [08/Feb/2025:10:14:56] "GET /lobby/" 200 3920
-172.18.0.4:53892 - - [08/Feb/2025:10:14:56] "GET /api/lobby_status/93/" 200 196
-172.18.0.4:53898 - - [08/Feb/2025:10:14:59] "GET /api/lobby_status/93/" 200 196
-172.18.0.4:53900 - - [08/Feb/2025:10:14:59] "GET /api/lobby_status/93/" 200 196
-Current user: l m,
-Lobby: Player1=jbhn, Player2=l m,
-Handling POST request for user: l m,
-Lobby before update: Player1=jbhn, Player1 Ready=False, Player2=l m,, Player2 Ready=False
+2025-02-16 23:36:21,246 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
+2025-02-16 23:36:21,247 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-02-16 23:36:21,247 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
+2025-02-16 23:36:21,248 INFO     Listening on TCP address 0.0.0.0:8000
+172.18.0.4:47324 - - [16/Feb/2025:23:36:30] "GET /" 200 421
+New user created: bob1
+172.18.0.4:47334 - - [16/Feb/2025:23:36:37] "POST /" 302 -
+Current user: bob1
+Creating new lobby as Player1: bob1
+Lobby: Player1=bob1, Player2=None
+172.18.0.4:50044 - - [16/Feb/2025:23:36:37] "GET /lobby/" 200 3922
+172.18.0.4:50048 - - [16/Feb/2025:23:36:41] "GET /api/lobby_status/107/" 200 194
+172.18.0.4:50064 - - [16/Feb/2025:23:36:44] "GET /api/lobby_status/107/" 200 194
+172.18.0.4:50078 - - [16/Feb/2025:23:36:44] "GET /" 200 421
+Not Found: /apple-touch-icon-precomposed.png
+2025-02-16 23:36:45,471 WARNING  Not Found: /apple-touch-icon-precomposed.png
+172.18.0.4:50090 - - [16/Feb/2025:23:36:45] "GET /apple-touch-icon-precomposed.png" 404 3079
+Not Found: /apple-touch-icon.png
+2025-02-16 23:36:45,512 WARNING  Not Found: /apple-touch-icon.png
+172.18.0.4:50096 - - [16/Feb/2025:23:36:45] "GET /apple-touch-icon.png" 404 3043
+172.18.0.4:50098 - - [16/Feb/2025:23:36:47] "GET /api/lobby_status/107/" 200 194
+New user created: alice1
+172.18.0.4:50716 - - [16/Feb/2025:23:36:49] "POST /" 302 -
+Current user: alice1
+Joining existing lobby as Player2: alice1
+Lobby: Player1=bob1, Player2=alice1
+172.18.0.4:50728 - - [16/Feb/2025:23:36:49] "GET /lobby/" 200 3922
+172.18.0.4:50734 - - [16/Feb/2025:23:36:50] "GET /api/lobby_status/107/" 200 198
+172.18.0.4:50736 - - [16/Feb/2025:23:36:52] "GET /api/lobby_status/107/" 200 198
+172.18.0.4:50748 - - [16/Feb/2025:23:36:53] "GET /api/lobby_status/107/" 200 198
+Current user: alice1
+Lobby: Player1=bob1, Player2=alice1
+Handling POST request for user: alice1
+Lobby before update: Player1=bob1, Player1 Ready=False, Player2=alice1, Player2 Ready=False
 Updating Player2 ready status
-Lobby after update: Player1=jbhn, Player1 Ready=False, Player2=l m,, Player2 Ready=True
-172.18.0.4:53912 - - [08/Feb/2025:10:15:00] "POST /lobby/" 200 172
-172.18.0.4:53928 - - [08/Feb/2025:10:15:02] "GET /api/lobby_status/93/" 200 195
-172.18.0.4:53934 - - [08/Feb/2025:10:15:02] "GET /api/lobby_status/93/" 200 195
-Current user: jbhn
-Lobby: Player1=jbhn, Player2=l m,
-Handling POST request for user: jbhn
-Lobby before update: Player1=jbhn, Player1 Ready=False, Player2=l m,, Player2 Ready=True
+Lobby after update: Player1=bob1, Player1 Ready=False, Player2=alice1, Player2 Ready=True
+172.18.0.4:50758 - - [16/Feb/2025:23:36:53] "POST /lobby/" 200 174
+172.18.0.4:50772 - - [16/Feb/2025:23:36:55] "GET /api/lobby_status/107/" 200 197
+172.18.0.4:50788 - - [16/Feb/2025:23:36:56] "GET /api/lobby_status/107/" 200 197
+Current user: bob1
+Lobby: Player1=bob1, Player2=alice1
+Handling POST request for user: bob1
+Lobby before update: Player1=bob1, Player1 Ready=False, Player2=alice1, Player2 Ready=True
 Updating Player1 ready status
-Lobby after update: Player1=jbhn, Player1 Ready=True, Player2=l m,, Player2 Ready=True
+Lobby after update: Player1=bob1, Player1 Ready=True, Player2=alice1, Player2 Ready=True
 Both players are ready. Creating game state.
-GameState created: 11
-Lobby updated with GameState: 11
-172.18.0.4:53946 - - [08/Feb/2025:10:15:03] "POST /lobby/" 200 170
-lobby.game_state from lobby_status id GameState object (11)
-172.18.0.4:49254 - - [08/Feb/2025:10:15:05] "GET /api/lobby_status/93/" 200 191
-172.18.0.4:49268 - - [08/Feb/2025:10:15:05] "GET /game/11/" 200 676
-172.18.0.4:49270 - - [08/Feb/2025:10:15:05] "WSCONNECTING /ws/game/" - -
-lobby.game_state from lobby_status id GameState object (11)
-172.18.0.4:49270 - - [08/Feb/2025:10:15:05] "WSCONNECT /ws/game/" - -
-172.18.0.4:49276 - - [08/Feb/2025:10:15:05] "GET /api/lobby_status/93/" 200 191
+GameState created: 24
+Lobby updated with GameState: 24
+172.18.0.4:50790 - - [16/Feb/2025:23:36:56] "POST /lobby/" 200 172
+lobby.game_state from lobby_status id GameState object (24)
+172.18.0.4:45034 - - [16/Feb/2025:23:36:58] "GET /api/lobby_status/107/" 200 193
+172.18.0.4:45046 - - [16/Feb/2025:23:36:58] "GET /game/24/" 200 1174
+172.18.0.4:45052 - - [16/Feb/2025:23:36:58] "WSCONNECTING /ws/game/" - -
+lobby.game_state from lobby_status id GameState object (24)
+172.18.0.4:45066 - - [16/Feb/2025:23:36:59] "GET /api/lobby_status/107/" 200 193
+172.18.0.4:45052 - - [16/Feb/2025:23:36:59] "WSCONNECT /ws/game/" - -
 {'type': 'start_game'}
-zsdcfg
-/app/set_game_project
-172.18.0.4:49280 - - [08/Feb/2025:10:15:05] "GET /game/11/" 200 676
-172.18.0.4:49284 - - [08/Feb/2025:10:15:05] "WSCONNECTING /ws/game/" - -
-172.18.0.4:49284 - - [08/Feb/2025:10:15:05] "WSCONNECT /ws/game/" - -
+172.18.0.4:45070 - - [16/Feb/2025:23:36:59] "GET /game/24/" 200 1174
+172.18.0.4:45082 - - [16/Feb/2025:23:36:59] "WSCONNECTING /ws/game/" - -
+172.18.0.4:45082 - - [16/Feb/2025:23:36:59] "WSCONNECT /ws/game/" - -
 {'type': 'start_game'}
-zsdcfg
-/app/set_game_project
-172.18.0.4:48996 - - [08/Feb/2025:10:15:33] "GET /game/11/" 200 676
-172.18.0.4:49284 - - [08/Feb/2025:10:15:34] "WSDISCONNECT /ws/game/" - -
-172.18.0.4:49006 - - [08/Feb/2025:10:15:34] "WSCONNECTING /ws/game/" - -
-172.18.0.4:49006 - - [08/Feb/2025:10:15:34] "WSCONNECT /ws/game/" - -
-{'type': 'start_game'}
-Not Found: /favicon.ico
-2025-02-08 10:15:34,103 WARNING  Not Found: /favicon.ico
-172.18.0.4:49018 - - [08/Feb/2025:10:15:34] "GET /favicon.ico" 404 3016
-zsdcfg
-/app/set_game_project
+172.18.0.4:45082 - - [17/Feb/2025:08:09:16] "WSDISCONNECT /ws/game/" - -

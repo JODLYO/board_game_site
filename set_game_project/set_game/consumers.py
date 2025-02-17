@@ -26,8 +26,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def start_game(self, data):
         game_session = await sync_to_async(self.create_game_session)()
-        player_ids = await sync_to_async(lambda: [player.id for player in game_session.players.all()])() #I think add in player ids
-        
+        # player_ids = await sync_to_async(lambda: [player.id for player in game_session.players.all()])() #I think add in player ids
+        player_ids = await sync_to_async(lambda: list(game_session.players.values_list('id', flat=True)))()
+
         await self.send(text_data=json.dumps({
             'type': 'game_started',
             'session_id': game_session.id,  # Send the session ID to the client

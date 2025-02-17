@@ -31,18 +31,16 @@ class GameSession(models.Model):
 
     def initialize_game(self):
         deck = list(Card.objects.all())
-        import os
-        print("zsdcfg")
-        print(os.getcwd())
         shuffle(deck)
         initial_board_cards = deck[:12]
         remaining_deck = deck[12:]
+        scores = {str(player.name): 0 for player in self.players.all()}
 
         state = {
             'deck': [str(card.id) for card in remaining_deck],
             'board': {str(i): str(card.id) for i, card in enumerate(initial_board_cards)},
-            'selected_sets': [],  # Track which sets have been selected
-            'scores': {str(player.id): 0 for player in self.players.all()}
+            'selected_sets': [],
+            'scores': scores
         }
         self.state = state
         self.save()
@@ -81,17 +79,21 @@ class GameSession(models.Model):
     def process_set(self, player, selected_cards):
         if not self.validate_set(selected_cards):
             raise ValidationError(f"The cards {selected_cards} are not a valid set")
+        
         game_move = GameMove.objects.create(session=self, player=player)
-
         for card_id in selected_cards:
             card = Card.objects.get(id=card_id)
             game_move.cards.add(card)
 
         self.state['selected_sets'].append(selected_cards)
-        self.state['scores'][str(player.id)] += 1
+        self.state['scores'][str(player.name)] += 1
 
         # Remove selected cards from the board
         self.state['board'] = {pos: card_id for pos, card_id in self.state['board'].items() if all([card_id != selected_card for selected_card in selected_cards])}
+        # self.state['board'] = { !TODO try this instead
+        #     pos: card_id for pos, card_id in self.state['board'].items()
+        #     if card_id not in selected_cards
+        # }
         empty_positions = set(str(i) for i in range(12)).difference(set(self.state['board'].keys()))
         self.add_cards_to_board(3, empty_positions)
         self.save()

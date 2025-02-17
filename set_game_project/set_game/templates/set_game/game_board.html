@@ -1,4 +1,4 @@
-{% load static %}
+<!-- {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,4 +35,29 @@
     <script src="{% static 'set_game/js/game.js' %}"></script>
 </body>
 
+</html> -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SET Game Board</title>
+    <link rel="stylesheet" href="{% static 'set_game/css/game.css' %}">
+</head>
+<body>
+    <h1>SET Game Board</h1>
+    <div id="game-board">
+        {% for card in cards %}
+        <div class="card" data-card-id="{{ card.id }}" data-number="{{ card.number }}" data-symbol="{{ card.symbol }}" data-shading="{{ card.shading }}" data-color="{{ card.color }}">
+            <div class="card-content"></div>
+        </div>
+        {% endfor %}
+    </div>
+    <button id="check-set-button" onclick="checkSet()">Check Set</button>
+    <p id="message"></p>
+    <div id="scores"></div>
+    <a href="{% url 'home' %}">Back to Home</a>
+    <script src="{% static 'set_game/js/game.js' %}"></script>
+</body>
 </html>
