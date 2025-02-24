@@ -1,6 +1,8 @@
 let selectedCards = [];
 let playerIds = null;
 let sessionId = null;
+const lobbyId = document.getElementById('lobby-id').dataset.lobbyId;
+const currentUsername = document.getElementById('current-username').dataset.lobbyId;
 
 // Function to handle card selection
 document.querySelectorAll('.card').forEach(card => {
@@ -26,19 +28,19 @@ function monitorSelectedCards() {
 }
 
 // Function to send a player's move via WebSocket
-function sendMove(playerId, cardIds) {
+function sendMove(username, cardIds) {
     if (!sessionId) {
         console.error('Session ID is not set.');
         return;
     }
-    if (!playerId) {
-        console.error('Player ID is not set.');
+    if (!username) {
+        console.error('Username is not set.');
         return;
     }
     gameSocket.send(JSON.stringify({
         'type': 'make_move',
         'session_id': sessionId,
-        'player_id': playerId,
+        'username': username,
         'card_ids': cardIds
     }));
 }
@@ -75,7 +77,7 @@ function checkSet() {
     if (isValid) {
         document.getElementById('message').innerText = 'You found a valid set!';
         console.log('sending move');
-        sendMove(playerId, selectedCards);
+        sendMove(currentUsername, selectedCards);
     } else {
         document.getElementById('message').innerText = 'Invalid set. Try again.';
     }
@@ -117,29 +119,16 @@ function setupWebSocket() {
 
     gameSocket.onopen = function () {
         // Function to send a message to start a new game
-        function startGame() {
+        function startGame(lobbyId) {
             gameSocket.send(JSON.stringify({
-                'type': 'start_game'
+                'type': 'start_game',
+                'lobby_id': lobbyId,  // Pass the lobby ID
             }));
         }
 
         // Example usage: Start a new game
-        startGame();
+        startGame(lobbyId);
     };
-
-    // gameSocket.onmessage = function (e) {
-    //     const data = JSON.parse(e.data);
-    //     console.log('WebSocket message received:', data);
-
-    //     if (data.type === 'game_state') {
-    //         updateGameState(data.state);
-    //     } else if (data.type === 'game_started') {
-    //         sessionId = data.session_id;  // Store the received session ID
-    //         console.log('Game started with session ID:', sessionId);
-    //         playerId = data.player_ids[0];
-    //         console.log('Player ID set to:', playerId);
-    //     }
-    // };
 
     gameSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
@@ -152,6 +141,9 @@ function setupWebSocket() {
             playerIds = data.player_ids;  // Store all player IDs
             console.log('Game started with session ID:', sessionId);
             console.log('Player IDs:', playerIds);
+        } else if (data.type === 'game_over') {
+            alert('Game over! No more sets are possible.');
+            // Optionally, disable the game board or show a game-over screen
         }
     };
 
@@ -226,4 +218,51 @@ function createCardElement(cardId, cardData) {
     });
 
     return cardElement;
+}
+
+function highlightSet() {
+    // Get all card elements on the board
+    const cards = Array.from(document.querySelectorAll('.card'));
+
+    // Check all combinations of 3 cards
+    for (let i = 0; i < cards.length - 2; i++) {
+        for (let j = i + 1; j < cards.length - 1; j++) {
+            for (let k = j + 1; k < cards.length; k++) {
+                const card1 = cards[i];
+                const card2 = cards[j];
+                const card3 = cards[k];
+
+                // Get the attributes of each card
+                const card1Attributes = {
+                    number: parseInt(card1.getAttribute('data-number')),
+                    symbol: card1.getAttribute('data-symbol'),
+                    shading: card1.getAttribute('data-shading'),
+                    color: card1.getAttribute('data-color'),
+                };
+                const card2Attributes = {
+                    number: parseInt(card2.getAttribute('data-number')),
+                    symbol: card2.getAttribute('data-symbol'),
+                    shading: card2.getAttribute('data-shading'),
+                    color: card2.getAttribute('data-color'),
+                };
+                const card3Attributes = {
+                    number: parseInt(card3.getAttribute('data-number')),
+                    symbol: card3.getAttribute('data-symbol'),
+                    shading: card3.getAttribute('data-shading'),
+                    color: card3.getAttribute('data-color'),
+                };
+
+                // Check if the cards form a valid set
+                if (isValidSet([card1Attributes, card2Attributes, card3Attributes])) {
+                    // Highlight the cards
+                    card1.classList.add('highlighted');
+                    card2.classList.add('highlighted');
+                    card3.classList.add('highlighted');
+                    return;
+                }
+            }
+        }
+    }
+
+    alert('No valid set found on the board.');
 }

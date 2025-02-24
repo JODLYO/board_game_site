@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from .models import Card, Lobby, GameState
+from .models import Card, Lobby, GameState, LobbyPlayer
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.http import JsonResponse
 from django.urls import reverse
+from django.db.models import Count
 
 
 def home(request):
@@ -20,48 +21,37 @@ def home(request):
         return redirect('lobby')
     return render(request, 'set_game/home.html')
 
+
 @login_required
 def lobby(request):
     print(f"Current user: {request.user}")
-    # Try to join an existing lobby
-    # lobby = Lobby.objects.filter(player2__isnull=True).first()
-    lobby = Lobby.objects.filter(player1=request.user).first() or Lobby.objects.filter(player2=request.user).first()
-
+    
+    # Fetch or create the lobby
+    lobby = Lobby.objects.filter(players=request.user).first()
     if not lobby:
-        open_lobby = Lobby.objects.filter(player2__isnull=True).first()
+        open_lobby = Lobby.objects.annotate(player_count=Count('players')).filter(player_count__lt=2).first()
         if open_lobby:
-            print(f"Joining existing lobby as Player2: {request.user}")
-            open_lobby.player2 = request.user
-            open_lobby.save()
+            print(f"Joining existing lobby: {open_lobby}")
+            LobbyPlayer.objects.create(lobby=open_lobby, player=request.user)
             lobby = open_lobby
         else:
-            print(f"Creating new lobby as Player1: {request.user}")
-            lobby = Lobby.objects.create(player1=request.user)
+            print(f"Creating new lobby")
+            lobby = Lobby.objects.create()
+            LobbyPlayer.objects.create(lobby=lobby, player=request.user)
 
-    # print(request.user)
-    # if lobby:
-    #     print("going to existing lobby")
-    #     lobby.player2 = request.user
-    #     lobby.save()
-    # else:
-    #     print("creating lobby")
-    #     lobby = Lobby.objects.create(player1=request.user)
-    print(f"Lobby: Player1={lobby.player1}, Player2={lobby.player2}")
+    print(f"Lobby: Players={[lp.player.username for lp in lobby.lobbyplayer_set.all()]}")
+    print(f"Lobby ID in view: {lobby.id}")  # Debugging
+    
     if request.method == 'POST':
         print(f"Handling POST request for user: {request.user}")
-        print(f"Lobby before update: Player1={lobby.player1}, Player1 Ready={lobby.player1_ready}, Player2={lobby.player2}, Player2 Ready={lobby.player2_ready}")
-        if lobby.player1 == request.user:
-            print("Updating Player1 ready status")
-            lobby.player1_ready = True
-        elif lobby.player2 == request.user:
-            print("Updating Player2 ready status")
-            lobby.player2_ready = True
-        lobby.save()
-        print(f"Lobby after update: Player1={lobby.player1}, Player1 Ready={lobby.player1_ready}, Player2={lobby.player2}, Player2 Ready={lobby.player2_ready}")
-
-        # if lobby.all_ready():
-        #     print("Both players are ready. Creating game state.")
-        #     game_state = GameState.objects.create(lobby=lobby)
+        
+        # Update the player's ready status
+        lobby_player = LobbyPlayer.objects.get(lobby=lobby, player=request.user)
+        lobby_player.ready = True
+        lobby_player.save()
+        
+        print(f"Lobby after update: Players={[lp.player.username for lp in lobby.lobbyplayer_set.all()]}, Ready={[lp.ready for lp in lobby.lobbyplayer_set.all()]}")
+        
         if lobby.all_ready():
             print("Both players are ready. Creating game state.")
             game_state = GameState.objects.create(lobby=lobby)
@@ -69,58 +59,49 @@ def lobby(request):
             lobby.game_state = game_state
             lobby.save()
             print(f"Lobby updated with GameState: {lobby.game_state.id}")
-            # return JsonResponse({
-            #     'is_full': True,
-            #     'all_ready': True,
-            #     'game_state_id': game_state.id,
-            #     'player1': lobby.player1.username,
-            #     'player1_ready': lobby.player1_ready,
-            #     'player2': lobby.player2.username if lobby.player2 else None,
-            #     'player2_ready': lobby.player2_ready if lobby.player2 else False,
-            #     'csrf_token': request.COOKIES['csrftoken']
-            # })
-            # return redirect('game_board', game_state_id=game_state.id)
-                # Return the updated lobby status
+
         return JsonResponse({
-            'is_full': lobby.player2 is not None,
+            'is_full': lobby.is_full(),
             'all_ready': lobby.all_ready(),
-            'player1': lobby.player1.username,
-            'player1_ready': lobby.player1_ready,
-            'player2': lobby.player2.username if lobby.player2 else None,
-            'player2_ready': lobby.player2_ready if lobby.player2 else False,
+            'players': [{
+                'username': lp.player.username,
+                'ready': lp.ready
+            } for lp in lobby.lobbyplayer_set.all()],
             'csrf_token': request.COOKIES['csrftoken']
         })
 
     return render(request, 'set_game/lobby.html', {'lobby': lobby})
 
-
-
-# def game_board(request):
-#     # Fetch some cards to display (for now, fetch the first 12 cards)
-#     cards = Card.objects.all()[:12]
-#     return render(request, 'set_game/game_board.html', {'cards': cards})
-
 @login_required
 def game_board(request, game_state_id):
     game_state = GameState.objects.get(id=game_state_id)
-    return render(request, 'set_game/game_board.html', {'game_state': game_state})
+    lobby = game_state.lobby
+    return render(
+        request,
+        'set_game/game_board.html',
+        {'game_state': game_state, 'lobby_id': lobby.id, 'current_username': request.user.username}
+        )
 
 
 def lobby_status(request, lobby_id):
     try:
         lobby = Lobby.objects.get(id=lobby_id)
         lobby.refresh_from_db()  # Ensure the latest data is fetched
-        if hasattr(lobby, 'game_state'):
-            print(f"lobby.game_state from lobby_status id {lobby.game_state}")
+
+        # Fetch players and their readiness from the LobbyPlayer model
+        lobby_players = lobby.lobbyplayer_set.all()
+        players = [{
+            'username': lp.player.username,
+            'ready': lp.ready
+        } for lp in lobby_players]
+
         data = {
-            'player1': lobby.player1.username if lobby.player1 else None,
-            'player1_ready': lobby.player1_ready if lobby.player1 else None,
-            'player2': lobby.player2.username if lobby.player2 else None,
-            'player2_ready': lobby.player2_ready if lobby.player2 else None,
-            'is_full': lobby.player2 is not None,
-            'all_ready': lobby.all_ready() if lobby.player2 else False,
+            'players': players,  # List of players and their readiness
+            'is_full': lobby.is_full(),  # Check if the lobby is full
+            'all_ready': lobby.all_ready(),  # Check if all players are ready
             'csrf_token': request.META.get('CSRF_COOKIE'),
             'game_state_id': lobby.game_state.id if hasattr(lobby, 'game_state') and lobby.game_state else None,
+            'lobby_id': lobby_id,
         }
         return JsonResponse(data)
     except Lobby.DoesNotExist:

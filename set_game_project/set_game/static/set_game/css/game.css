@@ -91,3 +91,8 @@
 .color-purple {
     color: #800080;
 }
+
+.card.highlighted {
+    border: 3px solid yellow;
+    box-shadow: 0 0 10px yellow;
+}
