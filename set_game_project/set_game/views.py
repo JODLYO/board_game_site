@@ -12,12 +12,14 @@ from django.db.models import Count
 def home(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        if not username:
+            return render(request, 'set_game/home.html', {'error': "This field is required."})
         user, created = User.objects.get_or_create(username=username)
         if created:
             print(f"New user created: {username}")
         else:
             print(f"Existing user logged in: {username}")
-        login(request, user)
+        login(request, user, "django.contrib.auth.backends.ModelBackend")
         return redirect('lobby')
     return render(request, 'set_game/home.html')
 

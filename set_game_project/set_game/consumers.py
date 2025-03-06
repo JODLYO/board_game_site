@@ -49,7 +49,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             'session_id': game_session.id,  # Send the session ID to the client
             'player_ids': player_ids,
         }))
-        
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -57,7 +57,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'state': await sync_to_async(self.serialize_game_state)(game_session),
             }
         )
-    
+
     def create_game_session(self, lobby):
         game_session = GameSession.objects.create(name="New Game")
         for lobby_player in lobby.lobbyplayer_set.all():
@@ -130,7 +130,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'color': card.color,
             } for card in Card.objects.filter(id__in=session.state['board'].values())},
         }
-    
+
     async def game_over(self, event):
         """
         Send a game_over message to the client.

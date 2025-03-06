@@ -81,11 +81,11 @@ class GameSession(models.Model):
         self.state['scores'][str(player.username)] += 1
 
         # Remove selected cards from the board
-        self.state['board'] = {pos: card_id for pos, card_id in self.state['board'].items() if all([card_id != selected_card for selected_card in selected_cards])}
-        # self.state['board'] = { !TODO try this instead
-        #     pos: card_id for pos, card_id in self.state['board'].items()
-        #     if card_id not in selected_cards
-        # }
+        # self.state['board'] = {pos: card_id for pos, card_id in self.state['board'].items() if all([card_id != selected_card for selected_card in selected_cards])}
+        self.state['board'] = {
+            pos: card_id for pos, card_id in self.state['board'].items()
+            if card_id not in selected_cards
+        }
             # If the board has more 12 or more cards, move cards from positions 13-15 to fill empty positions
         if len(self.state['board']) >= 12:
             print("Moving cards from positions 13-15 to fill empty positions.")
