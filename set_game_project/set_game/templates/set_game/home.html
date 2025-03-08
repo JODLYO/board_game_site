@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,6 +16,70 @@
     {% if error %}
     <p style="color: red;">{{ error }}</p>
     {% endif %}
+</body>
+
+</html> -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Board Game Hub - Home</title>
+    <link rel="stylesheet" href="{% static 'set_game/css/home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to Board Game Hub!</h1>
+            <p>Join the fun and play your favorite board games online.</p>
+        </header>
+
+        <!-- Enter Your Game Name Form -->
+        <div class="name-form">
+            <h2>Enter Your Game Name</h2>
+            <form method="post" id="nameForm">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Your Game Name" required>
+            </form>
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Games List -->
+        <div class="games-list">
+            <!-- SET Game -->
+            <div class="game-card">
+                <h3>SET</h3>
+                <img src="{% static 'set_game/images/set.jpg' %}" alt="SET Game">
+                <p>Test your pattern recognition skills in this fast-paced card game.</p>
+                <button type="submit" form="nameForm" class="game-button">Join Lobby</button>
+            </div>
+
+            <!-- Perudo Game -->
+            <div class="game-card">
+                <h3>Perudo</h3>
+                <img src="{% static 'set_game/images/perudo.jpg' %}" alt="Perudo Game">
+                <p>A thrilling dice game of bluffing and strategy.</p>
+                <a href="#" class="game-button coming-soon">Coming Soon</a>
+            </div>
+
+            <!-- Fox in the Forest Game -->
+            <div class="game-card">
+                <h3>Fox in the Forest</h3>
+                <img src="{% static 'set_game/images/fox.jpg' %}" alt="Fox in the Forest Game">
+                <p>A trick-taking game with a magical twist.</p>
+                <a href="#" class="game-button coming-soon">Coming Soon</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>More games coming soon! Stay tuned.</p>
+        </footer>
+    </div>
 </body>
 
 </html>

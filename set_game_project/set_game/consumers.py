@@ -3,7 +3,14 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 from .models import GameSession, Card, GameMove, Lobby, User
 from django.core.exceptions import ValidationError
+from django.db import transaction
 
+
+@sync_to_async(thread_sensitive=True)
+def get_locked_game_session(session_id):
+    """Fetch the game session with a row-level lock to prevent concurrent modifications."""
+    with transaction.atomic():
+        return GameSession.objects.select_for_update().get(pk=session_id)
 
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -71,7 +78,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def make_move(self, data):
         try:
-            game_session = await sync_to_async(GameSession.objects.get)(pk=data['session_id'])
+            # game_session = await sync_to_async(GameSession.objects.get)(pk=data['session_id'])
+            game_session = await get_locked_game_session(data['session_id'])
         except GameSession.DoesNotExist:
             print("Error game session does not exist")
             await self.send(text_data=json.dumps({

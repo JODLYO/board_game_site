@@ -1,125 +1,203 @@
-2025-02-27 21:36:58,125 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
-2025-02-27 21:36:58,125 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-02-27 21:36:58,126 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
-2025-02-27 21:36:58,126 INFO     Listening on TCP address 0.0.0.0:8000
-172.18.0.4:60576 - - [27/Feb/2025:21:37:46] "GET /" 200 421
-New user created: hjk n
-172.18.0.4:60582 - - [27/Feb/2025:21:37:50] "POST /" 302 -
-Current user: hjk n
-Joining existing lobby: Lobby 10
-Lobby: Players=['123', 'hjk n']
-Lobby ID in view: 10
-172.18.0.4:60598 - - [27/Feb/2025:21:37:50] "GET /lobby/" 200 3064
-172.18.0.4:60614 - - [27/Feb/2025:21:37:53] "GET /api/lobby_status/10/" 200 215
-172.18.0.4:39918 - - [27/Feb/2025:21:37:56] "GET /api/lobby_status/10/" 200 215
-172.18.0.4:39932 - - [27/Feb/2025:21:37:59] "GET /api/lobby_status/10/" 200 215
-172.18.0.4:39946 - - [27/Feb/2025:21:38:01] "GET /" 200 421
-New user created: iunjk
-172.18.0.4:39948 - - [27/Feb/2025:21:38:04] "POST /" 302 -
-Current user: iunjk
-Creating new lobby
-Lobby: Players=['iunjk']
-Lobby ID in view: 11
-172.18.0.4:39964 - - [27/Feb/2025:21:38:04] "GET /lobby/" 200 3064
-172.18.0.4:41320 - - [27/Feb/2025:21:38:08] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:41326 - - [27/Feb/2025:21:38:11] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:41338 - - [27/Feb/2025:21:38:14] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:36958 - - [27/Feb/2025:21:38:16] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:36968 - - [27/Feb/2025:21:38:20] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:36970 - - [27/Feb/2025:21:38:22] "GET /" 200 421
-Not Found: /apple-touch-icon-precomposed.png
-2025-02-27 21:38:22,677 WARNING  Not Found: /apple-touch-icon-precomposed.png
-172.18.0.4:36976 - - [27/Feb/2025:21:38:22] "GET /apple-touch-icon-precomposed.png" 404 3079
-Not Found: /apple-touch-icon.png
-2025-02-27 21:38:22,698 WARNING  Not Found: /apple-touch-icon.png
-172.18.0.4:36980 - - [27/Feb/2025:21:38:22] "GET /apple-touch-icon.png" 404 3043
-172.18.0.4:36990 - - [27/Feb/2025:21:38:23] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:51080 - - [27/Feb/2025:21:38:26] "GET /api/lobby_status/11/" 200 179
-Existing user logged in: iunjk
-172.18.0.4:51094 - - [27/Feb/2025:21:38:26] "POST /" 302 -
-Current user: iunjk
-Lobby: Players=['iunjk']
-Lobby ID in view: 11
-172.18.0.4:51104 - - [27/Feb/2025:21:38:26] "GET /lobby/" 200 3064
-172.18.0.4:51116 - - [27/Feb/2025:21:38:29] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:51132 - - [27/Feb/2025:21:38:29] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:51140 - - [27/Feb/2025:21:38:32] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:51154 - - [27/Feb/2025:21:38:32] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:51168 - - [27/Feb/2025:21:38:35] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:46912 - - [27/Feb/2025:21:38:35] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:46928 - - [27/Feb/2025:21:38:37] "GET /api/lobby_status/11/" 200 179
-Forbidden (CSRF token from POST incorrect.): /
-2025-02-27 21:38:40,869 WARNING  Forbidden (CSRF token from POST incorrect.): /
-172.18.0.4:46930 - - [27/Feb/2025:21:38:40] "POST /" 403 2517
-172.18.0.4:46942 - - [27/Feb/2025:21:38:40] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:46946 - - [27/Feb/2025:21:38:43] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:59024 - - [27/Feb/2025:21:38:46] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:59034 - - [27/Feb/2025:21:38:50] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:59044 - - [27/Feb/2025:21:38:52] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:37022 - - [27/Feb/2025:21:38:55] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:37030 - - [27/Feb/2025:21:38:58] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:37040 - - [27/Feb/2025:21:39:01] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:37050 - - [27/Feb/2025:21:39:04] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:41872 - - [27/Feb/2025:21:39:07] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:41884 - - [27/Feb/2025:21:39:10] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:41886 - - [27/Feb/2025:21:39:13] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:57472 - - [27/Feb/2025:21:39:17] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:57478 - - [27/Feb/2025:21:39:20] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:57482 - - [27/Feb/2025:21:39:22] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:38792 - - [27/Feb/2025:21:39:26] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:38808 - - [27/Feb/2025:21:39:28] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:38824 - - [27/Feb/2025:21:39:31] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:38830 - - [27/Feb/2025:21:39:35] "GET /api/lobby_status/11/" 200 179
-Forbidden (CSRF token from POST incorrect.): /
-2025-02-27 21:39:35,867 WARNING  Forbidden (CSRF token from POST incorrect.): /
-172.18.0.4:49282 - - [27/Feb/2025:21:39:35] "POST /" 403 2517
-172.18.0.4:49286 - - [27/Feb/2025:21:39:38] "GET /api/lobby_status/11/" 200 179
-172.18.0.4:49288 - - [27/Feb/2025:21:39:38] "GET /" 200 421
-172.18.0.4:49292 - - [27/Feb/2025:21:39:41] "GET /api/lobby_status/11/" 200 179
-New user created: test
-172.18.0.4:49294 - - [27/Feb/2025:21:39:42] "POST /" 302 -
-Current user: test
-Joining existing lobby: Lobby 11
-Lobby: Players=['iunjk', 'test']
-Lobby ID in view: 11
-172.18.0.4:49296 - - [27/Feb/2025:21:39:42] "GET /lobby/" 200 3064
-172.18.0.4:49304 - - [27/Feb/2025:21:39:44] "GET /api/lobby_status/11/" 200 216
-172.18.0.4:43194 - - [27/Feb/2025:21:39:45] "GET /api/lobby_status/11/" 200 216
-172.18.0.4:43204 - - [27/Feb/2025:21:39:46] "GET /api/lobby_status/11/" 200 216
-Current user: test
-Lobby: Players=['iunjk', 'test']
-Lobby ID in view: 11
-Handling POST request for user: test
-Lobby after update: Players=['iunjk', 'test'], Ready=[False, True]
-172.18.0.4:43216 - - [27/Feb/2025:21:39:47] "POST /lobby/" 200 176
-172.18.0.4:43230 - - [27/Feb/2025:21:39:48] "GET /api/lobby_status/11/" 200 215
-172.18.0.4:43242 - - [27/Feb/2025:21:39:49] "GET /api/lobby_status/11/" 200 215
-172.18.0.4:43256 - - [27/Feb/2025:21:39:51] "GET /api/lobby_status/11/" 200 215
-172.18.0.4:43272 - - [27/Feb/2025:21:39:53] "GET /api/lobby_status/11/" 200 215
-Current user: iunjk
-Lobby: Players=['iunjk', 'test']
-Lobby ID in view: 11
-Handling POST request for user: iunjk
-Lobby after update: Players=['iunjk', 'test'], Ready=[True, True]
+2025-03-08 21:46:53,530 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
+2025-03-08 21:46:53,531 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-03-08 21:46:53,531 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
+2025-03-08 21:46:53,531 INFO     Listening on TCP address 0.0.0.0:8000
+Not Found: /api/lobby_status/{{ lobby.id }}/
+2025-03-08 21:46:53,677 WARNING  Not Found: /api/lobby_status/{{ lobby.id }}/
+172.18.0.4:38668 - - [08/Mar/2025:21:46:53] "GET /api/lobby_status/%7B%7B%20lobby.id%20%7D%7D/" 404 3091
+Not Found: /api/lobby_status/{{ lobby.id }}/
+2025-03-08 21:46:54,056 WARNING  Not Found: /api/lobby_status/{{ lobby.id }}/
+172.18.0.4:38682 - - [08/Mar/2025:21:46:54] "GET /api/lobby_status/%7B%7B%20lobby.id%20%7D%7D/" 404 3091
+Not Found: /api/lobby_status/{{ lobby.id }}/
+2025-03-08 21:46:56,659 WARNING  Not Found: /api/lobby_status/{{ lobby.id }}/
+172.18.0.4:49134 - - [08/Mar/2025:21:46:56] "GET /api/lobby_status/%7B%7B%20lobby.id%20%7D%7D/" 404 3091
+Not Found: /api/lobby_status/{{ lobby.id }}/
+2025-03-08 21:46:57,062 WARNING  Not Found: /api/lobby_status/{{ lobby.id }}/
+172.18.0.4:49144 - - [08/Mar/2025:21:46:57] "GET /api/lobby_status/%7B%7B%20lobby.id%20%7D%7D/" 404 3091
+Current user: vjhbk k 
+Lobby: Players=['hbjknas', 'vjhbk k ']
+Lobby ID in view: 17
+172.18.0.4:49154 - - [08/Mar/2025:21:46:57] "GET /lobby/" 200 970
+Not Found: /favicon.ico
+2025-03-08 21:46:57,507 WARNING  Not Found: /favicon.ico
+172.18.0.4:49158 - - [08/Mar/2025:21:46:57] "GET /favicon.ico" 404 3016
+Not Found: /api/lobby_status/{{ lobby.id }}/
+2025-03-08 21:46:59,735 WARNING  Not Found: /api/lobby_status/{{ lobby.id }}/
+172.18.0.4:49174 - - [08/Mar/2025:21:46:59] "GET /api/lobby_status/%7B%7B%20lobby.id%20%7D%7D/" 404 3091
+172.18.0.4:49184 - - [08/Mar/2025:21:47:00] "GET /api/lobby_status/17/" 200 222
+Not Found: /api/lobby_status/{{ lobby.id }}/
+2025-03-08 21:47:02,664 WARNING  Not Found: /api/lobby_status/{{ lobby.id }}/
+172.18.0.4:49198 - - [08/Mar/2025:21:47:02] "GET /api/lobby_status/%7B%7B%20lobby.id%20%7D%7D/" 404 3091
+172.18.0.4:49200 - - [08/Mar/2025:21:47:03] "GET /api/lobby_status/17/" 200 222
+Not Found: /api/lobby_status/{{ lobby.id }}/
+2025-03-08 21:47:05,691 WARNING  Not Found: /api/lobby_status/{{ lobby.id }}/
+172.18.0.4:49214 - - [08/Mar/2025:21:47:05] "GET /api/lobby_status/%7B%7B%20lobby.id%20%7D%7D/" 404 3091
+172.18.0.4:48584 - - [08/Mar/2025:21:47:06] "GET /api/lobby_status/17/" 200 222
+Not Found: /api/lobby_status/{{ lobby.id }}/
+2025-03-08 21:47:08,711 WARNING  Not Found: /api/lobby_status/{{ lobby.id }}/
+172.18.0.4:48586 - - [08/Mar/2025:21:47:08] "GET /api/lobby_status/%7B%7B%20lobby.id%20%7D%7D/" 404 3091
+172.18.0.4:48598 - - [08/Mar/2025:21:47:09] "GET /api/lobby_status/17/" 200 222
+Current user: kokoko
+Lobby: Players=['kokoko']
+Lobby ID in view: 18
+172.18.0.4:48614 - - [08/Mar/2025:21:47:10] "GET /lobby/" 200 970
+172.18.0.4:48618 - - [08/Mar/2025:21:47:12] "GET /api/lobby_status/17/" 200 222
+172.18.0.4:48624 - - [08/Mar/2025:21:47:13] "GET /api/lobby_status/18/" 200 180
+172.18.0.4:48626 - - [08/Mar/2025:21:47:15] "GET /api/lobby_status/17/" 200 222
+172.18.0.4:48642 - - [08/Mar/2025:21:47:16] "GET /api/lobby_status/18/" 200 180
+172.18.0.4:55062 - - [08/Mar/2025:21:47:18] "GET /api/lobby_status/17/" 200 222
+172.18.0.4:55064 - - [08/Mar/2025:21:47:19] "GET /api/lobby_status/18/" 200 180
+172.18.0.4:55072 - - [08/Mar/2025:21:47:21] "GET /api/lobby_status/17/" 200 222
+172.18.0.4:55076 - - [08/Mar/2025:21:47:22] "GET /api/lobby_status/18/" 200 180
+172.18.0.4:55080 - - [08/Mar/2025:21:47:23] "GET /" 200 2675
+172.18.0.4:55086 - - [08/Mar/2025:21:47:25] "GET /api/lobby_status/18/" 200 180
+New user created: nininini
+172.18.0.4:52418 - - [08/Mar/2025:21:47:28] "POST /" 302 -
+172.18.0.4:52428 - - [08/Mar/2025:21:47:28] "GET /api/lobby_status/18/" 200 180
+Current user: nininini
+Joining existing lobby: Lobby 18
+Lobby: Players=['kokoko', 'nininini']
+Lobby ID in view: 18
+172.18.0.4:52444 - - [08/Mar/2025:21:47:28] "GET /lobby/" 200 970
+172.18.0.4:52446 - - [08/Mar/2025:21:47:31] "GET /api/lobby_status/18/" 200 221
+172.18.0.4:52452 - - [08/Mar/2025:21:47:31] "GET /api/lobby_status/18/" 200 221
+172.18.0.4:52462 - - [08/Mar/2025:21:47:34] "GET /api/lobby_status/18/" 200 221
+172.18.0.4:52478 - - [08/Mar/2025:21:47:34] "GET /api/lobby_status/18/" 200 221
+172.18.0.4:35122 - - [08/Mar/2025:21:47:37] "GET /api/lobby_status/18/" 200 221
+172.18.0.4:35138 - - [08/Mar/2025:21:47:37] "GET /api/lobby_status/18/" 200 221
+Current user: nininini
+Lobby: Players=['kokoko', 'nininini']
+Lobby ID in view: 18
+Handling POST request for user: nininini
+Lobby after update: Players=['kokoko', 'nininini'], Ready=[False, True]
+172.18.0.4:35146 - - [08/Mar/2025:21:47:37] "POST /lobby/" 200 181
+172.18.0.4:35160 - - [08/Mar/2025:21:47:40] "GET /api/lobby_status/18/" 200 220
+172.18.0.4:35174 - - [08/Mar/2025:21:47:40] "GET /api/lobby_status/18/" 200 220
+172.18.0.4:35184 - - [08/Mar/2025:21:47:43] "GET /api/lobby_status/18/" 200 220
+172.18.0.4:35200 - - [08/Mar/2025:21:47:43] "GET /api/lobby_status/18/" 200 220
+Current user: kokoko
+Lobby: Players=['kokoko', 'nininini']
+Lobby ID in view: 18
+Handling POST request for user: kokoko
+Lobby after update: Players=['kokoko', 'nininini'], Ready=[True, True]
 Both players are ready. Creating game state.
-GameState created: 10
-Lobby updated with GameState: 10
-172.18.0.4:43286 - - [27/Feb/2025:21:39:53] "POST /lobby/" 200 174
-172.18.0.4:43302 - - [27/Feb/2025:21:39:54] "GET /api/lobby_status/11/" 200 211
-172.18.0.4:43316 - - [27/Feb/2025:21:39:55] "GET /game/10/" 200 671
-172.18.0.4:43332 - - [27/Feb/2025:21:39:55] "WSCONNECTING /ws/game/" - -
-172.18.0.4:43332 - - [27/Feb/2025:21:39:55] "WSCONNECT /ws/game/" - -
-{'type': 'start_game', 'lobby_id': '11'}
-Starting game for lobby ID: 11
-172.18.0.4:47662 - - [27/Feb/2025:21:39:55] "GET /api/lobby_status/11/" 200 211
-172.18.0.4:47670 - - [27/Feb/2025:21:39:56] "GET /game/10/" 200 672
-172.18.0.4:47680 - - [27/Feb/2025:21:39:56] "WSCONNECTING /ws/game/" - -
-172.18.0.4:47680 - - [27/Feb/2025:21:39:56] "WSCONNECT /ws/game/" - -
-{'type': 'start_game', 'lobby_id': '11'}
-Starting game for lobby ID: 11
-{'type': 'make_move', 'session_id': 37, 'username': 'iunjk', 'card_ids': ['35', '13', '75']}
-board before adding {'1': '25', '2': '66', '3': '48', '4': '53', '6': '12', '7': '51', '9': '61', '10': '58', '11': '68'}
-board after adding {'1': '25', '2': '66', '3': '48', '4': '53', '6': '12', '7': '51', '9': '61', '10': '58', '11': '68', '5': '31', '8': '78', '0': '26'}
-{'type': 'make_move', 'session_id': 37, 'username': 'iunjk', 'card_ids': ['26', '31', '66']}
-board before adding {'1': '25', '3': '48', '4': '53', '6': '12', '7': '51', '9': '61', '10': '58', '11': '68', '8': '78'}
-board after adding {'1': '25', '3': '48', '4': '53', '6': '12', '7': '51', '9': '61', '10': '58', '11': '68', '8': '78', '5': '57', '2': '43', '0': '2'}
+GameState created: 13
+Lobby updated with GameState: 13
+172.18.0.4:35210 - - [08/Mar/2025:21:47:43] "POST /lobby/" 200 179
+172.18.0.4:35224 - - [08/Mar/2025:21:47:46] "GET /api/lobby_status/18/" 200 216
+172.18.0.4:35232 - - [08/Mar/2025:21:47:46] "GET /game/13/" 200 673
+172.18.0.4:35242 - - [08/Mar/2025:21:47:46] "WSCONNECTING /ws/game/" - -
+172.18.0.4:35242 - - [08/Mar/2025:21:47:46] "WSCONNECT /ws/game/" - -
+172.18.0.4:44504 - - [08/Mar/2025:21:47:46] "GET /api/lobby_status/18/" 200 216
+{'type': 'start_game', 'lobby_id': '18'}
+Starting game for lobby ID: 18
+172.18.0.4:44518 - - [08/Mar/2025:21:47:46] "GET /game/13/" 200 675
+172.18.0.4:44520 - - [08/Mar/2025:21:47:46] "WSCONNECTING /ws/game/" - -
+172.18.0.4:44520 - - [08/Mar/2025:21:47:46] "WSCONNECT /ws/game/" - -
+{'type': 'start_game', 'lobby_id': '18'}
+Starting game for lobby ID: 18
+{'type': 'make_move', 'session_id': 42, 'username': 'kokoko', 'card_ids': ['74', '22', '54']}
+Moving cards from positions 13-15 to fill empty positions.
+state is {'deck': ['11', '13', '40', '30', '35', '17', '23', '27', '32', '7', '21', '39', '79', '18', '45', '52', '63', '44', '4', '76', '71', '70', '65', '36', '72', '56', '14', '68', '60', '77', '80', '19', '15', '8', '81', '29', '31', '59', '61', '37', '24', '57', '54', '1', '53', '64', '3', '25', '2', '9', '51', '66', '42', '49', '16', '41', '74', '58', '34', '78', '73', '67', '46', '22', '47', '33', '6', '55', '75'], 'board': {'0': '69', '1': '20', '2': '12', '3': '10', '4': '5', '5': '38', '6': '62', '7': '50', '8': '43', '9': '26', '10': '28', '11': '48'}, 'selected_sets': [['74', '22', '54']], 'scores': {'kokoko': 1, 'nininini': 0}, 'player_ids': [37, 38]}
+empty positions set()
+extra positions ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+state after moving {'deck': ['11', '13', '40', '30', '35', '17', '23', '27', '32', '7', '21', '39', '79', '18', '45', '52', '63', '44', '4', '76', '71', '70', '65', '36', '72', '56', '14', '68', '60', '77', '80', '19', '15', '8', '81', '29', '31', '59', '61', '37', '24', '57', '54', '1', '53', '64', '3', '25', '2', '9', '51', '66', '42', '49', '16', '41', '74', '58', '34', '78', '73', '67', '46', '22', '47', '33', '6', '55', '75'], 'board': {'0': '69', '1': '20', '2': '12', '3': '10', '4': '5', '5': '38', '6': '62', '7': '50', '8': '43', '9': '26', '10': '28', '11': '48'}, 'selected_sets': [['74', '22', '54']], 'scores': {'kokoko': 1, 'nininini': 0}, 'player_ids': [37, 38]}
+172.18.0.4:44534 - - [08/Mar/2025:21:47:55] "GET /" 200 2675
+172.18.0.4:44520 - - [08/Mar/2025:21:47:55] "WSDISCONNECT /ws/game/" - -
+New user created: boobies :)
+172.18.0.4:32912 - - [08/Mar/2025:21:48:33] "POST /" 302 -
+Current user: boobies :)
+Creating new lobby
+Lobby: Players=['boobies :)']
+Lobby ID in view: 19
+172.18.0.4:32916 - - [08/Mar/2025:21:48:33] "GET /lobby/" 200 970
+172.18.0.4:60594 - - [08/Mar/2025:21:48:36] "GET /api/lobby_status/19/" 200 184
+172.18.0.4:60598 - - [08/Mar/2025:21:48:39] "GET /api/lobby_status/19/" 200 184
+172.18.0.4:60612 - - [08/Mar/2025:21:48:42] "GET /api/lobby_status/19/" 200 184
+172.18.0.4:60616 - - [08/Mar/2025:21:48:45] "GET /api/lobby_status/19/" 200 184
+172.18.0.4:60626 - - [08/Mar/2025:21:48:46] "GET /game/13/" 200 673
+172.18.0.4:45960 - - [08/Mar/2025:21:48:46] "WSCONNECTING /ws/game/" - -
+172.18.0.4:45960 - - [08/Mar/2025:21:48:46] "WSCONNECT /ws/game/" - -
+{'type': 'start_game', 'lobby_id': '18'}
+Starting game for lobby ID: 18
+172.18.0.4:35242 - - [08/Mar/2025:21:48:46] "WSDISCONNECT /ws/game/" - -
+172.18.0.4:45964 - - [08/Mar/2025:21:48:48] "GET /api/lobby_status/19/" 200 184
+172.18.0.4:45970 - - [08/Mar/2025:21:48:49] "GET /" 200 2675
+172.18.0.4:45960 - - [08/Mar/2025:21:48:49] "WSDISCONNECT /ws/game/" - -
+172.18.0.4:45974 - - [08/Mar/2025:21:48:51] "GET /api/lobby_status/19/" 200 184
+172.18.0.4:45982 - - [08/Mar/2025:21:48:54] "GET /api/lobby_status/19/" 200 184
+172.18.0.4:33286 - - [08/Mar/2025:21:48:57] "GET /api/lobby_status/19/" 200 184
+172.18.0.4:33294 - - [08/Mar/2025:21:49:00] "GET /api/lobby_status/19/" 200 184
+New user created: also tits
+172.18.0.4:33298 - - [08/Mar/2025:21:49:01] "POST /" 302 -
+Current user: also tits
+Joining existing lobby: Lobby 19
+Lobby: Players=['boobies :)', 'also tits']
+Lobby ID in view: 19
+172.18.0.4:33312 - - [08/Mar/2025:21:49:01] "GET /lobby/" 200 970
+172.18.0.4:33324 - - [08/Mar/2025:21:49:03] "GET /api/lobby_status/19/" 200 226
+172.18.0.4:33340 - - [08/Mar/2025:21:49:04] "GET /api/lobby_status/19/" 200 226
+172.18.0.4:38214 - - [08/Mar/2025:21:49:06] "GET /api/lobby_status/19/" 200 226
+172.18.0.4:38222 - - [08/Mar/2025:21:49:07] "GET /api/lobby_status/19/" 200 226
+172.18.0.4:38228 - - [08/Mar/2025:21:49:09] "GET /api/lobby_status/19/" 200 226
+172.18.0.4:38238 - - [08/Mar/2025:21:49:10] "GET /api/lobby_status/19/" 200 226
+Current user: also tits
+Lobby: Players=['boobies :)', 'also tits']
+Lobby ID in view: 19
+Handling POST request for user: also tits
+Lobby after update: Players=['boobies :)', 'also tits'], Ready=[False, True]
+172.18.0.4:38248 - - [08/Mar/2025:21:49:11] "POST /lobby/" 200 186
+172.18.0.4:38252 - - [08/Mar/2025:21:49:12] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:38264 - - [08/Mar/2025:21:49:13] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:38268 - - [08/Mar/2025:21:49:15] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:37866 - - [08/Mar/2025:21:49:16] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:37876 - - [08/Mar/2025:21:49:18] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:37884 - - [08/Mar/2025:21:49:19] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:37896 - - [08/Mar/2025:21:49:21] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:37906 - - [08/Mar/2025:21:49:22] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:37920 - - [08/Mar/2025:21:49:24] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:37926 - - [08/Mar/2025:21:49:25] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:36176 - - [08/Mar/2025:21:49:27] "GET /api/lobby_status/19/" 200 225
+172.18.0.4:36192 - - [08/Mar/2025:21:49:28] "GET /api/lobby_status/19/" 200 225
+Current user: boobies :)
+Lobby: Players=['boobies :)', 'also tits']
+Lobby ID in view: 19
+Handling POST request for user: boobies :)
+Lobby after update: Players=['boobies :)', 'also tits'], Ready=[True, True]
+Both players are ready. Creating game state.
+GameState created: 14
+Lobby updated with GameState: 14
+172.18.0.4:36208 - - [08/Mar/2025:21:49:29] "POST /lobby/" 200 184
+172.18.0.4:36210 - - [08/Mar/2025:21:49:30] "GET /api/lobby_status/19/" 200 221
+172.18.0.4:36212 - - [08/Mar/2025:21:49:30] "GET /game/14/" 200 677
+172.18.0.4:36218 - - [08/Mar/2025:21:49:30] "WSCONNECTING /ws/game/" - -
+172.18.0.4:36218 - - [08/Mar/2025:21:49:30] "WSCONNECT /ws/game/" - -
+{'type': 'start_game', 'lobby_id': '19'}
+Starting game for lobby ID: 19
+172.18.0.4:36232 - - [08/Mar/2025:21:49:31] "GET /api/lobby_status/19/" 200 221
+172.18.0.4:36234 - - [08/Mar/2025:21:49:31] "GET /game/14/" 200 676
+172.18.0.4:36238 - - [08/Mar/2025:21:49:31] "WSCONNECTING /ws/game/" - -
+172.18.0.4:36238 - - [08/Mar/2025:21:49:31] "WSCONNECT /ws/game/" - -
+{'type': 'start_game', 'lobby_id': '19'}
+Starting game for lobby ID: 19
+{'type': 'make_move', 'session_id': 46, 'username': 'also tits', 'card_ids': ['10', '21', '2']}
+board before adding {'1': '52', '2': '51', '4': '57', '5': '50', '6': '3', '8': '13', '9': '63', '10': '15', '11': '31'}
+board after adding {'1': '52', '2': '51', '4': '57', '5': '50', '6': '3', '8': '13', '9': '63', '10': '15', '11': '31', '0': '65', '7': '16', '3': '18'}
+{'type': 'make_move', 'session_id': 45, 'username': 'boobies :)', 'card_ids': ['51', '18', '57']}
+board before adding {'0': '41', '1': '50', '2': '48', '3': '56', '4': '2', '5': '5', '6': '8', '7': '80', '8': '73', '9': '71', '11': '35'}
+board after adding {'0': '41', '1': '50', '2': '48', '3': '56', '4': '2', '5': '5', '6': '8', '7': '80', '8': '73', '9': '71', '11': '35', '10': '52'}
+{'type': 'make_move', 'session_id': 46, 'username': 'also tits', 'card_ids': ['41', '80', '2']}
+Moving cards from positions 13-15 to fill empty positions.
+state is {'deck': ['38', '17', '1', '27', '9', '56', '5', '32', '67', '60', '25', '70', '62', '8', '69', '33', '35', '75', '80', '54', '53', '74', '41', '68', '29', '58', '47', '81', '30', '39', '48', '19', '55', '14', '78', '23', '73', '71', '79', '28', '20', '12', '45', '26', '40', '76', '36', '37', '34', '6', '72', '22', '59', '7', '4', '46', '11', '44', '64', '42', '24', '66', '49', '43', '61', '77'], 'board': {'1': '52', '2': '51', '4': '57', '5': '50', '6': '3', '8': '13', '9': '63', '10': '15', '11': '31', '0': '65', '7': '16', '3': '18'}, 'selected_sets': [['10', '21', '2'], ['41', '80', '2']], 'scores': {'boobies :)': 0, 'also tits': 2}, 'player_ids': [39, 40]}
+empty positions set()
+extra positions ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+state after moving {'deck': ['38', '17', '1', '27', '9', '56', '5', '32', '67', '60', '25', '70', '62', '8', '69', '33', '35', '75', '80', '54', '53', '74', '41', '68', '29', '58', '47', '81', '30', '39', '48', '19', '55', '14', '78', '23', '73', '71', '79', '28', '20', '12', '45', '26', '40', '76', '36', '37', '34', '6', '72', '22', '59', '7', '4', '46', '11', '44', '64', '42', '24', '66', '49', '43', '61', '77'], 'board': {'1': '52', '2': '51', '4': '57', '5': '50', '6': '3', '8': '13', '9': '63', '10': '15', '11': '31', '0': '65', '7': '16', '3': '18'}, 'selected_sets': [['10', '21', '2'], ['41', '80', '2']], 'scores': {'boobies :)': 0, 'also tits': 2}, 'player_ids': [39, 40]}
+{'type': 'make_move', 'session_id': 45, 'username': 'boobies :)', 'card_ids': ['51', '18', '57']}
+Moving cards from positions 13-15 to fill empty positions.
+state is {'deck': ['43', '18', '46', '44', '42', '53', '69', '49', '17', '65', '54', '62', '30', '10', '51', '39', '26', '6', '34', '16', '19', '12', '27', '60', '67', '63', '70', '47', '74', '4', '66', '81', '32', '11', '72', '37', '22', '9', '64', '25', '24', '76', '61', '14', '23', '13', '58', '20', '28', '79', '55', '21', '3', '75', '1', '7', '40', '78', '59', '33', '15', '68', '77', '45', '38', '36'], 'board': {'0': '41', '1': '50', '2': '48', '3': '56', '4': '2', '5': '5', '6': '8', '7': '80', '8': '73', '9': '71', '11': '35', '10': '52'}, 'selected_sets': [['51', '18', '57'], ['51', '18', '57']], 'scores': {'boobies :)': 2, 'also tits': 0}, 'player_ids': [39, 40]}
+empty positions set()
+extra positions ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+state after moving {'deck': ['43', '18', '46', '44', '42', '53', '69', '49', '17', '65', '54', '62', '30', '10', '51', '39', '26', '6', '34', '16', '19', '12', '27', '60', '67', '63', '70', '47', '74', '4', '66', '81', '32', '11', '72', '37', '22', '9', '64', '25', '24', '76', '61', '14', '23', '13', '58', '20', '28', '79', '55', '21', '3', '75', '1', '7', '40', '78', '59', '33', '15', '68', '77', '45', '38', '36'], 'board': {'0': '41', '1': '50', '2': '48', '3': '56', '4': '2', '5': '5', '6': '8', '7': '80', '8': '73', '9': '71', '11': '35', '10': '52'}, 'selected_sets': [['51', '18', '57'], ['51', '18', '57']], 'scores': {'boobies :)': 2, 'also tits': 0}, 'player_ids': [39, 40]}
+{'type': 'make_move', 'session_id': 45, 'username': 'boobies :)', 'card_ids': ['2', '8', '5']}
+board before adding {'0': '41', '1': '50', '2': '48', '3': '56', '7': '80', '8': '73', '9': '71', '11': '35', '10': '52'}
+board after adding {'0': '41', '1': '50', '2': '48', '3': '56', '7': '80', '8': '73', '9': '71', '11': '35', '10': '52', '4': '43', '6': '18', '5': '46'}

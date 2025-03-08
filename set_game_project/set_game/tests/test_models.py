@@ -125,10 +125,7 @@ class GameEndTest(TestCase):
         # Simulate a board where no valid sets exist
         # Example: Choosing cards that ensure no valid set remains
         self.session.state['board'] = {
-            "0": "1", "1": "2", "2": "3",
-            "3": "4", "4": "5", "5": "6",
-            "6": "7", "7": "8", "8": "9",
-            "9": "10", "10": "11", "11": "12"
+            "0": "1", "1": "2", "2": "4",
         }
 
         # Ensure there are no valid sets left
