@@ -60,7 +60,6 @@ function checkSet() {
         }
         return {
             number: parseInt(cardElement.getAttribute('data-number')),
-            // number: cardElement.getAttribute('data-number'),
             shading: cardElement.getAttribute('data-shading'),
             color: cardElement.getAttribute('data-color'),
             symbol: cardElement.getAttribute('data-symbol')
@@ -154,30 +153,56 @@ function setupWebSocket() {
 
 setupWebSocket();
 
-// Function to update the game state
 function updateGameState(state) {
     console.log('updateGameState called with state:', state);
-    console.trace();
 
     // Update the board
     const boardContainer = document.getElementById('game-board');
     boardContainer.innerHTML = '';  // Clear current board
+
+    // Determine the number of columns based on the number of cards
+    const numCards = Object.keys(state.board).length;
+    const numColumns = numCards === 15 ? 5 : 4; // 5 columns for 15 cards, 4 columns for 12 cards
+
+    // Update the grid layout
+    boardContainer.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
+
+    // Append cards to the board
     Object.entries(state.board).forEach(([pos, cardId]) => {
         const cardData = state.cards[cardId];
+        if (!cardData) {
+            console.error(`Card data not found for ID: ${cardId}`);
+            return;
+        }
         const cardElement = createCardElement(cardId, cardData);
-        cardElement.style.gridArea = `card${pos}`;  // Set the grid area for CSS grid layout
-        boardContainer.appendChild(cardElement);
+        boardContainer.appendChild(cardElement);  // Append card to the board
     });
 
     // Update the scores
     const scoresContainer = document.getElementById('scores');
     scoresContainer.innerHTML = '';  // Clear current scores
-    for (const [playerName, score] of Object.entries(state.scores)) {
-        const scoreElement = document.createElement('div');
-        scoreElement.innerText = `Player ${playerName}: ${score}`;
-        scoresContainer.appendChild(scoreElement);
+
+    // Create left and right score containers
+    const leftScore = document.createElement('div');
+    leftScore.id = 'left-score';
+    const rightScore = document.createElement('div');
+    rightScore.id = 'right-score';
+
+    // Add scores to left and right containers
+    const players = Object.entries(state.scores);
+    if (players.length > 0) {
+        leftScore.innerText = `${players[0][0]}: ${players[0][1]}`; // First player on the left
+    }
+    if (players.length > 1) {
+        rightScore.innerText = `${players[1][0]}: ${players[1][1]}`; // Second player on the right
     }
 
+    // Append left and right scores to the scores container
+    scoresContainer.appendChild(leftScore);
+    scoresContainer.appendChild(rightScore);
+
+    // Update the title with the current score
+    const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
     // Clear the message
     document.getElementById('message').innerText = '';
 }
@@ -198,7 +223,6 @@ function createCardElement(cardId, cardData) {
     for (let i = 0; i < cardData.number; i++) {
         const symbol = document.createElement('div');
         symbol.classList.add('symbol', cardData.symbol.toLowerCase(), 'shading', cardData.shading.toLowerCase(), 'color', `color-${cardData.color.toLowerCase()}`);
-        // symbol.innerHTML = getSvgForSymbol(cardData.symbol); // Add inline SVG
         cardContent.appendChild(symbol);
     }
 

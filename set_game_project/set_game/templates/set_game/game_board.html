@@ -7,21 +7,30 @@
     <meta charset="UTF-8">
     <title>SET Game Board</title>
     <link rel="stylesheet" href="{% static 'set_game/css/game.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>SET Game Board</h1>
-    <div id="game-board">
-        {% for card in cards %}
-        <div class="card" data-card-id="{{ card.id }}" data-number="{{ card.number }}" data-symbol="{{ card.symbol }}" data-shading="{{ card.shading }}" data-color="{{ card.color }}">
-            <div class="card-content"></div>
+    <div class="container">
+        <!-- Scores at the top -->
+        <div id="scores">
+            <div id="left-score">Player 1: 0</div>
+            <div id="right-score">Player 2: 0</div>
         </div>
-        {% endfor %}
+
+        <!-- Game Board -->
+        <div id="game-container">
+            <div id="game-board" style="grid-template-columns: repeat(4, 100px);">
+                <!-- Cards will be dynamically added here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Message -->
+        <p id="message"></p>
+
+        <!-- Back to Home Link -->
+        <a href="{% url 'home' %}" class="game-button">Back to Home</a>
     </div>
-    <button id="check-set-button" onclick="checkSet()">Check Set</button>
-    <p id="message"></p>
-    <div id="scores"></div>
-    <a href="{% url 'home' %}">Back to Home</a>
     <script src="{% static 'set_game/js/game.js' %}"></script>
+    <button id="highlight-set-button" onclick="highlightSet()">Highlight a Set</button>
 </body>
-<button id="highlight-set-button" onclick="highlightSet()">Highlight a Set</button>
 </html>

@@ -4,6 +4,14 @@ from django.core.exceptions import ValidationError
 from random import sample, shuffle
 from itertools import combinations
 
+import traceback
+import datetime
+
+def set_state(game, new_state):
+    print(f"🔄 Changing state of GameSession {game.id} at {datetime.now()}")
+    print(f"📍 Stack trace:\n{''.join(traceback.format_stack())}")
+    game.state = new_state
+
 class Card(models.Model):
     number = models.IntegerField()
     symbol = models.CharField(max_length=20)
@@ -41,13 +49,12 @@ class GameSession(models.Model):
 
     def validate_and_process_move(self, player, selected_cards):
         self.refresh_from_db()
-
         if 'selected_sets' not in self.state:
             raise KeyError("Key 'selected_sets' not found in state.")
         self.process_set(player, selected_cards)
         if not self.state['deck'] and not self.is_set_available():
             self.end_game()
-        self.save()
+        self.save()        
 
     def validate_set(self, selected_cards):
         if len(selected_cards) != 3:
@@ -79,29 +86,27 @@ class GameSession(models.Model):
 
         self.state['selected_sets'].append(selected_cards)
         self.state['scores'][str(player.username)] += 1
+        print(f"🔄 Updated state before save: {self.state}")
+        self.save()
+        print(f"💾 Saved state: {self.state}")
+
 
         # Remove selected cards from the board
-        # self.state['board'] = {pos: card_id for pos, card_id in self.state['board'].items() if all([card_id != selected_card for selected_card in selected_cards])}
         self.state['board'] = {
             pos: card_id for pos, card_id in self.state['board'].items()
             if card_id not in selected_cards
         }
             # If the board has more 12 or more cards, move cards from positions 13-15 to fill empty positions
         if len(self.state['board']) >= 12:
-            print("Moving cards from positions 13-15 to fill empty positions.")
-            print(f"state is {self.state}")
-            empty_positions = set(str(i) for i in range(12)).difference(set(self.state['board'].keys()))
-            print(f"empty positions {empty_positions}")
+            empty_positions = sorted(set(str(i) for i in range(12)) - self.state['board'].keys(), key=int)
             extra_positions = sorted(self.state['board'].keys(), key=int)[-len(empty_positions):]  # Get positions beyond 12
-            print(f"extra positions {extra_positions}")
 
             # Move cards from extra positions to empty positions
             for empty_pos, extra_pos in zip(empty_positions, extra_positions):
-                self.state['board'][empty_pos] = self.state['board'][extra_pos]
-                del self.state['board'][extra_pos]
-            print(f"state after moving {self.state}")
+                self.state['board'][empty_pos] = self.state['board'].pop(extra_pos)
         else:
             empty_positions = set(str(i) for i in range(12)).difference(set(self.state['board'].keys()))
+            empty_positions = sorted(empty_positions, key=int)
             self.add_cards_to_board(3, empty_positions)
         self.handle_no_set_available()
         self.save()
@@ -109,10 +114,8 @@ class GameSession(models.Model):
     def add_cards_to_board(self, count, empty_positions):
         new_cards = self.state['deck'][:count]
         self.state['deck'] = self.state['deck'][count:]
-        print(f"board before adding {self.state['board']}")
         for pos, card_id in zip(empty_positions, new_cards):
             self.state['board'][pos] = card_id
-        print(f"board after adding {self.state['board']}")
 
     def is_set_available(self):
         # Get all card IDs on the board
@@ -131,14 +134,11 @@ class GameSession(models.Model):
         Add 3 new cards to the board if no valid set is available.
         """
         if not self.is_set_available():
-            print("No valid set found. Adding 3 new cards to the board.")
             if self.state['deck']:
                 # Find the next available positions (e.g., 12, 13, 14)
                 next_positions = [str(i) for i in range(len(self.state['board']), len(self.state['board']) + 3)]
-                print(f"next pos are {next_positions}")
                 self.add_cards_to_board(3, next_positions)
             else:
-                print("No more cards in the deck. Ending the game.")
                 self.end_game()
         
     def end_game(self):

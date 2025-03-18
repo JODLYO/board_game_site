@@ -243,59 +243,181 @@ async def test_game_over_invalid_last_move(game_data):
 
     await communicator.disconnect()
 
-# import pytest
-import asyncio
-# from channels.testing import WebsocketCommunicator
 
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_concurrent_moves(game_data):
-    """Ensure that concurrent moves are processed correctly."""
-    communicator1 = WebsocketCommunicator(GameConsumer.as_asgi(), "/ws/game/")
-    communicator2 = WebsocketCommunicator(GameConsumer.as_asgi(), "/ws/game/")
-    
-    connected1, _ = await communicator1.connect()
-    connected2, _ = await communicator2.connect()
-    assert connected1 and connected2
+async def test_board_update_no_set(game_data):
+    """Ensure that when no valid set is found, 3 cards are added while maintaining card placements."""
 
-    player = game_data["player"]
+    communicator = WebsocketCommunicator(GameConsumer.as_asgi(), "/ws/game/")
+    connected, _ = await communicator.connect()
+    assert connected
+
     game_session = game_data["game_session"]
-    valid_set = [card.id for card in game_data["cards"][:3]]
-    valid_set2 = [card.id for card in game_data["cards"][3:6]]
+    player = game_data["player"]
 
-    # Send both moves concurrently
-    send_task1 = communicator1.send_json_to({
+
+    # Initial board state (no valid sets)
+    initial_board = {
+        "0": "13", "1": "35", "2": "24", "3": "14",
+        "4": "51", "5": "45", "6": "3", "7": "70",
+        "8": "6", "9": "1", "10": "40", "11": "79"
+    }
+    valid_set = ["1", "40", "79"]
+        # """(1, diamond, solid, red) → ID 1
+        # (2, squiggle, striped, red) → ID 40
+        # (3, oval, open, red) → ID 79"""
+    # Simulated deck (next three cards to be drawn)
+    # deck = ["46", "41", "52"]
+    deck = ["61", "31", "49", "46", "41", "52"]
+
+    # Set game state with no valid sets
+    await sync_to_async(lambda: setattr(game_session, 'state', {
+        'deck': deck,
+        'board': initial_board.copy(),
+        'scores': {player.username: 0},  # Ensure player exists in scores
+        'game_over': False,
+        'selected_sets': []
+    }))()
+    await sync_to_async(game_session.save)()
+
+    # Trigger check for valid sets (which should result in adding new cards)
+    await communicator.send_json_to({
         "type": "make_move",
         "session_id": game_session.id,
         "username": player.username,
         "card_ids": valid_set,
     })
-    send_task2 = communicator2.send_json_to({
+
+    response = await communicator.receive_json_from()
+    assert response["type"] == "game_state"
+
+    # Updated board after adding three cards
+    expected_board = {
+        "0": "13", "1": "35", "2": "24", "3": "14",
+        "4": "51", "5": "45", "6": "3", "7": "70",
+        "8": "6", "9": "61", "10": "31", "11": "49",
+        "12": "46", "13": "41", "14": "52"
+    }
+
+    updated_board = response["state"]["board"]
+    
+    assert updated_board == expected_board, "Board did not update correctly."
+
+    await communicator.disconnect()
+
+@pytest.mark.asyncio
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+async def test_board_update_after_set(game_data):
+    """Ensure that after a valid set is removed, the board updates correctly from 15 cards to 12 cards."""
+
+    communicator = WebsocketCommunicator(GameConsumer.as_asgi(), "/ws/game/")
+    connected, _ = await communicator.connect()
+    assert connected
+
+    game_session = game_data["game_session"]
+    player = game_data["player"]
+
+    # Initial board state (before removing set)
+    initial_board = {
+        "0": "13", "1": "35", "2": "24", "3": "14",
+        "4": "51", "5": "45", "6": "3", "7": "70",
+        "8": "6", "9": "61", "10": "31", "11": "49",
+        "12": "46", "13": "41", "14": "52"
+    }
+
+    # Set to be removed
+    selected_set = ["13", "46", "61"]
+
+    # Expected board after removing the set
+    expected_board = {
+        "0": "41", "1": "35", "2": "24", "3": "14",
+        "4": "51", "5": "45", "6": "3", "7": "70",
+        "8": "6", "9": "52", "10": "31", "11": "49"
+    }
+
+    # Set initial game state
+    await sync_to_async(lambda: setattr(game_session, 'state', {
+        'deck': [],  # No new cards to be added
+        'board': initial_board.copy(),
+        'scores': {player.username: 0},  # Ensure player exists in scores
+        'game_over': False,
+        'selected_sets': []
+    }))()
+    await sync_to_async(game_session.save)()
+
+    # Simulate making a move (removing the valid set)
+    await communicator.send_json_to({
         "type": "make_move",
         "session_id": game_session.id,
-        "username": player.username,
-        "card_ids": valid_set2,
+        "username": game_data["player"].username,
+        "card_ids": selected_set,
     })
 
-    await asyncio.gather(send_task1, send_task2)
+    response = await communicator.receive_json_from()
+    assert response["type"] == "game_state"
 
-    # Ensure both responses are received
-    try:
-        response1 = await communicator1.receive_json_from(timeout=5)
-    except asyncio.TimeoutError:
-        response1 = None  # Prevent test from failing if response never arrives
+    # Check if the board matches the expected state
+    updated_board = response["state"]["board"]
+    assert updated_board == expected_board, "Board did not update correctly after removing a set."
 
-    try:
-        response2 = await communicator2.receive_json_from(timeout=5)
-    except asyncio.TimeoutError:
-        response2 = None
-    1
-    # Only one move should succeed
-    # assert (
-    #     (response1 and response1["type"] == "game_state" and response2 and response2["type"] == "error") or
-    #     (response1 and response1["type"] == "error" and response2 and response2["type"] == "game_state")
-    # ), "Only one move should succeed"
+    await communicator.disconnect()
+
+@pytest.mark.asyncio
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+async def test_score_updates_multiple_players(game_data):
+    """Ensure that scores update correctly for two players."""
     
-    # Disconnect communicators **before exiting**
-    await communicator1.disconnect()
-    await communicator2.disconnect()
+    communicator = WebsocketCommunicator(GameConsumer.as_asgi(), "/ws/game/")
+    connected, _ = await communicator.connect()
+    assert connected
+
+    player1 = game_data["player"]
+    game_session = game_data["game_session"]
+
+    # Create second player and add them to the game session
+    player2 = await sync_to_async(User.objects.create_user)(username="player2")
+    await sync_to_async(game_session.players.add)(player2)
+
+    # Initial scores
+    initial_scores = {player1.username: 0, player2.username: 0}
+
+    # Set up initial game state with predefined scores
+    await sync_to_async(lambda: setattr(game_session, 'state', {
+        'deck': [],
+        'board': {str(i): str(game_data["cards"][i].id) for i in range(12)},
+        'scores': initial_scores.copy(),
+        'game_over': False,
+        'selected_sets': []
+    }))()
+    await sync_to_async(game_session.save)()
+
+    # Player 1 makes a move
+    valid_set_p1 = [game_data["cards"][0].id, game_data["cards"][1].id, game_data["cards"][2].id]
+    await communicator.send_json_to({
+        "type": "make_move",
+        "session_id": game_session.id,
+        "username": player1.username,
+        "card_ids": valid_set_p1,
+    })
+
+    response = await communicator.receive_json_from()
+    assert response["type"] == "game_state"
+    assert response["state"]["scores"][player1.username] == 1  # Player 1 score should increase by 1
+    assert response["state"]["scores"][player2.username] == 0  # Player 2 score should remain the same
+
+    # Player 2 makes a move
+    valid_set_p2 = [game_data["cards"][3].id, game_data["cards"][4].id, game_data["cards"][5].id]
+    await communicator.send_json_to({
+        "type": "make_move",
+        "session_id": game_session.id,
+        "username": player2.username,
+        "card_ids": valid_set_p2,
+    })
+
+    response = await communicator.receive_json_from()
+    assert response["type"] == "game_state"
+    assert response["state"]["scores"][player1.username] == 1  # Player 1 score should remain the same
+    assert response["state"]["scores"][player2.username] == 1  # Player 2 score should increase by 1
+
+    await communicator.disconnect()

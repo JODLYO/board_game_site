@@ -1,6 +1,7 @@
 let selectedCards = [];
 let playerIds = null;
 let sessionId = null;
+let currentGameState = null; // Add this line
 const lobbyId = document.getElementById('lobby-id').dataset.lobbyId;
 const currentUsername = document.getElementById('current-username').dataset.lobbyId;
 
@@ -29,6 +30,10 @@ function monitorSelectedCards() {
 
 // Function to send a player's move via WebSocket
 function sendMove(username, cardIds) {
+    if (isProcessingMove) {
+        console.error('A move is already being processed.');
+        return;
+    }
     if (!sessionId) {
         console.error('Session ID is not set.');
         return;
@@ -37,6 +42,29 @@ function sendMove(username, cardIds) {
         console.error('Username is not set.');
         return;
     }
+
+    // Validate card IDs against the current board state
+    if (!currentGameState || !currentGameState.board) {
+        console.error('Current game state or board is not defined.');
+        return;
+    }
+
+    // Validate card IDs against the current board state
+    const boardCardIds = Object.values(currentGameState.board);
+    if (!cardIds.every(id => boardCardIds.includes(id))) {
+        console.log(cardIds)
+        console.log(boardCardIds)
+        console.error('Invalid card IDs: not all cards are on the board.');
+        return;
+    }
+
+    isProcessingMove = true;
+    console.log('Sending make_move message:', {
+        type: 'make_move',
+        session_id: sessionId,
+        username: username,
+        card_ids: cardIds
+    });
     gameSocket.send(JSON.stringify({
         'type': 'make_move',
         'session_id': sessionId,
@@ -60,7 +88,6 @@ function checkSet() {
         }
         return {
             number: parseInt(cardElement.getAttribute('data-number')),
-            // number: cardElement.getAttribute('data-number'),
             shading: cardElement.getAttribute('data-shading'),
             color: cardElement.getAttribute('data-color'),
             symbol: cardElement.getAttribute('data-symbol')
@@ -133,17 +160,18 @@ function setupWebSocket() {
     gameSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
         console.log('WebSocket message received:', data);
-
+    
         if (data.type === 'game_state') {
+            currentGameState = data.state; // Update the current game state
             updateGameState(data.state);
+            isProcessingMove = false; // Reset the flag after the state is updated
         } else if (data.type === 'game_started') {
-            sessionId = data.session_id;  // Store the received session ID
-            playerIds = data.player_ids;  // Store all player IDs
+            sessionId = data.session_id;
+            playerIds = data.player_ids;
             console.log('Game started with session ID:', sessionId);
             console.log('Player IDs:', playerIds);
         } else if (data.type === 'game_over') {
             alert('Game over! No more sets are possible.');
-            // Optionally, disable the game board or show a game-over screen
         }
     };
 
@@ -154,30 +182,56 @@ function setupWebSocket() {
 
 setupWebSocket();
 
-// Function to update the game state
 function updateGameState(state) {
     console.log('updateGameState called with state:', state);
-    console.trace();
 
     // Update the board
     const boardContainer = document.getElementById('game-board');
     boardContainer.innerHTML = '';  // Clear current board
+
+    // Determine the number of columns based on the number of cards
+    const numCards = Object.keys(state.board).length;
+    const numColumns = numCards === 15 ? 5 : 4; // 5 columns for 15 cards, 4 columns for 12 cards
+
+    // Update the grid layout
+    boardContainer.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
+
+    // Append cards to the board
     Object.entries(state.board).forEach(([pos, cardId]) => {
         const cardData = state.cards[cardId];
+        if (!cardData) {
+            console.error(`Card data not found for ID: ${cardId}`);
+            return;
+        }
         const cardElement = createCardElement(cardId, cardData);
-        cardElement.style.gridArea = `card${pos}`;  // Set the grid area for CSS grid layout
-        boardContainer.appendChild(cardElement);
+        boardContainer.appendChild(cardElement);  // Append card to the board
     });
 
     // Update the scores
     const scoresContainer = document.getElementById('scores');
     scoresContainer.innerHTML = '';  // Clear current scores
-    for (const [playerName, score] of Object.entries(state.scores)) {
-        const scoreElement = document.createElement('div');
-        scoreElement.innerText = `Player ${playerName}: ${score}`;
-        scoresContainer.appendChild(scoreElement);
+
+    // Create left and right score containers
+    const leftScore = document.createElement('div');
+    leftScore.id = 'left-score';
+    const rightScore = document.createElement('div');
+    rightScore.id = 'right-score';
+
+    // Add scores to left and right containers
+    const players = Object.entries(state.scores);
+    if (players.length > 0) {
+        leftScore.innerText = `Player ${players[0][0]}: ${players[0][1]}`; // First player on the left
+    }
+    if (players.length > 1) {
+        rightScore.innerText = `Player ${players[1][0]}: ${players[1][1]}`; // Second player on the right
     }
 
+    // Append left and right scores to the scores container
+    scoresContainer.appendChild(leftScore);
+    scoresContainer.appendChild(rightScore);
+
+    // Update the title with the current score
+    const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
     // Clear the message
     document.getElementById('message').innerText = '';
 }
@@ -198,7 +252,6 @@ function createCardElement(cardId, cardData) {
     for (let i = 0; i < cardData.number; i++) {
         const symbol = document.createElement('div');
         symbol.classList.add('symbol', cardData.symbol.toLowerCase(), 'shading', cardData.shading.toLowerCase(), 'color', `color-${cardData.color.toLowerCase()}`);
-        // symbol.innerHTML = getSvgForSymbol(cardData.symbol); // Add inline SVG
         cardContent.appendChild(symbol);
     }
 

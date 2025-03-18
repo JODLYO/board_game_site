@@ -1,15 +1,82 @@
-/* Card styling */
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Scores Styles */
+#scores {
+    display: flex;
+    justify-content: space-between; /* Space out left and right scores */
+    align-items: center;
+    width: 100%;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+#scores div {
+    margin: 0 1rem; /* Add horizontal spacing between scores */
+    font-weight: bold;
+}
+
+/* Game Container Styles */
+#game-container {
+    border: 5px solid #333;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Game Board Styles */
+#game-board {
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+    align-content: center;
+    padding: 20px;
+    margin: 0 auto;
+    width: 90%;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    grid-template-columns: repeat(4, 1fr); /* Use fractional units for dynamic sizing */
+}
+
+/* Card Styles */
 .card {
-    display: inline-block;
-    width: 100px;
-    height: 150px;
+    width: 100%; /* Cards take up 100% of their grid cell */
+    aspect-ratio: 2 / 3; /* Maintain a 2:3 aspect ratio (width:height) */
     border: 2px solid #000;
     border-radius: 10px;
-    margin: 5px;
-    padding: 10px;
     background-color: #fff;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 10px;
 }
 
 .card:hover {
@@ -31,8 +98,7 @@
     align-items: center;
 }
 
-/* Symbol styling */
-/* Symbol styling */
+/* Symbol Styles */
 .symbol {
     width: 30px;
     height: 30px;
@@ -79,7 +145,7 @@
     mask-image: url('/static/set_game/images/diamond/open.svg');
 }
 
-/* Color styles */
+/* Color Styles */
 .color-red {
     color: #ff0000;
 }
@@ -95,4 +161,40 @@
 .card.highlighted {
     border: 3px solid yellow;
     box-shadow: 0 0 10px yellow;
+}
+
+/* Message Styles */
+#message {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+/* Game Button Styles */
+.game-button {
+    display: inline-block;
+    background-color: #ff6f61;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1.5rem;
+}
+
+.game-button:hover {
+    background-color: #ff4a3d;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    #game-board {
+        grid-template-columns: repeat(3, 1fr); /* Adjust for smaller screens */
+    }
 }
