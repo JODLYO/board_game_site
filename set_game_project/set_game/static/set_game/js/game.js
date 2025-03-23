@@ -1,6 +1,7 @@
 let selectedCards = [];
 let playerIds = null;
 let sessionId = null;
+let currentGameState = null; // Add this line
 const lobbyId = document.getElementById('lobby-id').dataset.lobbyId;
 const currentUsername = document.getElementById('current-username').dataset.lobbyId;
 
@@ -29,6 +30,10 @@ function monitorSelectedCards() {
 
 // Function to send a player's move via WebSocket
 function sendMove(username, cardIds) {
+    if (isProcessingMove) {
+        console.error('A move is already being processed.');
+        return;
+    }
     if (!sessionId) {
         console.error('Session ID is not set.');
         return;
@@ -37,6 +42,29 @@ function sendMove(username, cardIds) {
         console.error('Username is not set.');
         return;
     }
+
+    // Validate card IDs against the current board state
+    if (!currentGameState || !currentGameState.board) {
+        console.error('Current game state or board is not defined.');
+        return;
+    }
+
+    // Validate card IDs against the current board state
+    const boardCardIds = Object.values(currentGameState.board);
+    if (!cardIds.every(id => boardCardIds.includes(id))) {
+        console.log(cardIds)
+        console.log(boardCardIds)
+        console.error('Invalid card IDs: not all cards are on the board.');
+        return;
+    }
+
+    isProcessingMove = true;
+    console.log('Sending make_move message:', {
+        type: 'make_move',
+        session_id: sessionId,
+        username: username,
+        card_ids: cardIds
+    });
     gameSocket.send(JSON.stringify({
         'type': 'make_move',
         'session_id': sessionId,
@@ -132,17 +160,18 @@ function setupWebSocket() {
     gameSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
         console.log('WebSocket message received:', data);
-
+    
         if (data.type === 'game_state') {
+            currentGameState = data.state; // Update the current game state
             updateGameState(data.state);
+            isProcessingMove = false; // Reset the flag after the state is updated
         } else if (data.type === 'game_started') {
-            sessionId = data.session_id;  // Store the received session ID
-            playerIds = data.player_ids;  // Store all player IDs
+            sessionId = data.session_id;
+            playerIds = data.player_ids;
             console.log('Game started with session ID:', sessionId);
             console.log('Player IDs:', playerIds);
         } else if (data.type === 'game_over') {
             alert('Game over! No more sets are possible.');
-            // Optionally, disable the game board or show a game-over screen
         }
     };
 
@@ -182,29 +211,42 @@ function updateGameState(state) {
     const scoresContainer = document.getElementById('scores');
     scoresContainer.innerHTML = '';  // Clear current scores
 
-    // Create left and right score containers
-    const leftScore = document.createElement('div');
-    leftScore.id = 'left-score';
-    const rightScore = document.createElement('div');
-    rightScore.id = 'right-score';
-
-    // Add scores to left and right containers
-    const players = Object.entries(state.scores);
-    if (players.length > 0) {
-        leftScore.innerText = `${players[0][0]}: ${players[0][1]}`; // First player on the left
-    }
-    if (players.length > 1) {
-        rightScore.innerText = `${players[1][0]}: ${players[1][1]}`; // Second player on the right
-    }
-
-    // Append left and right scores to the scores container
-    scoresContainer.appendChild(leftScore);
-    scoresContainer.appendChild(rightScore);
+    // Dynamically create score elements for each player
+    Object.entries(state.scores).forEach(([playerId, score]) => {
+        const scoreElement = document.createElement('div');
+        scoreElement.id = `player-${playerId}-score`;
+        scoreElement.innerText = `Player ${playerId}: ${score}`;
+        scoresContainer.appendChild(scoreElement);
+    });
 
     // Update the title with the current score
     const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
     // Clear the message
     document.getElementById('message').innerText = '';
+
+    // // Create left and right score containers
+    // const leftScore = document.createElement('div');
+    // leftScore.id = 'left-score';
+    // const rightScore = document.createElement('div');
+    // rightScore.id = 'right-score';
+
+    // // Add scores to left and right containers
+    // const players = Object.entries(state.scores);
+    // if (players.length > 0) {
+    //     leftScore.innerText = `Player ${players[0][0]}: ${players[0][1]}`; // First player on the left
+    // }
+    // if (players.length > 1) {
+    //     rightScore.innerText = `Player ${players[1][0]}: ${players[1][1]}`; // Second player on the right
+    // }
+
+    // // Append left and right scores to the scores container
+    // scoresContainer.appendChild(leftScore);
+    // scoresContainer.appendChild(rightScore);
+
+    // // Update the title with the current score
+    // const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
+    // // Clear the message
+    // document.getElementById('message').innerText = '';
 }
 
 function createCardElement(cardId, cardData) {

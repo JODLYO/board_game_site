@@ -110,7 +110,13 @@ class GameConsumer(AsyncWebsocketConsumer):
         print(card_ids)
         print(board_card_ids)
         if not all(card_id in board_card_ids for card_id in card_ids):
-            raise ValidationError("Invalid card IDs: not all cards are on the board.")
+            e = "cards not on board"
+            print(f"❌ Move validation failed: {e}")
+            await self.send(text_data=json.dumps({
+                'type': 'error',
+                'message': str(e),
+            }))
+            # raise ValidationError("Invalid card IDs: not all cards are on the board.")
 
         player = await sync_to_async(User.objects.get)(username=data['username'])
         card_ids = data['card_ids']

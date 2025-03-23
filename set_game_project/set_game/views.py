@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from django.db.models import Count
 
+MAX_PLAYERS = 3
 
 def home(request):
     if request.method == 'POST':
@@ -31,7 +32,10 @@ def lobby(request):
     # Fetch or create the lobby
     lobby = Lobby.objects.filter(players=request.user).first()
     if not lobby:
-        open_lobby = Lobby.objects.annotate(player_count=Count('players')).filter(player_count__lt=2).first()
+        open_lobby = Lobby.objects.annotate(player_count=Count('players')).filter(
+            player_count__lt=MAX_PLAYERS,  # Lobby is not full
+            game_state__isnull=True,       # Lobby has no GameState (game hasn't started)
+        ).first()
         if open_lobby:
             print(f"Joining existing lobby: {open_lobby}")
             LobbyPlayer.objects.create(lobby=open_lobby, player=request.user)
@@ -40,6 +44,7 @@ def lobby(request):
             print(f"Creating new lobby")
             lobby = Lobby.objects.create()
             LobbyPlayer.objects.create(lobby=lobby, player=request.user)
+
 
     print(f"Lobby: Players={[lp.player.username for lp in lobby.lobbyplayer_set.all()]}")
     print(f"Lobby ID in view: {lobby.id}")  # Debugging

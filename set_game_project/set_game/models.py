@@ -7,6 +7,8 @@ from itertools import combinations
 import traceback
 import datetime
 
+MAX_PLAYERS = 3
+
 def set_state(game, new_state):
     print(f"🔄 Changing state of GameSession {game.id} at {datetime.now()}")
     print(f"📍 Stack trace:\n{''.join(traceback.format_stack())}")
@@ -33,7 +35,7 @@ class GameSession(models.Model):
 
     def initialize_game(self):
         deck = list(Card.objects.all())
-        shuffle(deck)
+        shuffle(deck) #!TODO make sure valid set is present
         initial_board_cards = deck[:12]
         remaining_deck = deck[12:]
         scores = {str(player.username): 0 for player in self.players.all()}
@@ -161,7 +163,7 @@ class Lobby(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def is_full(self):
-        return self.players.count() >= 2  # Adjust this for your game's player limit
+        return self.players.count() == MAX_PLAYERS
 
     def all_ready(self):
         return all(lobby_player.ready for lobby_player in self.lobbyplayer_set.all())
@@ -172,6 +174,7 @@ class Lobby(models.Model):
 class LobbyPlayer(models.Model):
     lobby = models.ForeignKey(Lobby, on_delete=models.CASCADE)
     player = models.ForeignKey(User, on_delete=models.CASCADE)
+    last_activity = models.DateTimeField(auto_now=True)  # Track last activity
     ready = models.BooleanField(default=False)
 
     class Meta:

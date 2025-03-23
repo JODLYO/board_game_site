@@ -211,29 +211,42 @@ function updateGameState(state) {
     const scoresContainer = document.getElementById('scores');
     scoresContainer.innerHTML = '';  // Clear current scores
 
-    // Create left and right score containers
-    const leftScore = document.createElement('div');
-    leftScore.id = 'left-score';
-    const rightScore = document.createElement('div');
-    rightScore.id = 'right-score';
-
-    // Add scores to left and right containers
-    const players = Object.entries(state.scores);
-    if (players.length > 0) {
-        leftScore.innerText = `Player ${players[0][0]}: ${players[0][1]}`; // First player on the left
-    }
-    if (players.length > 1) {
-        rightScore.innerText = `Player ${players[1][0]}: ${players[1][1]}`; // Second player on the right
-    }
-
-    // Append left and right scores to the scores container
-    scoresContainer.appendChild(leftScore);
-    scoresContainer.appendChild(rightScore);
+    // Dynamically create score elements for each player
+    Object.entries(state.scores).forEach(([playerId, score]) => {
+        const scoreElement = document.createElement('div');
+        scoreElement.id = `player-${playerId}-score`;
+        scoreElement.innerText = `Player ${playerId}: ${score}`;
+        scoresContainer.appendChild(scoreElement);
+    });
 
     // Update the title with the current score
     const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
     // Clear the message
     document.getElementById('message').innerText = '';
+
+    // // Create left and right score containers
+    // const leftScore = document.createElement('div');
+    // leftScore.id = 'left-score';
+    // const rightScore = document.createElement('div');
+    // rightScore.id = 'right-score';
+
+    // // Add scores to left and right containers
+    // const players = Object.entries(state.scores);
+    // if (players.length > 0) {
+    //     leftScore.innerText = `Player ${players[0][0]}: ${players[0][1]}`; // First player on the left
+    // }
+    // if (players.length > 1) {
+    //     rightScore.innerText = `Player ${players[1][0]}: ${players[1][1]}`; // Second player on the right
+    // }
+
+    // // Append left and right scores to the scores container
+    // scoresContainer.appendChild(leftScore);
+    // scoresContainer.appendChild(rightScore);
+
+    // // Update the title with the current score
+    // const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
+    // // Clear the message
+    // document.getElementById('message').innerText = '';
 }
 
 function createCardElement(cardId, cardData) {
