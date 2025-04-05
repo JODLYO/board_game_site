@@ -168,8 +168,9 @@ function setupWebSocket() {
         } else if (data.type === 'game_started') {
             sessionId = data.session_id;
             playerIds = data.player_ids;
-            console.log('Game started with session ID:', sessionId);
-            console.log('Player IDs:', playerIds);
+            currentGameState = data.state; // Update the current game state
+            updateGameState(data.state);
+            isProcessingMove = false; // Reset the flag after the state is updated
         } else if (data.type === 'game_over') {
             alert('Game over! No more sets are possible.');
         }

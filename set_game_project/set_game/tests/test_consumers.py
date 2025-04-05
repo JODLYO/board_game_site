@@ -126,7 +126,7 @@ async def test_invalid_lobby() -> None:
 
     response: Dict[str, Any] = await communicator.receive_json_from()
     assert response["type"] == "error"
-    assert response["message"] == "Lobby not found."
+    assert response["message"] == "Lobby not found"
 
     await communicator.disconnect()
 
@@ -151,7 +151,7 @@ async def test_invalid_move(game_data: Dict[str, Any]) -> None:
 
     response: Dict[str, Any] = await communicator.receive_json_from()
     assert response["type"] == "error"
-    assert "cards not on board" in response["message"]
+    assert "Cards not on board" in response["message"]
 
     await communicator.disconnect()
 
@@ -250,7 +250,7 @@ async def test_game_over_invalid_last_move(game_data: Dict[str, Any]) -> None:
 
     response: Dict[str, Any] = await communicator.receive_json_from()
     assert response["type"] == "error"
-    assert "cards not on board" in response["message"]
+    assert "Cards not on board" in response["message"]
 
     # Game should not be over yet
     assert not game_session.state.get("game_over", False)

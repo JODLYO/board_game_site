@@ -1,126 +1,238 @@
-2025-03-22 17:52:47,996 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
-2025-03-22 17:52:47,996 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-03-22 17:52:47,997 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
-2025-03-22 17:52:47,997 INFO     Listening on TCP address 0.0.0.0:8000
-172.18.0.4:39454 - - [22/Mar/2025:17:54:15] "GET /" 200 2237
-New user created: cman
-172.18.0.4:55436 - - [22/Mar/2025:17:54:23] "POST /" 302 -
-Current user: cman
+2025-04-05 10:43:58,180 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
+2025-04-05 10:43:58,180 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-04-05 10:43:58,180 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
+2025-04-05 10:43:58,181 INFO     Listening on TCP address 0.0.0.0:8000
+172.18.0.4:33282 - - [05/Apr/2025:10:44:06] "GET /" 200 2237
+New user created: vygbhj
+172.18.0.4:33298 - - [05/Apr/2025:10:44:09] "POST /" 302 -
+Current user: vygbhj
 Creating new lobby
-Lobby: Players=['cman']
-Lobby ID in view: 6
-172.18.0.4:55452 - - [22/Mar/2025:17:54:23] "GET /lobby/" 200 969
-172.18.0.4:55466 - - [22/Mar/2025:17:54:26] "GET /api/lobby_status/6/" 200 177
-172.18.0.4:55468 - - [22/Mar/2025:17:54:29] "GET /api/lobby_status/6/" 200 177
-172.18.0.4:43514 - - [22/Mar/2025:17:54:32] "GET /api/lobby_status/6/" 200 177
-172.18.0.4:43516 - - [22/Mar/2025:17:54:35] "GET /api/lobby_status/6/" 200 177
-172.18.0.4:43532 - - [22/Mar/2025:17:54:35] "GET /" 200 2237
-172.18.0.4:43540 - - [22/Mar/2025:17:54:38] "GET /api/lobby_status/6/" 200 177
-172.18.0.4:43546 - - [22/Mar/2025:17:54:39] "GET /" 200 2237
-172.18.0.4:43560 - - [22/Mar/2025:17:54:41] "GET /api/lobby_status/6/" 200 177
-New user created: jhv
-172.18.0.4:54666 - - [22/Mar/2025:17:54:43] "POST /" 302 -
-Current user: jhv
-Joining existing lobby: Lobby 6
-Lobby: Players=['cman', 'jhv']
-Lobby ID in view: 6
-172.18.0.4:54668 - - [22/Mar/2025:17:54:43] "GET /lobby/" 200 969
-172.18.0.4:54684 - - [22/Mar/2025:17:54:44] "GET /api/lobby_status/6/" 200 214
-New user created: uobkjh
-172.18.0.4:54696 - - [22/Mar/2025:17:54:46] "POST /" 302 -
-Current user: uobkjh
-Joining existing lobby: Lobby 6
-Lobby: Players=['cman', 'jhv', 'uobkjh']
-Lobby ID in view: 6
-172.18.0.4:54702 - - [22/Mar/2025:17:54:46] "GET /lobby/" 200 969
-172.18.0.4:54708 - - [22/Mar/2025:17:54:46] "GET /api/lobby_status/6/" 200 253
-172.18.0.4:54724 - - [22/Mar/2025:17:54:47] "GET /api/lobby_status/6/" 200 253
-Current user: jhv
-Lobby: Players=['cman', 'jhv', 'uobkjh']
-Lobby ID in view: 6
-Handling POST request for user: jhv
-Lobby after update: Players=['cman', 'jhv', 'uobkjh'], Ready=[False, True, False]
-172.18.0.4:54732 - - [22/Mar/2025:17:54:49] "POST /lobby/" 200 214
-172.18.0.4:54748 - - [22/Mar/2025:17:54:49] "GET /api/lobby_status/6/" 200 252
-172.18.0.4:54752 - - [22/Mar/2025:17:54:49] "GET /api/lobby_status/6/" 200 252
-Current user: uobkjh
-Lobby: Players=['cman', 'jhv', 'uobkjh']
-Lobby ID in view: 6
-Handling POST request for user: uobkjh
-Lobby after update: Players=['cman', 'jhv', 'uobkjh'], Ready=[False, True, True]
-172.18.0.4:54760 - - [22/Mar/2025:17:54:50] "POST /lobby/" 200 213
-172.18.0.4:54768 - - [22/Mar/2025:17:54:50] "GET /api/lobby_status/6/" 200 251
-172.18.0.4:54782 - - [22/Mar/2025:17:54:52] "GET /api/lobby_status/6/" 200 251
-172.18.0.4:54786 - - [22/Mar/2025:17:54:52] "GET /api/lobby_status/6/" 200 251
-Current user: cman
-Lobby: Players=['cman', 'jhv', 'uobkjh']
-Lobby ID in view: 6
-Handling POST request for user: cman
-Lobby after update: Players=['cman', 'jhv', 'uobkjh'], Ready=[True, True, True]
+Lobby: Players=['vygbhj']
+Lobby ID in view: 11
+172.18.0.4:33304 - - [05/Apr/2025:10:44:10] "GET /lobby/" 200 970
+172.18.0.4:33306 - - [05/Apr/2025:10:44:13] "GET /api/lobby_status/11/" 200 180
+172.18.0.4:48770 - - [05/Apr/2025:10:44:16] "GET /api/lobby_status/11/" 200 180
+172.18.0.4:48772 - - [05/Apr/2025:10:44:18] "GET /" 200 2237
+172.18.0.4:48788 - - [05/Apr/2025:10:44:19] "GET /api/lobby_status/11/" 200 180
+172.18.0.4:48804 - - [05/Apr/2025:10:44:22] "GET /api/lobby_status/11/" 200 180
+172.18.0.4:39188 - - [05/Apr/2025:10:44:25] "GET /api/lobby_status/11/" 200 180
+172.18.0.4:39204 - - [05/Apr/2025:10:44:28] "GET /api/lobby_status/11/" 200 180
+172.18.0.4:39218 - - [05/Apr/2025:10:44:28] "GET /" 200 2237
+172.18.0.4:39230 - - [05/Apr/2025:10:44:31] "GET /api/lobby_status/11/" 200 180
+172.18.0.4:39240 - - [05/Apr/2025:10:44:34] "GET /api/lobby_status/11/" 200 180
+New user created:    jh nm
+172.18.0.4:39242 - - [05/Apr/2025:10:44:34] "POST /" 302 -
+Current user:    jh nm
+Joining existing lobby: Lobby 11
+Lobby: Players=['vygbhj', '   jh nm']
+Lobby ID in view: 11
+172.18.0.4:39258 - - [05/Apr/2025:10:44:34] "GET /lobby/" 200 970
+172.18.0.4:45706 - - [05/Apr/2025:10:44:37] "GET /api/lobby_status/11/" 200 222
+172.18.0.4:45714 - - [05/Apr/2025:10:44:37] "GET /api/lobby_status/11/" 200 222
+New user created: uyh j
+172.18.0.4:45720 - - [05/Apr/2025:10:44:37] "POST /" 302 -
+Current user: uyh j
+Joining existing lobby: Lobby 11
+Lobby: Players=['vygbhj', '   jh nm', 'uyh j']
+Lobby ID in view: 11
+172.18.0.4:45736 - - [05/Apr/2025:10:44:37] "GET /lobby/" 200 970
+172.18.0.4:45740 - - [05/Apr/2025:10:44:40] "GET /api/lobby_status/11/" 200 260
+172.18.0.4:45744 - - [05/Apr/2025:10:44:40] "GET /api/lobby_status/11/" 200 260
+172.18.0.4:45750 - - [05/Apr/2025:10:44:41] "GET /api/lobby_status/11/" 200 260
+Current user: uyh j
+Lobby: Players=['vygbhj', '   jh nm', 'uyh j']
+Lobby ID in view: 11
+Handling POST request for user: uyh j
+Lobby after update: Players=['vygbhj', '   jh nm', 'uyh j'], Ready=[False, False, True]
+172.18.0.4:45764 - - [05/Apr/2025:10:44:42] "POST /lobby/" 200 220
+172.18.0.4:45768 - - [05/Apr/2025:10:44:43] "GET /api/lobby_status/11/" 200 259
+172.18.0.4:45782 - - [05/Apr/2025:10:44:43] "GET /api/lobby_status/11/" 200 259
+172.18.0.4:45786 - - [05/Apr/2025:10:44:44] "GET /api/lobby_status/11/" 200 259
+Current user:    jh nm
+Lobby: Players=['vygbhj', '   jh nm', 'uyh j']
+Lobby ID in view: 11
+Handling POST request for user:    jh nm
+Lobby after update: Players=['vygbhj', '   jh nm', 'uyh j'], Ready=[False, True, True]
+172.18.0.4:44564 - - [05/Apr/2025:10:44:44] "POST /lobby/" 200 219
+172.18.0.4:44580 - - [05/Apr/2025:10:44:46] "GET /api/lobby_status/11/" 200 258
+172.18.0.4:44594 - - [05/Apr/2025:10:44:46] "GET /api/lobby_status/11/" 200 258
+Current user: vygbhj
+Lobby: Players=['vygbhj', '   jh nm', 'uyh j']
+Lobby ID in view: 11
+Handling POST request for user: vygbhj
+Lobby after update: Players=['vygbhj', '   jh nm', 'uyh j'], Ready=[True, True, True]
 Both players are ready. Creating game state.
-GameState created: 5
-Lobby updated with GameState: 5
-172.18.0.4:56356 - - [22/Mar/2025:17:54:53] "POST /lobby/" 200 211
-172.18.0.4:56368 - - [22/Mar/2025:17:54:53] "GET /api/lobby_status/6/" 200 246
-172.18.0.4:56382 - - [22/Mar/2025:17:54:53] "GET /game/5/" 200 1161
-172.18.0.4:56394 - - [22/Mar/2025:17:54:53] "WSCONNECTING /ws/game/" - -
-172.18.0.4:56394 - - [22/Mar/2025:17:54:54] "WSCONNECT /ws/game/" - -
-🔗 WebSocket connected: specific.ebf937dce73c4f38bfd3ca97b90268c4!915c4cc3bc074285afc51c1f9be85efe
-📥 Received WebSocket message: {'type': 'start_game', 'lobby_id': '6'}
-🎮 Starting game for lobby: 6
-🆕 Created game session: 5, players: [16, 17, 18]
-📤 Serializing game state for session 5
-📤 Current session state: {'deck': ['55', '17', '39', '22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'selected_sets': [], 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-📤 Serialized game state: {'session': 'New Game', 'players': ['cman', 'jhv', 'uobkjh'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'cards': {'6': {'number': 1, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '10': {'number': 1, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'red'}, '20': {'number': 1, 'symbol': 'oval', 'shading': 'solid', 'color': 'green'}, '34': {'number': 2, 'symbol': 'diamond', 'shading': 'open', 'color': 'red'}, '42': {'number': 2, 'symbol': 'squiggle', 'shading': 'striped', 'color': 'purple'}, '45': {'number': 2, 'symbol': 'squiggle', 'shading': 'open', 'color': 'purple'}, '57': {'number': 3, 'symbol': 'diamond', 'shading': 'solid', 'color': 'purple'}, '59': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'green'}, '60': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '66': {'number': 3, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'purple'}, '67': {'number': 3, 'symbol': 'squiggle', 'shading': 'striped', 'color': 'red'}, '80': {'number': 3, 'symbol': 'oval', 'shading': 'open', 'color': 'green'}}}
-172.18.0.4:56422 - - [22/Mar/2025:17:54:55] "GET /api/lobby_status/6/" 200 246
-172.18.0.4:56406 - - [22/Mar/2025:17:54:55] "GET /api/lobby_status/6/" 200 246
-172.18.0.4:56430 - - [22/Mar/2025:17:54:55] "GET /game/5/" 200 1163
-172.18.0.4:56436 - - [22/Mar/2025:17:54:55] "GET /game/5/" 200 1160
-172.18.0.4:56438 - - [22/Mar/2025:17:54:55] "WSCONNECTING /ws/game/" - -
-172.18.0.4:56438 - - [22/Mar/2025:17:54:55] "WSCONNECT /ws/game/" - -
-🔗 WebSocket connected: specific.ebf937dce73c4f38bfd3ca97b90268c4!ebc9dd9c63344623ac79f5f78918fd01
-📥 Received WebSocket message: {'type': 'start_game', 'lobby_id': '6'}
-🎮 Starting game for lobby: 6
-🔄 Reusing existing GameSession: 5
-🆕 Created game session: 5, players: [16, 17, 18]
-📤 Serializing game state for session 5
-📤 Current session state: {'deck': ['55', '17', '39', '22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'selected_sets': [], 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-📤 Serialized game state: {'session': 'New Game', 'players': ['cman', 'jhv', 'uobkjh'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'cards': {'6': {'number': 1, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '10': {'number': 1, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'red'}, '20': {'number': 1, 'symbol': 'oval', 'shading': 'solid', 'color': 'green'}, '34': {'number': 2, 'symbol': 'diamond', 'shading': 'open', 'color': 'red'}, '42': {'number': 2, 'symbol': 'squiggle', 'shading': 'striped', 'color': 'purple'}, '45': {'number': 2, 'symbol': 'squiggle', 'shading': 'open', 'color': 'purple'}, '57': {'number': 3, 'symbol': 'diamond', 'shading': 'solid', 'color': 'purple'}, '59': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'green'}, '60': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '66': {'number': 3, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'purple'}, '67': {'number': 3, 'symbol': 'squiggle', 'shading': 'striped', 'color': 'red'}, '80': {'number': 3, 'symbol': 'oval', 'shading': 'open', 'color': 'green'}}}
-172.18.0.4:56454 - - [22/Mar/2025:17:54:55] "WSCONNECTING /ws/game/" - -
-172.18.0.4:56454 - - [22/Mar/2025:17:54:55] "WSCONNECT /ws/game/" - -
-🔗 WebSocket connected: specific.ebf937dce73c4f38bfd3ca97b90268c4!41854befd53d492bbed5c346899a600b
-📥 Received WebSocket message: {'type': 'start_game', 'lobby_id': '6'}
-🎮 Starting game for lobby: 6
-🔄 Reusing existing GameSession: 5
-🆕 Created game session: 5, players: [16, 17, 18]
-📤 Serializing game state for session 5
-📤 Current session state: {'deck': ['55', '17', '39', '22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'selected_sets': [], 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-📤 Serialized game state: {'session': 'New Game', 'players': ['cman', 'jhv', 'uobkjh'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'cards': {'6': {'number': 1, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '10': {'number': 1, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'red'}, '20': {'number': 1, 'symbol': 'oval', 'shading': 'solid', 'color': 'green'}, '34': {'number': 2, 'symbol': 'diamond', 'shading': 'open', 'color': 'red'}, '42': {'number': 2, 'symbol': 'squiggle', 'shading': 'striped', 'color': 'purple'}, '45': {'number': 2, 'symbol': 'squiggle', 'shading': 'open', 'color': 'purple'}, '57': {'number': 3, 'symbol': 'diamond', 'shading': 'solid', 'color': 'purple'}, '59': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'green'}, '60': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '66': {'number': 3, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'purple'}, '67': {'number': 3, 'symbol': 'squiggle', 'shading': 'striped', 'color': 'red'}, '80': {'number': 3, 'symbol': 'oval', 'shading': 'open', 'color': 'green'}}}
-📥 Received WebSocket message: {'type': 'make_move', 'session_id': 5, 'username': 'cman', 'card_ids': ['67', '57', '80']}
-🔒 Attempting to lock GameSession 5
-🔒 Locked GameSession 5: {'deck': ['55', '17', '39', '22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'selected_sets': [], 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-🔒 Locked game session: 5, state before move: {'deck': ['55', '17', '39', '22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'selected_sets': [], 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-🔒 Locked game session: 5, state before move: {'deck': ['55', '17', '39', '22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'selected_sets': [], 'scores': {'cman': 0, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-['67', '57', '80']
-['42', '66', '80', '60', '34', '57', '6', '20', '10', '59', '67', '45']
-🎲 Player cman attempting move with cards: ['67', '57', '80']
-🔄 Updated state before save: {'deck': ['55', '17', '39', '22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'selected_sets': [['67', '57', '80']], 'scores': {'cman': 1, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-💾 Saved state: {'deck': ['55', '17', '39', '22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '2': '80', '3': '60', '4': '34', '5': '57', '6': '6', '7': '20', '8': '10', '9': '59', '10': '67', '11': '45'}, 'selected_sets': [['67', '57', '80']], 'scores': {'cman': 1, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-✅ Move processed successfully. New state: {'deck': ['22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '11': '45', '2': '55', '5': '17', '10': '39'}, 'selected_sets': [['67', '57', '80']], 'scores': {'cman': 1, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-📤 Serializing game state for session 5
-📤 Current session state: {'deck': ['22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '11': '45', '2': '55', '5': '17', '10': '39'}, 'selected_sets': [['67', '57', '80']], 'scores': {'cman': 1, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-📤 Serialized game state: {'session': 'New Game', 'players': ['cman', 'jhv', 'uobkjh'], 'board': {'0': '42', '1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '11': '45', '2': '55', '5': '17', '10': '39'}, 'scores': {'cman': 1, 'jhv': 0, 'uobkjh': 0}, 'cards': {'6': {'number': 1, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '10': {'number': 1, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'red'}, '17': {'number': 1, 'symbol': 'squiggle', 'shading': 'open', 'color': 'green'}, '20': {'number': 1, 'symbol': 'oval', 'shading': 'solid', 'color': 'green'}, '34': {'number': 2, 'symbol': 'diamond', 'shading': 'open', 'color': 'red'}, '39': {'number': 2, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'purple'}, '42': {'number': 2, 'symbol': 'squiggle', 'shading': 'striped', 'color': 'purple'}, '45': {'number': 2, 'symbol': 'squiggle', 'shading': 'open', 'color': 'purple'}, '55': {'number': 3, 'symbol': 'diamond', 'shading': 'solid', 'color': 'red'}, '59': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'green'}, '60': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '66': {'number': 3, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'purple'}}}
-📥 Received WebSocket message: {'type': 'make_move', 'session_id': 5, 'username': 'cman', 'card_ids': ['45', '39', '42']}
-🔒 Attempting to lock GameSession 5
-🔒 Locked GameSession 5: {'deck': ['22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '11': '45', '2': '55', '5': '17', '10': '39'}, 'selected_sets': [['67', '57', '80']], 'scores': {'cman': 1, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-🔒 Locked game session: 5, state before move: {'deck': ['22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '11': '45', '2': '55', '5': '17', '10': '39'}, 'selected_sets': [['67', '57', '80']], 'scores': {'cman': 1, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-🔒 Locked game session: 5, state before move: {'deck': ['22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '11': '45', '2': '55', '5': '17', '10': '39'}, 'selected_sets': [['67', '57', '80']], 'scores': {'cman': 1, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-['45', '39', '42']
-['42', '66', '60', '34', '6', '20', '10', '59', '45', '55', '17', '39']
-🎲 Player cman attempting move with cards: ['45', '39', '42']
-🔄 Updated state before save: {'deck': ['22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '11': '45', '2': '55', '5': '17', '10': '39'}, 'selected_sets': [['67', '57', '80'], ['45', '39', '42']], 'scores': {'cman': 2, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-💾 Saved state: {'deck': ['22', '2', '18', '15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'0': '42', '1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '11': '45', '2': '55', '5': '17', '10': '39'}, 'selected_sets': [['67', '57', '80'], ['45', '39', '42']], 'scores': {'cman': 2, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-✅ Move processed successfully. New state: {'deck': ['15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '2': '55', '5': '17', '0': '22', '10': '2', '11': '18'}, 'selected_sets': [['67', '57', '80'], ['45', '39', '42']], 'scores': {'cman': 2, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-📤 Serializing game state for session 5
-📤 Current session state: {'deck': ['15', '33', '35', '5', '43', '32', '40', '69', '58', '62', '50', '24', '72', '70', '12', '73', '71', '78', '61', '48', '41', '26', '56', '68', '47', '36', '23', '44', '16', '14', '11', '25', '27', '28', '65', '76', '54', '8', '49', '19', '9', '4', '3', '21', '53', '63', '51', '38', '52', '30', '46', '1', '29', '7', '64', '75', '74', '77', '13', '81', '37', '31', '79'], 'board': {'1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '2': '55', '5': '17', '0': '22', '10': '2', '11': '18'}, 'selected_sets': [['67', '57', '80'], ['45', '39', '42']], 'scores': {'cman': 2, 'jhv': 0, 'uobkjh': 0}, 'player_ids': [16, 17, 18]}
-📤 Serialized game state: {'session': 'New Game', 'players': ['cman', 'jhv', 'uobkjh'], 'board': {'1': '66', '3': '60', '4': '34', '6': '6', '7': '20', '8': '10', '9': '59', '2': '55', '5': '17', '0': '22', '10': '2', '11': '18'}, 'scores': {'cman': 2, 'jhv': 0, 'uobkjh': 0}, 'cards': {'2': {'number': 1, 'symbol': 'diamond', 'shading': 'solid', 'color': 'green'}, '6': {'number': 1, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '10': {'number': 1, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'red'}, '17': {'number': 1, 'symbol': 'squiggle', 'shading': 'open', 'color': 'green'}, '18': {'number': 1, 'symbol': 'squiggle', 'shading': 'open', 'color': 'purple'}, '20': {'number': 1, 'symbol': 'oval', 'shading': 'solid', 'color': 'green'}, '22': {'number': 1, 'symbol': 'oval', 'shading': 'striped', 'color': 'red'}, '34': {'number': 2, 'symbol': 'diamond', 'shading': 'open', 'color': 'red'}, '55': {'number': 3, 'symbol': 'diamond', 'shading': 'solid', 'color': 'red'}, '59': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'green'}, '60': {'number': 3, 'symbol': 'diamond', 'shading': 'striped', 'color': 'purple'}, '66': {'number': 3, 'symbol': 'squiggle', 'shading': 'solid', 'color': 'purple'}}}
+GameState created: 10
+Lobby updated with GameState: 10
+172.18.0.4:44596 - - [05/Apr/2025:10:44:46] "POST /lobby/" 200 217
+172.18.0.4:44610 - - [05/Apr/2025:10:44:47] "GET /api/lobby_status/11/" 200 254
+172.18.0.4:44614 - - [05/Apr/2025:10:44:47] "GET /game/10/" 200 1163
+172.18.0.4:44620 - - [05/Apr/2025:10:44:47] "WSCONNECTING /ws/game/" - -
+172.18.0.4:44620 - - [05/Apr/2025:10:44:47] "WSCONNECT /ws/game/" - -
+172.18.0.4:44632 - - [05/Apr/2025:10:44:49] "GET /api/lobby_status/11/" 200 254
+172.18.0.4:44642 - - [05/Apr/2025:10:44:49] "GET /game/10/" 200 1164
+172.18.0.4:44666 - - [05/Apr/2025:10:44:49] "WSCONNECTING /ws/game/" - -
+172.18.0.4:44666 - - [05/Apr/2025:10:44:49] "WSCONNECT /ws/game/" - -
+172.18.0.4:44652 - - [05/Apr/2025:10:44:49] "GET /api/lobby_status/11/" 200 254
+172.18.0.4:44672 - - [05/Apr/2025:10:44:49] "GET /game/10/" 200 1166
+172.18.0.4:44684 - - [05/Apr/2025:10:44:49] "WSCONNECTING /ws/game/" - -
+172.18.0.4:44684 - - [05/Apr/2025:10:44:49] "WSCONNECT /ws/game/" - -
+172.18.0.4:55566 - - [05/Apr/2025:10:44:57] "GET /" 200 2237
+172.18.0.4:44666 - - [05/Apr/2025:10:44:57] "WSDISCONNECT /ws/game/" - -
+172.18.0.4:44218 - - [05/Apr/2025:10:45:07] "GET /" 200 2237
+172.18.0.4:44684 - - [05/Apr/2025:10:45:07] "WSDISCONNECT /ws/game/" - -
+172.18.0.4:44220 - - [05/Apr/2025:10:45:11] "GET /" 200 2237
+172.18.0.4:44620 - - [05/Apr/2025:10:45:11] "WSDISCONNECT /ws/game/" - -
+New user created: k nm
+172.18.0.4:56808 - - [05/Apr/2025:10:45:18] "POST /" 302 -
+Current user: k nm
+Creating new lobby
+Lobby: Players=['k nm']
+Lobby ID in view: 12
+172.18.0.4:56816 - - [05/Apr/2025:10:45:18] "GET /lobby/" 200 970
+172.18.0.4:56820 - - [05/Apr/2025:10:45:21] "GET /api/lobby_status/12/" 200 178
+New user created: jkn
+172.18.0.4:56836 - - [05/Apr/2025:10:45:23] "POST /" 302 -
+Current user: jkn
+Joining existing lobby: Lobby 12
+Lobby: Players=['k nm', 'jkn']
+Lobby ID in view: 12
+172.18.0.4:56852 - - [05/Apr/2025:10:45:23] "GET /lobby/" 200 970
+172.18.0.4:41204 - - [05/Apr/2025:10:45:24] "GET /api/lobby_status/12/" 200 215
+172.18.0.4:41210 - - [05/Apr/2025:10:45:26] "GET /api/lobby_status/12/" 200 215
+172.18.0.4:41214 - - [05/Apr/2025:10:45:27] "GET /api/lobby_status/12/" 200 215
+172.18.0.4:41222 - - [05/Apr/2025:10:45:29] "GET /api/lobby_status/12/" 200 215
+172.18.0.4:41228 - - [05/Apr/2025:10:45:30] "GET /api/lobby_status/12/" 200 215
+New user created: j nm
+172.18.0.4:41238 - - [05/Apr/2025:10:45:31] "POST /" 302 -
+Current user: j nm
+Joining existing lobby: Lobby 12
+Lobby: Players=['k nm', 'jkn', 'j nm']
+Lobby ID in view: 12
+172.18.0.4:41254 - - [05/Apr/2025:10:45:31] "GET /lobby/" 200 970
+172.18.0.4:41258 - - [05/Apr/2025:10:45:32] "GET /api/lobby_status/12/" 200 252
+172.18.0.4:41274 - - [05/Apr/2025:10:45:34] "GET /api/lobby_status/12/" 200 252
+172.18.0.4:41290 - - [05/Apr/2025:10:45:34] "GET /api/lobby_status/12/" 200 252
+172.18.0.4:42032 - - [05/Apr/2025:10:45:35] "GET /api/lobby_status/12/" 200 252
+Current user: j nm
+Lobby: Players=['k nm', 'jkn', 'j nm']
+Lobby ID in view: 12
+Handling POST request for user: j nm
+Lobby after update: Players=['k nm', 'jkn', 'j nm'], Ready=[False, False, True]
+172.18.0.4:42048 - - [05/Apr/2025:10:45:35] "POST /lobby/" 200 212
+172.18.0.4:42056 - - [05/Apr/2025:10:45:37] "GET /api/lobby_status/12/" 200 251
+172.18.0.4:42066 - - [05/Apr/2025:10:45:37] "GET /api/lobby_status/12/" 200 251
+172.18.0.4:42082 - - [05/Apr/2025:10:45:38] "GET /api/lobby_status/12/" 200 251
+Current user: k nm
+Lobby: Players=['k nm', 'jkn', 'j nm']
+Lobby ID in view: 12
+Handling POST request for user: k nm
+Lobby after update: Players=['k nm', 'jkn', 'j nm'], Ready=[True, False, True]
+172.18.0.4:42090 - - [05/Apr/2025:10:45:39] "POST /lobby/" 200 211
+172.18.0.4:42096 - - [05/Apr/2025:10:45:40] "GET /api/lobby_status/12/" 200 250
+172.18.0.4:42112 - - [05/Apr/2025:10:45:40] "GET /api/lobby_status/12/" 200 250
+Current user: jkn
+Lobby: Players=['k nm', 'jkn', 'j nm']
+Lobby ID in view: 12
+Handling POST request for user: jkn
+172.18.0.4:42136 - - [05/Apr/2025:10:45:41] "GET /api/lobby_status/12/" 200 250
+Lobby after update: Players=['k nm', 'jkn', 'j nm'], Ready=[True, True, True]
+Both players are ready. Creating game state.
+GameState created: 11
+Lobby updated with GameState: 11
+172.18.0.4:42122 - - [05/Apr/2025:10:45:41] "POST /lobby/" 200 209
+172.18.0.4:42150 - - [05/Apr/2025:10:45:43] "GET /api/lobby_status/12/" 200 246
+172.18.0.4:42152 - - [05/Apr/2025:10:45:43] "GET /game/11/" 200 1162
+172.18.0.4:42160 - - [05/Apr/2025:10:45:43] "WSCONNECTING /ws/game/" - -
+172.18.0.4:42160 - - [05/Apr/2025:10:45:43] "WSCONNECT /ws/game/" - -
+172.18.0.4:42164 - - [05/Apr/2025:10:45:43] "GET /api/lobby_status/12/" 200 246
+172.18.0.4:42172 - - [05/Apr/2025:10:45:43] "GET /game/11/" 200 1162
+172.18.0.4:42186 - - [05/Apr/2025:10:45:43] "WSCONNECTING /ws/game/" - -
+172.18.0.4:42186 - - [05/Apr/2025:10:45:43] "WSCONNECT /ws/game/" - -
+172.18.0.4:42198 - - [05/Apr/2025:10:45:44] "GET /api/lobby_status/12/" 200 246
+172.18.0.4:42212 - - [05/Apr/2025:10:45:44] "GET /game/11/" 200 1161
+172.18.0.4:42220 - - [05/Apr/2025:10:45:44] "WSCONNECTING /ws/game/" - -
+172.18.0.4:42220 - - [05/Apr/2025:10:45:44] "WSCONNECT /ws/game/" - -
+172.18.0.4:50858 - - [05/Apr/2025:10:46:05] "GET /game/11/" 200 1162
+172.18.0.4:42186 - - [05/Apr/2025:10:46:05] "WSDISCONNECT /ws/game/" - -
+172.18.0.4:50870 - - [05/Apr/2025:10:46:05] "WSCONNECTING /ws/game/" - -
+172.18.0.4:50870 - - [05/Apr/2025:10:46:05] "WSCONNECT /ws/game/" - -
+Not Found: /favicon.ico
+2025-04-05 10:46:05,387 WARNING  Not Found: /favicon.ico
+172.18.0.4:50882 - - [05/Apr/2025:10:46:05] "GET /favicon.ico" 404 3016
+172.18.0.4:50898 - - [05/Apr/2025:10:46:08] "GET /" 200 2237
+172.18.0.4:50870 - - [05/Apr/2025:10:46:09] "WSDISCONNECT /ws/game/" - -
+New user created: hj nm
+172.18.0.4:50902 - - [05/Apr/2025:10:46:11] "POST /" 302 -
+Current user: hj nm
+Creating new lobby
+Lobby: Players=['hj nm']
+Lobby ID in view: 13
+172.18.0.4:50912 - - [05/Apr/2025:10:46:11] "GET /lobby/" 200 970
+172.18.0.4:50922 - - [05/Apr/2025:10:46:14] "GET /api/lobby_status/13/" 200 179
+172.18.0.4:36200 - - [05/Apr/2025:10:46:16] "GET /" 200 2237
+172.18.0.4:42160 - - [05/Apr/2025:10:46:16] "WSDISCONNECT /ws/game/" - -
+172.18.0.4:36208 - - [05/Apr/2025:10:46:17] "GET /api/lobby_status/13/" 200 179
+Not Found: /g
+2025-04-05 10:46:19,515 WARNING  Not Found: /g
+172.18.0.4:36222 - - [05/Apr/2025:10:46:19] "GET /g" 404 2986
+172.18.0.4:42220 - - [05/Apr/2025:10:46:19] "WSDISCONNECT /ws/game/" - -
+172.18.0.4:36238 - - [05/Apr/2025:10:46:20] "GET /api/lobby_status/13/" 200 179
+172.18.0.4:36254 - - [05/Apr/2025:10:46:22] "GET /" 200 2237
+172.18.0.4:36260 - - [05/Apr/2025:10:46:23] "GET /api/lobby_status/13/" 200 179
+New user created: ji kn
+172.18.0.4:37480 - - [05/Apr/2025:10:46:26] "POST /" 302 -
+Current user: ji kn
+Joining existing lobby: Lobby 13
+Lobby: Players=['hj nm', 'ji kn']
+Lobby ID in view: 13
+172.18.0.4:37494 - - [05/Apr/2025:10:46:26] "GET /lobby/" 200 970
+172.18.0.4:37502 - - [05/Apr/2025:10:46:26] "GET /api/lobby_status/13/" 200 218
+172.18.0.4:37508 - - [05/Apr/2025:10:46:29] "GET /api/lobby_status/13/" 200 218
+172.18.0.4:37510 - - [05/Apr/2025:10:46:29] "GET /api/lobby_status/13/" 200 218
+New user created: oj k
+172.18.0.4:37522 - - [05/Apr/2025:10:46:29] "POST /" 302 -
+Current user: oj k
+Joining existing lobby: Lobby 13
+Lobby: Players=['hj nm', 'ji kn', 'oj k']
+Lobby ID in view: 13
+172.18.0.4:37538 - - [05/Apr/2025:10:46:29] "GET /lobby/" 200 970
+172.18.0.4:37546 - - [05/Apr/2025:10:46:32] "GET /api/lobby_status/13/" 200 255
+172.18.0.4:37556 - - [05/Apr/2025:10:46:32] "GET /api/lobby_status/13/" 200 255
+172.18.0.4:37568 - - [05/Apr/2025:10:46:32] "GET /api/lobby_status/13/" 200 255
+Current user: oj k
+Lobby: Players=['hj nm', 'ji kn', 'oj k']
+Lobby ID in view: 13
+Handling POST request for user: oj k
+Lobby after update: Players=['hj nm', 'ji kn', 'oj k'], Ready=[False, False, True]
+172.18.0.4:37584 - - [05/Apr/2025:10:46:33] "POST /lobby/" 200 215
+Current user: ji kn
+Lobby: Players=['hj nm', 'ji kn', 'oj k']
+Lobby ID in view: 13
+Handling POST request for user: ji kn
+172.18.0.4:47292 - - [05/Apr/2025:10:46:35] "GET /api/lobby_status/13/" 200 254
+Lobby after update: Players=['hj nm', 'ji kn', 'oj k'], Ready=[False, True, True]
+172.18.0.4:47286 - - [05/Apr/2025:10:46:35] "POST /lobby/" 200 214
+172.18.0.4:47294 - - [05/Apr/2025:10:46:35] "GET /api/lobby_status/13/" 200 253
+172.18.0.4:47308 - - [05/Apr/2025:10:46:35] "GET /api/lobby_status/13/" 200 253
+Current user: hj nm
+Lobby: Players=['hj nm', 'ji kn', 'oj k']
+Lobby ID in view: 13
+Handling POST request for user: hj nm
+Lobby after update: Players=['hj nm', 'ji kn', 'oj k'], Ready=[True, True, True]
+Both players are ready. Creating game state.
+GameState created: 12
+Lobby updated with GameState: 12
+172.18.0.4:47318 - - [05/Apr/2025:10:46:37] "POST /lobby/" 200 212
+172.18.0.4:47320 - - [05/Apr/2025:10:46:38] "GET /api/lobby_status/13/" 200 249
+172.18.0.4:47332 - - [05/Apr/2025:10:46:38] "GET /game/12/" 200 1163
+172.18.0.4:47334 - - [05/Apr/2025:10:46:38] "WSCONNECTING /ws/game/" - -
+172.18.0.4:47334 - - [05/Apr/2025:10:46:38] "WSCONNECT /ws/game/" - -
+172.18.0.4:47338 - - [05/Apr/2025:10:46:38] "GET /api/lobby_status/13/" 200 249
+172.18.0.4:47344 - - [05/Apr/2025:10:46:38] "GET /game/12/" 200 1163
+172.18.0.4:47350 - - [05/Apr/2025:10:46:38] "WSCONNECTING /ws/game/" - -
+172.18.0.4:47350 - - [05/Apr/2025:10:46:38] "WSCONNECT /ws/game/" - -
+172.18.0.4:47360 - - [05/Apr/2025:10:46:38] "GET /api/lobby_status/13/" 200 249
+172.18.0.4:47368 - - [05/Apr/2025:10:46:38] "GET /game/12/" 200 1162
+172.18.0.4:47378 - - [05/Apr/2025:10:46:38] "WSCONNECTING /ws/game/" - -
+172.18.0.4:47378 - - [05/Apr/2025:10:46:38] "WSCONNECT /ws/game/" - -

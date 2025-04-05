@@ -79,8 +79,8 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            # 'hosts': [('redis', 6379)],  # Update with your Redis host and port
-            'hosts': [('localhost', 6379)],  # Update with your Redis host and port
+            'hosts': [('redis', 6379)],  # Update with your Redis host and port
+            # 'hosts': [('localhost', 6379)],  # Update with your Redis host and port
         },
     },
 }

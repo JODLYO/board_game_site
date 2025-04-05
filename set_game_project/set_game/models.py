@@ -1,3 +1,4 @@
+from typing import List
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -9,20 +10,18 @@ import datetime
 
 MAX_PLAYERS = 3
 
-def set_state(game, new_state):
-    print(f"🔄 Changing state of GameSession {game.id} at {datetime.now()}")
-    print(f"📍 Stack trace:\n{''.join(traceback.format_stack())}")
-    game.state = new_state
-
 class Card(models.Model):
+    """Represents a Set game card with four attributes."""
     number = models.IntegerField()
     symbol = models.CharField(max_length=20)
     shading = models.CharField(max_length=20)
     color = models.CharField(max_length=20)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.number} {self.shading} {self.color} {self.symbol}"
 
+    class Meta:
+        ordering = ['number', 'symbol', 'shading', 'color']
 
 class GameSession(models.Model):
     name = models.CharField(max_length=100)
@@ -40,65 +39,83 @@ class GameSession(models.Model):
         remaining_deck = deck[12:]
         scores = {str(player.username): 0 for player in self.players.all()}
 
-        state = {
+        self.state = {
             'deck': [str(card.id) for card in remaining_deck],
             'board': {str(i): str(card.id) for i, card in enumerate(initial_board_cards)},
             'selected_sets': [],
             'scores': scores
         }
-        self.state = state
         self.save()
 
     def validate_and_process_move(self, player, selected_cards):
         self.refresh_from_db()
-        if 'selected_sets' not in self.state:
-            raise KeyError("Key 'selected_sets' not found in state.")
+
+        if not self.validate_set(selected_cards):
+            raise ValidationError("Invalid set selection")
+
         self.process_set(player, selected_cards)
-        if not self.state['deck'] and not self.is_set_available():
-            self.end_game()
-        self.save()        
+        # self._process_valid_move(player, selected_cards)
+        self.save()
 
     def validate_set(self, selected_cards):
         if len(selected_cards) != 3:
             return False
-
+        if 'selected_sets' not in self.state:
+            return False
         cards = Card.objects.filter(id__in=selected_cards)
+        return self._check_set_attributes(cards)
 
-        if len(cards) != 3:
-            return False
-
-        return self.is_set(cards)
-
-    def is_set(self, cards):
-        if len(cards) != 3:
-            return False
+    def _check_set_attributes(self, cards):
         card_list = list(cards.values('number', 'symbol', 'shading', 'color'))
         for attribute in ['number', 'symbol', 'shading', 'color']:
             if len(set([card[attribute] for card in card_list])) not in [1, 3]:
                 return False
         return True
 
-    def process_set(self, player, selected_cards):
-        if not self.validate_set(selected_cards):
-            raise ValidationError(f"The cards {selected_cards} are not a valid set")
-        game_move = GameMove.objects.create(session=self, player=player)
-        for card_id in selected_cards:
-            card = Card.objects.get(id=card_id)
-            game_move.cards.add(card)
+    def _process_valid_move(self, player: User, card_ids: List[str]) -> None:
+        """Process a validated set."""
+        GameMove.objects.create(
+            session=self,
+            player=player,
+            cards=list(Card.objects.filter(id__in=card_ids))
+        )
 
-        self.state['selected_sets'].append(selected_cards)
+        self.state['selected_sets'].append(card_ids)
         self.state['scores'][str(player.username)] += 1
-        print(f"🔄 Updated state before save: {self.state}")
-        self.save()
-        print(f"💾 Saved state: {self.state}")
 
+        # Remove cards from board
+        self.state['board'] = {
+            pos: cid for pos, cid in self.state['board'].items() 
+            if cid not in card_ids
+        }
+        
+
+    def process_set(self, player, card_ids):
+        # game_move = GameMove.objects.create(session=self, player=player)
+        # for card_id in selected_cards:
+        #     card = Card.objects.get(id=card_id)
+        #     game_move.cards.add(card)
+
+        self.state['selected_sets'].append(card_ids)
+        self.state['scores'][str(player.username)] += 1
+        # self.save() #TODO! check if needed
 
         # Remove selected cards from the board
+        self.replenish_board(card_ids)
+        self.handle_no_set_available()
+        self._check_game_end()
+        self.save()
+
+    def _check_game_end(self) -> None:
+        if not self.state['deck'] and not self.is_set_available():
+            self.end_game()
+
+    def replenish_board(self, card_ids):
         self.state['board'] = {
             pos: card_id for pos, card_id in self.state['board'].items()
-            if card_id not in selected_cards
+            if card_id not in card_ids
         }
-            # If the board has more 12 or more cards, move cards from positions 13-15 to fill empty positions
+        # If the board has more 12 or more cards, move cards from positions 13-15 to fill empty positions
         if len(self.state['board']) >= 12:
             empty_positions = sorted(set(str(i) for i in range(12)) - self.state['board'].keys(), key=int)
             extra_positions = sorted(self.state['board'].keys(), key=int)[-len(empty_positions):]  # Get positions beyond 12
@@ -110,8 +127,6 @@ class GameSession(models.Model):
             empty_positions = set(str(i) for i in range(12)).difference(set(self.state['board'].keys()))
             empty_positions = sorted(empty_positions, key=int)
             self.add_cards_to_board(3, empty_positions)
-        self.handle_no_set_available()
-        self.save()
 
     def add_cards_to_board(self, count, empty_positions):
         new_cards = self.state['deck'][:count]
@@ -142,10 +157,11 @@ class GameSession(models.Model):
                 self.add_cards_to_board(3, next_positions)
             else:
                 self.end_game()
+                self.save()
         
     def end_game(self):
         self.state['game_over'] = True
-        self.save()
+        # self.save()
 
 
 class GameMove(models.Model):

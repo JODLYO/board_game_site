@@ -92,9 +92,11 @@ class LobbyModelTest(TestCase):
     def setUp(self):
         self.user1 = User.objects.create(username='player1')
         self.user2 = User.objects.create(username='player2')
+        self.user3 = User.objects.create(username='player3')
         self.lobby = Lobby.objects.create()
         LobbyPlayer.objects.create(lobby=self.lobby, player=self.user1, ready=True)
         LobbyPlayer.objects.create(lobby=self.lobby, player=self.user2, ready=True)
+        LobbyPlayer.objects.create(lobby=self.lobby, player=self.user3, ready=True)
     
     def test_lobby_is_full(self):
         self.assertTrue(self.lobby.is_full())
