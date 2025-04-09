@@ -1,238 +1,35 @@
-2025-04-05 10:43:58,180 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
-2025-04-05 10:43:58,180 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-04-05 10:43:58,180 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
-2025-04-05 10:43:58,181 INFO     Listening on TCP address 0.0.0.0:8000
-172.18.0.4:33282 - - [05/Apr/2025:10:44:06] "GET /" 200 2237
-New user created: vygbhj
-172.18.0.4:33298 - - [05/Apr/2025:10:44:09] "POST /" 302 -
-Current user: vygbhj
-Creating new lobby
-Lobby: Players=['vygbhj']
-Lobby ID in view: 11
-172.18.0.4:33304 - - [05/Apr/2025:10:44:10] "GET /lobby/" 200 970
-172.18.0.4:33306 - - [05/Apr/2025:10:44:13] "GET /api/lobby_status/11/" 200 180
-172.18.0.4:48770 - - [05/Apr/2025:10:44:16] "GET /api/lobby_status/11/" 200 180
-172.18.0.4:48772 - - [05/Apr/2025:10:44:18] "GET /" 200 2237
-172.18.0.4:48788 - - [05/Apr/2025:10:44:19] "GET /api/lobby_status/11/" 200 180
-172.18.0.4:48804 - - [05/Apr/2025:10:44:22] "GET /api/lobby_status/11/" 200 180
-172.18.0.4:39188 - - [05/Apr/2025:10:44:25] "GET /api/lobby_status/11/" 200 180
-172.18.0.4:39204 - - [05/Apr/2025:10:44:28] "GET /api/lobby_status/11/" 200 180
-172.18.0.4:39218 - - [05/Apr/2025:10:44:28] "GET /" 200 2237
-172.18.0.4:39230 - - [05/Apr/2025:10:44:31] "GET /api/lobby_status/11/" 200 180
-172.18.0.4:39240 - - [05/Apr/2025:10:44:34] "GET /api/lobby_status/11/" 200 180
-New user created:    jh nm
-172.18.0.4:39242 - - [05/Apr/2025:10:44:34] "POST /" 302 -
-Current user:    jh nm
-Joining existing lobby: Lobby 11
-Lobby: Players=['vygbhj', '   jh nm']
-Lobby ID in view: 11
-172.18.0.4:39258 - - [05/Apr/2025:10:44:34] "GET /lobby/" 200 970
-172.18.0.4:45706 - - [05/Apr/2025:10:44:37] "GET /api/lobby_status/11/" 200 222
-172.18.0.4:45714 - - [05/Apr/2025:10:44:37] "GET /api/lobby_status/11/" 200 222
-New user created: uyh j
-172.18.0.4:45720 - - [05/Apr/2025:10:44:37] "POST /" 302 -
-Current user: uyh j
-Joining existing lobby: Lobby 11
-Lobby: Players=['vygbhj', '   jh nm', 'uyh j']
-Lobby ID in view: 11
-172.18.0.4:45736 - - [05/Apr/2025:10:44:37] "GET /lobby/" 200 970
-172.18.0.4:45740 - - [05/Apr/2025:10:44:40] "GET /api/lobby_status/11/" 200 260
-172.18.0.4:45744 - - [05/Apr/2025:10:44:40] "GET /api/lobby_status/11/" 200 260
-172.18.0.4:45750 - - [05/Apr/2025:10:44:41] "GET /api/lobby_status/11/" 200 260
-Current user: uyh j
-Lobby: Players=['vygbhj', '   jh nm', 'uyh j']
-Lobby ID in view: 11
-Handling POST request for user: uyh j
-Lobby after update: Players=['vygbhj', '   jh nm', 'uyh j'], Ready=[False, False, True]
-172.18.0.4:45764 - - [05/Apr/2025:10:44:42] "POST /lobby/" 200 220
-172.18.0.4:45768 - - [05/Apr/2025:10:44:43] "GET /api/lobby_status/11/" 200 259
-172.18.0.4:45782 - - [05/Apr/2025:10:44:43] "GET /api/lobby_status/11/" 200 259
-172.18.0.4:45786 - - [05/Apr/2025:10:44:44] "GET /api/lobby_status/11/" 200 259
-Current user:    jh nm
-Lobby: Players=['vygbhj', '   jh nm', 'uyh j']
-Lobby ID in view: 11
-Handling POST request for user:    jh nm
-Lobby after update: Players=['vygbhj', '   jh nm', 'uyh j'], Ready=[False, True, True]
-172.18.0.4:44564 - - [05/Apr/2025:10:44:44] "POST /lobby/" 200 219
-172.18.0.4:44580 - - [05/Apr/2025:10:44:46] "GET /api/lobby_status/11/" 200 258
-172.18.0.4:44594 - - [05/Apr/2025:10:44:46] "GET /api/lobby_status/11/" 200 258
-Current user: vygbhj
-Lobby: Players=['vygbhj', '   jh nm', 'uyh j']
-Lobby ID in view: 11
-Handling POST request for user: vygbhj
-Lobby after update: Players=['vygbhj', '   jh nm', 'uyh j'], Ready=[True, True, True]
-Both players are ready. Creating game state.
-GameState created: 10
-Lobby updated with GameState: 10
-172.18.0.4:44596 - - [05/Apr/2025:10:44:46] "POST /lobby/" 200 217
-172.18.0.4:44610 - - [05/Apr/2025:10:44:47] "GET /api/lobby_status/11/" 200 254
-172.18.0.4:44614 - - [05/Apr/2025:10:44:47] "GET /game/10/" 200 1163
-172.18.0.4:44620 - - [05/Apr/2025:10:44:47] "WSCONNECTING /ws/game/" - -
-172.18.0.4:44620 - - [05/Apr/2025:10:44:47] "WSCONNECT /ws/game/" - -
-172.18.0.4:44632 - - [05/Apr/2025:10:44:49] "GET /api/lobby_status/11/" 200 254
-172.18.0.4:44642 - - [05/Apr/2025:10:44:49] "GET /game/10/" 200 1164
-172.18.0.4:44666 - - [05/Apr/2025:10:44:49] "WSCONNECTING /ws/game/" - -
-172.18.0.4:44666 - - [05/Apr/2025:10:44:49] "WSCONNECT /ws/game/" - -
-172.18.0.4:44652 - - [05/Apr/2025:10:44:49] "GET /api/lobby_status/11/" 200 254
-172.18.0.4:44672 - - [05/Apr/2025:10:44:49] "GET /game/10/" 200 1166
-172.18.0.4:44684 - - [05/Apr/2025:10:44:49] "WSCONNECTING /ws/game/" - -
-172.18.0.4:44684 - - [05/Apr/2025:10:44:49] "WSCONNECT /ws/game/" - -
-172.18.0.4:55566 - - [05/Apr/2025:10:44:57] "GET /" 200 2237
-172.18.0.4:44666 - - [05/Apr/2025:10:44:57] "WSDISCONNECT /ws/game/" - -
-172.18.0.4:44218 - - [05/Apr/2025:10:45:07] "GET /" 200 2237
-172.18.0.4:44684 - - [05/Apr/2025:10:45:07] "WSDISCONNECT /ws/game/" - -
-172.18.0.4:44220 - - [05/Apr/2025:10:45:11] "GET /" 200 2237
-172.18.0.4:44620 - - [05/Apr/2025:10:45:11] "WSDISCONNECT /ws/game/" - -
-New user created: k nm
-172.18.0.4:56808 - - [05/Apr/2025:10:45:18] "POST /" 302 -
-Current user: k nm
-Creating new lobby
-Lobby: Players=['k nm']
-Lobby ID in view: 12
-172.18.0.4:56816 - - [05/Apr/2025:10:45:18] "GET /lobby/" 200 970
-172.18.0.4:56820 - - [05/Apr/2025:10:45:21] "GET /api/lobby_status/12/" 200 178
-New user created: jkn
-172.18.0.4:56836 - - [05/Apr/2025:10:45:23] "POST /" 302 -
-Current user: jkn
-Joining existing lobby: Lobby 12
-Lobby: Players=['k nm', 'jkn']
-Lobby ID in view: 12
-172.18.0.4:56852 - - [05/Apr/2025:10:45:23] "GET /lobby/" 200 970
-172.18.0.4:41204 - - [05/Apr/2025:10:45:24] "GET /api/lobby_status/12/" 200 215
-172.18.0.4:41210 - - [05/Apr/2025:10:45:26] "GET /api/lobby_status/12/" 200 215
-172.18.0.4:41214 - - [05/Apr/2025:10:45:27] "GET /api/lobby_status/12/" 200 215
-172.18.0.4:41222 - - [05/Apr/2025:10:45:29] "GET /api/lobby_status/12/" 200 215
-172.18.0.4:41228 - - [05/Apr/2025:10:45:30] "GET /api/lobby_status/12/" 200 215
-New user created: j nm
-172.18.0.4:41238 - - [05/Apr/2025:10:45:31] "POST /" 302 -
-Current user: j nm
-Joining existing lobby: Lobby 12
-Lobby: Players=['k nm', 'jkn', 'j nm']
-Lobby ID in view: 12
-172.18.0.4:41254 - - [05/Apr/2025:10:45:31] "GET /lobby/" 200 970
-172.18.0.4:41258 - - [05/Apr/2025:10:45:32] "GET /api/lobby_status/12/" 200 252
-172.18.0.4:41274 - - [05/Apr/2025:10:45:34] "GET /api/lobby_status/12/" 200 252
-172.18.0.4:41290 - - [05/Apr/2025:10:45:34] "GET /api/lobby_status/12/" 200 252
-172.18.0.4:42032 - - [05/Apr/2025:10:45:35] "GET /api/lobby_status/12/" 200 252
-Current user: j nm
-Lobby: Players=['k nm', 'jkn', 'j nm']
-Lobby ID in view: 12
-Handling POST request for user: j nm
-Lobby after update: Players=['k nm', 'jkn', 'j nm'], Ready=[False, False, True]
-172.18.0.4:42048 - - [05/Apr/2025:10:45:35] "POST /lobby/" 200 212
-172.18.0.4:42056 - - [05/Apr/2025:10:45:37] "GET /api/lobby_status/12/" 200 251
-172.18.0.4:42066 - - [05/Apr/2025:10:45:37] "GET /api/lobby_status/12/" 200 251
-172.18.0.4:42082 - - [05/Apr/2025:10:45:38] "GET /api/lobby_status/12/" 200 251
-Current user: k nm
-Lobby: Players=['k nm', 'jkn', 'j nm']
-Lobby ID in view: 12
-Handling POST request for user: k nm
-Lobby after update: Players=['k nm', 'jkn', 'j nm'], Ready=[True, False, True]
-172.18.0.4:42090 - - [05/Apr/2025:10:45:39] "POST /lobby/" 200 211
-172.18.0.4:42096 - - [05/Apr/2025:10:45:40] "GET /api/lobby_status/12/" 200 250
-172.18.0.4:42112 - - [05/Apr/2025:10:45:40] "GET /api/lobby_status/12/" 200 250
-Current user: jkn
-Lobby: Players=['k nm', 'jkn', 'j nm']
-Lobby ID in view: 12
-Handling POST request for user: jkn
-172.18.0.4:42136 - - [05/Apr/2025:10:45:41] "GET /api/lobby_status/12/" 200 250
-Lobby after update: Players=['k nm', 'jkn', 'j nm'], Ready=[True, True, True]
-Both players are ready. Creating game state.
-GameState created: 11
-Lobby updated with GameState: 11
-172.18.0.4:42122 - - [05/Apr/2025:10:45:41] "POST /lobby/" 200 209
-172.18.0.4:42150 - - [05/Apr/2025:10:45:43] "GET /api/lobby_status/12/" 200 246
-172.18.0.4:42152 - - [05/Apr/2025:10:45:43] "GET /game/11/" 200 1162
-172.18.0.4:42160 - - [05/Apr/2025:10:45:43] "WSCONNECTING /ws/game/" - -
-172.18.0.4:42160 - - [05/Apr/2025:10:45:43] "WSCONNECT /ws/game/" - -
-172.18.0.4:42164 - - [05/Apr/2025:10:45:43] "GET /api/lobby_status/12/" 200 246
-172.18.0.4:42172 - - [05/Apr/2025:10:45:43] "GET /game/11/" 200 1162
-172.18.0.4:42186 - - [05/Apr/2025:10:45:43] "WSCONNECTING /ws/game/" - -
-172.18.0.4:42186 - - [05/Apr/2025:10:45:43] "WSCONNECT /ws/game/" - -
-172.18.0.4:42198 - - [05/Apr/2025:10:45:44] "GET /api/lobby_status/12/" 200 246
-172.18.0.4:42212 - - [05/Apr/2025:10:45:44] "GET /game/11/" 200 1161
-172.18.0.4:42220 - - [05/Apr/2025:10:45:44] "WSCONNECTING /ws/game/" - -
-172.18.0.4:42220 - - [05/Apr/2025:10:45:44] "WSCONNECT /ws/game/" - -
-172.18.0.4:50858 - - [05/Apr/2025:10:46:05] "GET /game/11/" 200 1162
-172.18.0.4:42186 - - [05/Apr/2025:10:46:05] "WSDISCONNECT /ws/game/" - -
-172.18.0.4:50870 - - [05/Apr/2025:10:46:05] "WSCONNECTING /ws/game/" - -
-172.18.0.4:50870 - - [05/Apr/2025:10:46:05] "WSCONNECT /ws/game/" - -
-Not Found: /favicon.ico
-2025-04-05 10:46:05,387 WARNING  Not Found: /favicon.ico
-172.18.0.4:50882 - - [05/Apr/2025:10:46:05] "GET /favicon.ico" 404 3016
-172.18.0.4:50898 - - [05/Apr/2025:10:46:08] "GET /" 200 2237
-172.18.0.4:50870 - - [05/Apr/2025:10:46:09] "WSDISCONNECT /ws/game/" - -
-New user created: hj nm
-172.18.0.4:50902 - - [05/Apr/2025:10:46:11] "POST /" 302 -
-Current user: hj nm
-Creating new lobby
-Lobby: Players=['hj nm']
-Lobby ID in view: 13
-172.18.0.4:50912 - - [05/Apr/2025:10:46:11] "GET /lobby/" 200 970
-172.18.0.4:50922 - - [05/Apr/2025:10:46:14] "GET /api/lobby_status/13/" 200 179
-172.18.0.4:36200 - - [05/Apr/2025:10:46:16] "GET /" 200 2237
-172.18.0.4:42160 - - [05/Apr/2025:10:46:16] "WSDISCONNECT /ws/game/" - -
-172.18.0.4:36208 - - [05/Apr/2025:10:46:17] "GET /api/lobby_status/13/" 200 179
-Not Found: /g
-2025-04-05 10:46:19,515 WARNING  Not Found: /g
-172.18.0.4:36222 - - [05/Apr/2025:10:46:19] "GET /g" 404 2986
-172.18.0.4:42220 - - [05/Apr/2025:10:46:19] "WSDISCONNECT /ws/game/" - -
-172.18.0.4:36238 - - [05/Apr/2025:10:46:20] "GET /api/lobby_status/13/" 200 179
-172.18.0.4:36254 - - [05/Apr/2025:10:46:22] "GET /" 200 2237
-172.18.0.4:36260 - - [05/Apr/2025:10:46:23] "GET /api/lobby_status/13/" 200 179
-New user created: ji kn
-172.18.0.4:37480 - - [05/Apr/2025:10:46:26] "POST /" 302 -
-Current user: ji kn
-Joining existing lobby: Lobby 13
-Lobby: Players=['hj nm', 'ji kn']
-Lobby ID in view: 13
-172.18.0.4:37494 - - [05/Apr/2025:10:46:26] "GET /lobby/" 200 970
-172.18.0.4:37502 - - [05/Apr/2025:10:46:26] "GET /api/lobby_status/13/" 200 218
-172.18.0.4:37508 - - [05/Apr/2025:10:46:29] "GET /api/lobby_status/13/" 200 218
-172.18.0.4:37510 - - [05/Apr/2025:10:46:29] "GET /api/lobby_status/13/" 200 218
-New user created: oj k
-172.18.0.4:37522 - - [05/Apr/2025:10:46:29] "POST /" 302 -
-Current user: oj k
-Joining existing lobby: Lobby 13
-Lobby: Players=['hj nm', 'ji kn', 'oj k']
-Lobby ID in view: 13
-172.18.0.4:37538 - - [05/Apr/2025:10:46:29] "GET /lobby/" 200 970
-172.18.0.4:37546 - - [05/Apr/2025:10:46:32] "GET /api/lobby_status/13/" 200 255
-172.18.0.4:37556 - - [05/Apr/2025:10:46:32] "GET /api/lobby_status/13/" 200 255
-172.18.0.4:37568 - - [05/Apr/2025:10:46:32] "GET /api/lobby_status/13/" 200 255
-Current user: oj k
-Lobby: Players=['hj nm', 'ji kn', 'oj k']
-Lobby ID in view: 13
-Handling POST request for user: oj k
-Lobby after update: Players=['hj nm', 'ji kn', 'oj k'], Ready=[False, False, True]
-172.18.0.4:37584 - - [05/Apr/2025:10:46:33] "POST /lobby/" 200 215
-Current user: ji kn
-Lobby: Players=['hj nm', 'ji kn', 'oj k']
-Lobby ID in view: 13
-Handling POST request for user: ji kn
-172.18.0.4:47292 - - [05/Apr/2025:10:46:35] "GET /api/lobby_status/13/" 200 254
-Lobby after update: Players=['hj nm', 'ji kn', 'oj k'], Ready=[False, True, True]
-172.18.0.4:47286 - - [05/Apr/2025:10:46:35] "POST /lobby/" 200 214
-172.18.0.4:47294 - - [05/Apr/2025:10:46:35] "GET /api/lobby_status/13/" 200 253
-172.18.0.4:47308 - - [05/Apr/2025:10:46:35] "GET /api/lobby_status/13/" 200 253
-Current user: hj nm
-Lobby: Players=['hj nm', 'ji kn', 'oj k']
-Lobby ID in view: 13
-Handling POST request for user: hj nm
-Lobby after update: Players=['hj nm', 'ji kn', 'oj k'], Ready=[True, True, True]
-Both players are ready. Creating game state.
-GameState created: 12
-Lobby updated with GameState: 12
-172.18.0.4:47318 - - [05/Apr/2025:10:46:37] "POST /lobby/" 200 212
-172.18.0.4:47320 - - [05/Apr/2025:10:46:38] "GET /api/lobby_status/13/" 200 249
-172.18.0.4:47332 - - [05/Apr/2025:10:46:38] "GET /game/12/" 200 1163
-172.18.0.4:47334 - - [05/Apr/2025:10:46:38] "WSCONNECTING /ws/game/" - -
-172.18.0.4:47334 - - [05/Apr/2025:10:46:38] "WSCONNECT /ws/game/" - -
-172.18.0.4:47338 - - [05/Apr/2025:10:46:38] "GET /api/lobby_status/13/" 200 249
-172.18.0.4:47344 - - [05/Apr/2025:10:46:38] "GET /game/12/" 200 1163
-172.18.0.4:47350 - - [05/Apr/2025:10:46:38] "WSCONNECTING /ws/game/" - -
-172.18.0.4:47350 - - [05/Apr/2025:10:46:38] "WSCONNECT /ws/game/" - -
-172.18.0.4:47360 - - [05/Apr/2025:10:46:38] "GET /api/lobby_status/13/" 200 249
-172.18.0.4:47368 - - [05/Apr/2025:10:46:38] "GET /game/12/" 200 1162
-172.18.0.4:47378 - - [05/Apr/2025:10:46:38] "WSCONNECTING /ws/game/" - -
-172.18.0.4:47378 - - [05/Apr/2025:10:46:38] "WSCONNECT /ws/game/" - -
+2025-04-06 16:43:59,581 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
+2025-04-06 16:43:59,582 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-04-06 16:43:59,582 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
+2025-04-06 16:43:59,582 INFO     Listening on TCP address 0.0.0.0:8000
+172.18.0.4:54408 - - [06/Apr/2025:16:44:03] "GET /" 200 2237
+172.18.0.4:49468 - - [06/Apr/2025:16:44:14] "GET /" 200 2237
+172.18.0.4:32812 - - [06/Apr/2025:16:44:34] "POST /" 302 -
+172.18.0.4:32816 - - [06/Apr/2025:16:44:34] "GET /lobby/" 200 970
+172.18.0.4:36724 - - [06/Apr/2025:16:44:37] "GET /api/lobby_status/14/" 200 185
+172.18.0.4:36732 - - [06/Apr/2025:16:44:40] "GET /api/lobby_status/14/" 200 185
+172.18.0.4:36740 - - [06/Apr/2025:16:44:43] "GET /api/lobby_status/14/" 200 185
+172.18.0.4:33220 - - [06/Apr/2025:16:44:46] "GET /api/lobby_status/14/" 200 185
+172.18.0.4:33226 - - [06/Apr/2025:16:44:48] "POST /" 302 -
+172.18.0.4:33230 - - [06/Apr/2025:16:44:48] "GET /lobby/" 200 970
+172.18.0.4:33232 - - [06/Apr/2025:16:44:49] "GET /api/lobby_status/14/" 200 226
+172.18.0.4:33248 - - [06/Apr/2025:16:44:52] "GET /api/lobby_status/14/" 200 226
+172.18.0.4:33250 - - [06/Apr/2025:16:44:52] "GET /api/lobby_status/14/" 200 226
+172.18.0.4:33252 - - [06/Apr/2025:16:44:55] "GET /api/lobby_status/14/" 200 226
+172.18.0.4:48322 - - [06/Apr/2025:16:44:55] "GET /api/lobby_status/14/" 200 226
+172.18.0.4:48328 - - [06/Apr/2025:16:44:58] "GET /api/lobby_status/14/" 200 226
+172.18.0.4:48336 - - [06/Apr/2025:16:44:58] "GET /api/lobby_status/14/" 200 226
+172.18.0.4:48350 - - [06/Apr/2025:16:44:59] "POST /lobby/" 200 186
+172.18.0.4:48358 - - [06/Apr/2025:16:45:01] "GET /api/lobby_status/14/" 200 225
+172.18.0.4:48364 - - [06/Apr/2025:16:45:01] "GET /api/lobby_status/14/" 200 225
+172.18.0.4:48368 - - [06/Apr/2025:16:45:04] "GET /api/lobby_status/14/" 200 225
+172.18.0.4:48380 - - [06/Apr/2025:16:45:04] "POST /lobby/" 200 184
+172.18.0.4:48394 - - [06/Apr/2025:16:45:04] "GET /api/lobby_status/14/" 200 221
+172.18.0.4:48404 - - [06/Apr/2025:16:45:04] "GET /game/14/" 200 1169
+172.18.0.4:48412 - - [06/Apr/2025:16:45:04] "WSCONNECTING /ws/game/" - -
+172.18.0.4:48412 - - [06/Apr/2025:16:45:05] "WSCONNECT /ws/game/" - -
+172.18.0.4:58222 - - [06/Apr/2025:16:45:07] "GET /api/lobby_status/14/" 200 221
+172.18.0.4:58238 - - [06/Apr/2025:16:45:07] "GET /game/14/" 200 1166
+172.18.0.4:58246 - - [06/Apr/2025:16:45:07] "WSCONNECTING /ws/game/" - -
+172.18.0.4:58246 - - [06/Apr/2025:16:45:07] "WSCONNECT /ws/game/" - -
+172.18.0.4:48412 - - [06/Apr/2025:16:51:10] "WSDISCONNECT /ws/game/" - -

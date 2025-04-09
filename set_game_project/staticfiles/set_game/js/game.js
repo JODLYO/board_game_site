@@ -50,7 +50,7 @@ function sendMove(username, cardIds) {
     }
 
     // Validate card IDs against the current board state
-    const boardCardIds = Object.values(currentGameState.board);
+    const boardCardIds = Object.values(currentGameState.board).map(id => String(id));
     if (!cardIds.every(id => boardCardIds.includes(id))) {
         console.log(cardIds)
         console.log(boardCardIds)
@@ -63,13 +63,13 @@ function sendMove(username, cardIds) {
         type: 'make_move',
         session_id: sessionId,
         username: username,
-        card_ids: cardIds
+        card_ids: cardIds.map(id => parseInt(id))
     });
     gameSocket.send(JSON.stringify({
         'type': 'make_move',
         'session_id': sessionId,
         'username': username,
-        'card_ids': cardIds
+        'card_ids': cardIds.map(id => parseInt(id))
     }));
 }
 
@@ -160,7 +160,7 @@ function setupWebSocket() {
     gameSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
         console.log('WebSocket message received:', data);
-    
+
         if (data.type === 'game_state') {
             currentGameState = data.state; // Update the current game state
             updateGameState(data.state);

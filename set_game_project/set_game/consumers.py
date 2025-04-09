@@ -1,6 +1,6 @@
 import json
-from typing import Dict, Any, Optional, List
-from channels.generic.websocket import AsyncWebsocketConsumer
+from typing import Dict, Any, List
+from channels.generic.websocket import AsyncWebsocketConsumer  # type: ignore
 from asgiref.sync import sync_to_async
 from .models import GameSession, Card, Lobby, User
 from django.utils import timezone
@@ -19,9 +19,15 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data: str) -> None:
         data = json.loads(text_data)
-        if data["type"] == "start_game":
+        message_type = data.get('type')
+        
+        if message_type == 'request_rematch':
+            await self.handle_rematch_request()
+        elif message_type == 'game_action':
+            await self.handle_game_action(data)
+        elif message_type == "start_game":
             await self.start_game(data)
-        elif data["type"] == "make_move":
+        elif message_type == "make_move":
             await self.make_move(data)
 
     async def start_game(self, data: Dict[str, Any]) -> None:
@@ -52,15 +58,21 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     def create_game_session(self, lobby: Lobby) -> GameSession:
         """Create and initialize a new game session."""
-        game_session = GameSession.objects.create(name=f"Lobby-{lobby.id}-{timezone.now().strftime('%H%M%S')}")        
+        game_session = GameSession.objects.create(
+            name=f"Lobby-{lobby.id}-{timezone.now().strftime('%H%M%S')}"
+        )
         for lobby_player in lobby.lobbyplayer_set.all():
             game_session.players.add(lobby_player.player)
 
         game_session.initialize_game()
-        game_session.state.update({
-            "player_ids": [player.id for player in game_session.players.all()],
-            "scores": {str(player.username): 0 for player in game_session.players.all()}
-        })
+        game_session.state.update(
+            {
+                "player_ids": [player.id for player in game_session.players.all()],
+                "scores": {
+                    str(player.username): 0 for player in game_session.players.all()
+                },
+            }
+        )
         game_session.save()
         return game_session
 
@@ -68,14 +80,14 @@ class GameConsumer(AsyncWebsocketConsumer):
         """Process a player's move"""
         try:
             result = await sync_to_async(self._process_move)(data)
-            
+
             if result["success"]:
                 await self.broadcast_game_state(result["game_session"])
                 if result["game_session"].state.get("game_over", False):
                     await self.broadcast_game_over()
             else:
                 await self.send_error(result["error"])
-                
+
         except Exception as e:
             await self.send_error(f"Error processing move: {str(e)}")
 
@@ -83,17 +95,21 @@ class GameConsumer(AsyncWebsocketConsumer):
     def _process_move(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Synchronous method to process move"""
         try:
-            game_session = GameSession.objects.select_for_update().get(pk=data["session_id"])
+            game_session = GameSession.objects.select_for_update().get(
+                pk=data["session_id"]
+            )
             player = User.objects.get(username=data["username"])
-            
-            if not self.validate_card_ids(data["card_ids"], game_session.state["board"].values()):
+
+            if not self.validate_card_ids(
+                data["card_ids"], game_session.state["board"].values()
+            ):
                 return {"success": False, "error": "Cards not on board"}
-            
+
             game_session.validate_and_process_move(player, data["card_ids"])
             game_session.save()
-            
+
             return {"success": True, "game_session": game_session}
-            
+
         except GameSession.DoesNotExist:
             return {"success": False, "error": "Game session not found"}
         except User.DoesNotExist:
@@ -103,26 +119,34 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def game_state(self, event: Dict[str, Any]) -> None:
         """Send game state update to client."""
-        await self.send_json({
-            "type": "game_state",
-            "state": event["state"],
-        })
+        await self.send_json(
+            {
+                "type": "game_state",
+                "state": event["state"],
+            }
+        )
 
     async def game_over(self, event: Dict[str, Any]) -> None:
         """Notify client that game has ended."""
-        await self.send_json({
-            "type": "game_over",
-            "message": event["message"],
-        })
+        await self.send_json(
+            {
+                "type": "game_over",
+                "message": event["message"],
+            }
+        )
 
-    async def send_game_started(self, session_id: int, player_ids: List[int], game_session: GameSession) -> None:
+    async def send_game_started(
+        self, session_id: int, player_ids: List[int], game_session: GameSession
+    ) -> None:
         """Notify client that game has started."""
-        await self.send_json({
-            "type": "game_started",
-            "session_id": session_id,
-            "player_ids": player_ids,
-            "state": await sync_to_async(self.serialize_game_state)(game_session),
-        })
+        await self.send_json(
+            {
+                "type": "game_started",
+                "session_id": session_id,
+                "player_ids": player_ids,
+                "state": await sync_to_async(self.serialize_game_state)(game_session),
+            }
+        )
 
     async def broadcast_game_state(self, game_session: GameSession) -> None:
         """Broadcast current game state to all clients."""
@@ -131,7 +155,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             {
                 "type": "game_state",
                 "state": await sync_to_async(self.serialize_game_state)(game_session),
-            }
+            },
         )
 
     def serialize_game_state(self, session: GameSession) -> Dict[str, Any]:
@@ -158,10 +182,12 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def send_error(self, message: str) -> None:
         """Send error message to client."""
-        await self.send_json({
-            "type": "error",
-            "message": message,
-        })
+        await self.send_json(
+            {
+                "type": "error",
+                "message": message,
+            }
+        )
 
     async def broadcast_game_over(self) -> None:
         """Notify all clients that game has ended."""
@@ -170,9 +196,62 @@ class GameConsumer(AsyncWebsocketConsumer):
             {
                 "type": "game_over",
                 "message": "Game over! No more sets are possible.",
-            }
+            },
         )
 
     async def send_json(self, data: Dict[str, Any]) -> None:
         """Helper method to send JSON data."""
         await self.send(text_data=json.dumps(data))
+
+    async def handle_rematch_request(self):
+        """Handle a rematch request from a player"""
+        game_session = await self.get_game_session()
+        player = await self.get_lobby_player()
+        
+        # Add player to rematch requests
+        await sync_to_async(game_session.request_rematch)(player)
+        
+        # Notify all players about the rematch request
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'rematch_requested',
+                'player_id': player.id,
+                'player_name': player.user.username
+            }
+        )
+        
+        # If all players have requested a rematch, start a new game
+        if game_session.rematch_accepted:
+            await self.start_rematch()
+    
+    async def start_rematch(self):
+        """Start a new game after all players have accepted the rematch"""
+        game_session = await self.get_game_session()
+        
+        # Reset the game state
+        new_game_state = await sync_to_async(game_session.reset_for_rematch)()
+        
+        # Notify all players that the rematch is starting
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'rematch_started',
+                'game_state': new_game_state.to_dict()
+            }
+        )
+    
+    async def rematch_requested(self, event):
+        """Send rematch request notification to WebSocket"""
+        await self.send(text_data=json.dumps({
+            'type': 'rematch_requested',
+            'player_id': event['player_id'],
+            'player_name': event['player_name']
+        }))
+    
+    async def rematch_started(self, event):
+        """Send rematch started notification to WebSocket"""
+        await self.send(text_data=json.dumps({
+            'type': 'rematch_started',
+            'game_state': event['game_state']
+        }))

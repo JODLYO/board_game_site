@@ -3,12 +3,15 @@
 <div id="current-username" data-lobby-id="{{ current_username }}"></div>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>SET Game Board</title>
     <link rel="stylesheet" href="{% static 'set_game/css/game.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Luckiest+Guy&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
         <!-- Scores at the top -->
@@ -26,10 +29,17 @@
         <!-- Message -->
         <p id="message"></p>
 
+        <!-- Rematch Button (initially hidden) -->
+        <div id="rematch-container" style="display: none;">
+            <button id="rematch-button" class="game-button">Request Rematch</button>
+            <p id="rematch-status">Waiting for other players to request rematch...</p>
+        </div>
+
         <!-- Back to Home Link -->
         <a href="{% url 'home' %}" class="game-button">Back to Home</a>
     </div>
     <script src="{% static 'set_game/js/game.js' %}"></script>
     <button id="highlight-set-button" onclick="highlightSet()">Highlight a Set</button>
 </body>
+
 </html>

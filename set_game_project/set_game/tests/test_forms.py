@@ -7,16 +7,17 @@ from set_game.models import Lobby
 
 User = get_user_model()
 
+
 class LobbyFormTest(WebTest):
     def setUp(self):
         self.user = User.objects.create_user(username="testuser")
         self.app.set_user(self.user)
 
     def test_lobby_creation(self):
-        response = self.app.get(reverse('home'))
+        response = self.app.get(reverse("home"))
         form = response.form
         self.assertIn("username", form.fields)
-        form['username'] = "Test Lobby"
+        form["username"] = "Test Lobby"
         response = form.submit()
         self.assertEqual(response.status_code, 302)  # Adjust as needed
 
@@ -24,16 +25,17 @@ class LobbyFormTest(WebTest):
         # Clean up after each test
         self.user.delete()
 
+
 class ExistingUserLoginTest(WebTest):
     def setUp(self):
         self.user = User.objects.create_user(username="existinguser")
         self.app.set_user(self.user)
 
     def test_existing_user_login(self):
-        response = self.app.get(reverse('home'))
+        response = self.app.get(reverse("home"))
         form = response.form
         self.assertIn("username", form.fields)
-        form['username'] = "existinguser"
+        form["username"] = "existinguser"
         response = form.submit()
 
         self.assertEqual(response.status_code, 302)
@@ -42,12 +44,13 @@ class ExistingUserLoginTest(WebTest):
     def tearDown(self):
         self.user.delete()
 
+
 class NewUserCreationTest(WebTest):
     def test_new_user_creation(self):
-        response = self.app.get(reverse('home'))
+        response = self.app.get(reverse("home"))
         form = response.form
         self.assertIn("username", form.fields)
-        form['username'] = "newuser"
+        form["username"] = "newuser"
         response = form.submit()
         self.assertEqual(response.status_code, 302)  # Should redirect to 'lobby'
 
@@ -57,13 +60,15 @@ class NewUserCreationTest(WebTest):
         # Cleanup
         User.objects.get(username="newuser").delete()
 
+
 class MissingUsernameTest(WebTest):
     def test_missing_username(self):
-        response = self.app.get(reverse('home'))
+        response = self.app.get(reverse("home"))
         form = response.form
         response = form.submit()
         self.assertNotEqual(response.status_code, 302)  # Should NOT redirect
         self.assertContains(response, "This field is required", status_code=200)
+
 
 class LobbyJoiningTest(WebTest):
     def setUp(self):
@@ -76,12 +81,12 @@ class LobbyJoiningTest(WebTest):
 
         # Simulate Player 1 logging in and accessing the lobby
         self.app.set_user(self.user1)
-        response1 = self.app.get(reverse('lobby'))
+        response1 = self.app.get(reverse("lobby"))
         self.assertEqual(response1.status_code, 200)
 
         # Simulate Player 2 logging in and accessing the lobby
         self.app.set_user(self.user2)
-        response2 = self.app.get(reverse('lobby'))
+        response2 = self.app.get(reverse("lobby"))
         self.assertEqual(response2.status_code, 200)
 
         # Ensure the lobby was created

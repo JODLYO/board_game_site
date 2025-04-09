@@ -1,20 +1,23 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from set_game.models import Card, GameSession, Lobby, LobbyPlayer, GameMove
+from set_game.models import Card, GameSession, Lobby, LobbyPlayer
+
 from unittest.mock import patch
 from django.core.management import call_command
 
+
 class CardModelTest(TestCase):
     def test_card_creation(self):
-        card = Card.objects.create(number=1, symbol='oval', shading='solid', color='red')
+        card = Card.objects.create(
+            number=1, symbol="oval", shading="solid", color="red"
+        )
         self.assertEqual(str(card), "1 solid red oval")
+
 
 class GameSessionModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         """Runs once for the test class"""
-
-        # Ensure cards are in the test database BEFORE mocking
         if not Card.objects.exists():
             call_command("populate_cards")
         cls.cards = Card.objects.all()
@@ -25,13 +28,33 @@ class GameSessionModelTest(TestCase):
         cls.session = GameSession.objects.create(name="Test Game")
         cls.session.players.set([cls.player1, cls.player2])
         cls.session.initialize_game()
-    
+
     def test_initialize_game(self):
         self.session.initialize_game()
-        self.assertEqual(len(self.session.state['board']), 12)
-        self.assertGreater(len(self.session.state['deck']), 0)
-        self.assertEqual(self.session.state['scores'][self.player1.username], 0)
-    
+        self.assertEqual(len(self.session.state["board"]), 12)
+        self.assertGreater(len(self.session.state["deck"]), 0)
+        self.assertEqual(self.session.state["scores"][self.player1.username], 0)
+
+    def test_initial_board_setup(self):
+        session = GameSession.objects.create(name="Test Game Set")
+        session.players.set([self.player1, self.player2])
+        
+        card_ids_containing_set = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 41, 81]
+        deck_with_set = [Card.objects.get(id=card_id) for card_id in card_ids_containing_set]
+        additional_cards = [Card.objects.get(id=card_id) for card_id in [11, 12, 13, 14, 15]]
+        deck_with_set.extend(additional_cards)
+        initial_board_cards, remaining_deck = session._get_initial_board_and_deck(deck_with_set)
+        
+        self.assertEqual(len(initial_board_cards), 12, "Board should have 12 cards when set is available")
+        
+        card_ids_without_set = [16, 36, 43, 45, 33, 58, 59, 27, 23, 73, 18, 34]
+        deck_without_set = [Card.objects.get(id=card_id) for card_id in card_ids_without_set]
+        additional_cards = [Card.objects.get(id=card_id) for card_id in [11, 12, 13, 14, 15]]
+        deck_without_set.extend(additional_cards)
+        initial_board_cards, remaining_deck = session._get_initial_board_and_deck(deck_without_set)
+                
+        self.assertEqual(len(initial_board_cards), 15, "Board should have 15 cards when no set is available")
+
     def test_validate_sets(self):
         """(1, diamond, solid, red) → ID 1
         (2, squiggle, striped, green) → ID 41
@@ -39,10 +62,12 @@ class GameSessionModelTest(TestCase):
         all_different_set = [1, 41, 81]
         self.assertTrue(self.session.validate_set(all_different_set))
 
-        """Same Symbol, Different Everything Else
+        """
+        Same Symbol, Different Everything Else
             (1, squiggle, solid, red) → ID 10
             (2, squiggle, striped, green) → ID 41
-            (3, squiggle, open, purple) → ID 72"""
+            (3, squiggle, open, purple) → ID 72
+        """
         same_symbol_else_different = [10, 41, 72]
         self.assertTrue(self.session.validate_set(same_symbol_else_different))
 
@@ -80,29 +105,31 @@ class GameSessionModelTest(TestCase):
         self.session.initialize_game()
         selected_cards = [str(card.id) for card in self.cards[:3]]
         self.session.process_set(self.player1, selected_cards)
-        
-        self.assertIn(selected_cards, self.session.state['selected_sets'])
-        self.assertEqual(self.session.state['scores'][self.player1.username], 1)
-    
+
+        self.assertIn(selected_cards, self.session.state["selected_sets"])
+        self.assertEqual(self.session.state["scores"][self.player1.username], 1)
+
     def test_end_game(self):
         self.session.end_game()
-        self.assertTrue(self.session.state['game_over'])
-    
+        self.assertTrue(self.session.state["game_over"])
+
+
 class LobbyModelTest(TestCase):
     def setUp(self):
-        self.user1 = User.objects.create(username='player1')
-        self.user2 = User.objects.create(username='player2')
-        self.user3 = User.objects.create(username='player3')
+        self.user1 = User.objects.create(username="player1")
+        self.user2 = User.objects.create(username="player2")
+        # self.user3 = User.objects.create(username="player3")
         self.lobby = Lobby.objects.create()
         LobbyPlayer.objects.create(lobby=self.lobby, player=self.user1, ready=True)
         LobbyPlayer.objects.create(lobby=self.lobby, player=self.user2, ready=True)
-        LobbyPlayer.objects.create(lobby=self.lobby, player=self.user3, ready=True)
-    
+        # LobbyPlayer.objects.create(lobby=self.lobby, player=self.user3, ready=True)
+
     def test_lobby_is_full(self):
         self.assertTrue(self.lobby.is_full())
-    
+
     def test_lobby_all_ready(self):
         self.assertTrue(self.lobby.all_ready())
+
 
 class GameEndTest(TestCase):
     @classmethod
@@ -120,21 +147,12 @@ class GameEndTest(TestCase):
     def test_end_game_no_sets_available(self):
         """Ensure the game ends when no sets are available and the deck is empty"""
         self.session.initialize_game()
-
-        # Simulate an empty deck
-        self.session.state['deck'] = []
-
-        # Simulate a board where no valid sets exist
-        # Example: Choosing cards that ensure no valid set remains
-        self.session.state['board'] = {
-            "0": "1", "1": "2", "2": "4",
+        self.session.state["deck"] = []
+        self.session.state["board"] = {  # No valid sets
+            "0": "1",
+            "1": "2",
+            "2": "4",
         }
-
-        # Ensure there are no valid sets left
         self.assertFalse(self.session.is_set_available())
-
-        # Trigger the end-game check
         self.session.handle_no_set_available()
-
-        # Assert that the game is over
-        self.assertTrue(self.session.state['game_over'])
+        self.assertTrue(self.session.state["game_over"])
