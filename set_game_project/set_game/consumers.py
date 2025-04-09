@@ -19,16 +19,12 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data: str) -> None:
         data = json.loads(text_data)
-        message_type = data.get('type')
-        
-        if message_type == 'request_rematch':
-            await self.handle_rematch_request()
-        elif message_type == 'game_action':
-            await self.handle_game_action(data)
-        elif message_type == "start_game":
+        if data["type"] == "start_game":
             await self.start_game(data)
-        elif message_type == "make_move":
+        elif data["type"] == "make_move":
             await self.make_move(data)
+        elif data["type"] == "request_rematch":
+            await self.request_rematch(data)
 
     async def start_game(self, data: Dict[str, Any]) -> None:
         """Handle game initialization."""
@@ -135,6 +131,86 @@ class GameConsumer(AsyncWebsocketConsumer):
             }
         )
 
+    async def request_rematch(self, data: Dict[str, Any]) -> None:
+        """Handle a player's rematch request."""
+        try:
+            result = await sync_to_async(self._process_rematch_request)(data)
+            if result["success"]:
+                await self.broadcast_rematch_status(result["rematch_status"])
+                if result["all_players_ready"]:
+                    await self.start_new_game(result["game_session"])
+            else:
+                await self.send_error(result["error"])
+        except Exception as e:
+            await self.send_error(f"Error processing rematch request: {str(e)}")
+
+    @transaction.atomic
+    def _process_rematch_request(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Process a rematch request."""
+        try:
+            game_session = GameSession.objects.select_for_update().get(
+                pk=data["session_id"]
+            )
+            player = User.objects.get(username=data["username"])
+            
+            # Initialize rematch status if it doesn't exist
+            if "rematch_status" not in game_session.state:
+                game_session.state["rematch_status"] = {}
+            
+            # Mark the player as ready for rematch
+            game_session.state["rematch_status"][str(player.username)] = True
+            game_session.save()
+            
+            # Get all players in the game session
+            all_players = list(game_session.players.all())
+            
+            # Check if all players are ready for rematch
+            all_players_ready = all(
+                game_session.state["rematch_status"].get(str(p.username), False)
+                for p in all_players
+            ) and len(game_session.state["rematch_status"]) == len(all_players)
+            
+            if all_players_ready:
+                # Reset the game state for a new game
+                game_session.initialize_game()
+                game_session.state["rematch_status"] = {}
+                game_session.save()
+            
+            return {
+                "success": True,
+                "rematch_status": game_session.state["rematch_status"],
+                "all_players_ready": all_players_ready,
+                "game_session": game_session
+            }
+            
+        except GameSession.DoesNotExist:
+            return {"success": False, "error": "Game session not found"}
+        except User.DoesNotExist:
+            return {"success": False, "error": "Player not found"}
+
+    async def broadcast_rematch_status(self, rematch_status: Dict[str, bool]) -> None:
+        """Broadcast rematch status to all clients."""
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                "type": "rematch_status",
+                "rematch_status": rematch_status,
+            },
+        )
+
+    async def rematch_status(self, event: Dict[str, Any]) -> None:
+        """Send rematch status update to client."""
+        await self.send_json(
+            {
+                "type": "rematch_status",
+                "rematch_status": event["rematch_status"],
+            }
+        )
+
+    async def start_new_game(self, game_session: GameSession) -> None:
+        """Start a new game with the same players."""
+        await self.broadcast_game_state(game_session)
+
     async def send_game_started(
         self, session_id: int, player_ids: List[int], game_session: GameSession
     ) -> None:
@@ -202,56 +278,3 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def send_json(self, data: Dict[str, Any]) -> None:
         """Helper method to send JSON data."""
         await self.send(text_data=json.dumps(data))
-
-    async def handle_rematch_request(self):
-        """Handle a rematch request from a player"""
-        game_session = await self.get_game_session()
-        player = await self.get_lobby_player()
-        
-        # Add player to rematch requests
-        await sync_to_async(game_session.request_rematch)(player)
-        
-        # Notify all players about the rematch request
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'rematch_requested',
-                'player_id': player.id,
-                'player_name': player.user.username
-            }
-        )
-        
-        # If all players have requested a rematch, start a new game
-        if game_session.rematch_accepted:
-            await self.start_rematch()
-    
-    async def start_rematch(self):
-        """Start a new game after all players have accepted the rematch"""
-        game_session = await self.get_game_session()
-        
-        # Reset the game state
-        new_game_state = await sync_to_async(game_session.reset_for_rematch)()
-        
-        # Notify all players that the rematch is starting
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'rematch_started',
-                'game_state': new_game_state.to_dict()
-            }
-        )
-    
-    async def rematch_requested(self, event):
-        """Send rematch request notification to WebSocket"""
-        await self.send(text_data=json.dumps({
-            'type': 'rematch_requested',
-            'player_id': event['player_id'],
-            'player_name': event['player_name']
-        }))
-    
-    async def rematch_started(self, event):
-        """Send rematch started notification to WebSocket"""
-        await self.send(text_data=json.dumps({
-            'type': 'rematch_started',
-            'game_state': event['game_state']
-        }))

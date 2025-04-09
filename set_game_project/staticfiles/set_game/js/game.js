@@ -173,6 +173,10 @@ function setupWebSocket() {
             isProcessingMove = false; // Reset the flag after the state is updated
         } else if (data.type === 'game_over') {
             alert('Game over! No more sets are possible.');
+            // Show the rematch button when the game is over
+            document.getElementById('rematch-container').style.display = 'block';
+        } else if (data.type === 'rematch_status') {
+            updateRematchStatus(data.rematch_status);
         }
     };
 
@@ -185,6 +189,12 @@ setupWebSocket();
 
 function updateGameState(state) {
     console.log('updateGameState called with state:', state);
+
+    // Hide the rematch UI when a new game starts
+    const rematchContainer = document.getElementById('rematch-container');
+    if (rematchContainer) {
+        rematchContainer.style.display = 'none';
+    }
 
     // Update the board
     const boardContainer = document.getElementById('game-board');
@@ -224,30 +234,6 @@ function updateGameState(state) {
     const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
     // Clear the message
     document.getElementById('message').innerText = '';
-
-    // // Create left and right score containers
-    // const leftScore = document.createElement('div');
-    // leftScore.id = 'left-score';
-    // const rightScore = document.createElement('div');
-    // rightScore.id = 'right-score';
-
-    // // Add scores to left and right containers
-    // const players = Object.entries(state.scores);
-    // if (players.length > 0) {
-    //     leftScore.innerText = `Player ${players[0][0]}: ${players[0][1]}`; // First player on the left
-    // }
-    // if (players.length > 1) {
-    //     rightScore.innerText = `Player ${players[1][0]}: ${players[1][1]}`; // Second player on the right
-    // }
-
-    // // Append left and right scores to the scores container
-    // scoresContainer.appendChild(leftScore);
-    // scoresContainer.appendChild(rightScore);
-
-    // // Update the title with the current score
-    // const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
-    // // Clear the message
-    // document.getElementById('message').innerText = '';
 }
 
 function createCardElement(cardId, cardData) {
@@ -332,4 +318,63 @@ function highlightSet() {
     }
 
     alert('No valid set found on the board.');
+}
+
+// Add event listener for the rematch button
+document.addEventListener('DOMContentLoaded', function () {
+    const rematchButton = document.getElementById('rematch-button');
+    if (rematchButton) {
+        rematchButton.addEventListener('click', function () {
+            requestRematch();
+        });
+    }
+});
+
+// Function to request a rematch
+function requestRematch() {
+    if (!sessionId) {
+        console.error('Session ID is not set.');
+        return;
+    }
+    if (!currentUsername) {
+        console.error('Username is not set.');
+        return;
+    }
+
+    console.log('Sending rematch request:', {
+        type: 'request_rematch',
+        session_id: sessionId,
+        username: currentUsername
+    });
+
+    gameSocket.send(JSON.stringify({
+        'type': 'request_rematch',
+        'session_id': sessionId,
+        'username': currentUsername
+    }));
+
+    // Disable the rematch button after clicking
+    const rematchButton = document.getElementById('rematch-button');
+    if (rematchButton) {
+        rematchButton.disabled = true;
+        rematchButton.textContent = 'Rematch Requested';
+    }
+}
+
+// Function to update the rematch status
+function updateRematchStatus(rematchStatus) {
+    const rematchStatusElement = document.getElementById('rematch-status');
+    if (!rematchStatusElement) return;
+
+    // Count how many players have requested a rematch
+    const readyPlayers = Object.values(rematchStatus).filter(status => status).length;
+
+    // Use playerIds to get the total number of players
+    const totalPlayers = playerIds ? playerIds.length : Object.keys(rematchStatus).length;
+
+    if (readyPlayers === totalPlayers) {
+        rematchStatusElement.textContent = 'All players ready! Starting new game...';
+    } else {
+        rematchStatusElement.textContent = `${readyPlayers} out of ${totalPlayers} players ready for rematch`;
+    }
 }

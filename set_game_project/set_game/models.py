@@ -26,42 +26,13 @@ class Card(models.Model):
 
 
 class GameSession(models.Model):
-    lobby = models.ForeignKey(Lobby, on_delete=models.CASCADE, related_name='game_sessions')
-    game_state = models.ForeignKey(GameState, on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=True)
+    name = models.CharField(max_length=100)
+    players = models.ManyToManyField(User, related_name="game_sessions")
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    rematch_requested_by = models.ManyToManyField(LobbyPlayer, related_name='rematch_requests', blank=True)
-    rematch_accepted = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return f"Game Session {self.id} - Lobby {self.lobby.id}"
-    
-    def request_rematch(self, player):
-        """Add a player to the rematch request list"""
-        self.rematch_requested_by.add(player)
-        
-        # Check if all players have requested a rematch
-        if self.rematch_requested_by.count() == self.lobby.players.count():
-            self.rematch_accepted = True
-            self.save()
-            return True
-        return False
-    
-    def reset_for_rematch(self):
-        """Reset the game for a rematch"""
-        # Create a new game state
-        new_game_state = GameState.objects.create()
-        new_game_state.initialize_game()
-        
-        # Update the game session
-        self.game_state = new_game_state
-        self.is_active = True
-        self.rematch_requested_by.clear()
-        self.rematch_accepted = False
-        self.save()
-        
-        return new_game_state
+    state = models.JSONField(default=dict)
+
+    def __str__(self) -> str:
+        return self.name
 
     def initialize_game(self) -> None:
         deck = list(Card.objects.all())
