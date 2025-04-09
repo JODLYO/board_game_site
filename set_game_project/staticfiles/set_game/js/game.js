@@ -1,26 +1,79 @@
+// Global variables
 let selectedCards = [];
 let playerIds = null;
 let sessionId = null;
-let currentGameState = null; // Add this line
+let currentGameState = null;
+let isProcessingMove = false;
+let gameSocket = null;
+
+// Get DOM elements
 const lobbyId = document.getElementById('lobby-id').dataset.lobbyId;
 const currentUsername = document.getElementById('current-username').dataset.lobbyId;
 
-// Function to handle card selection
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', () => {
-        const cardId = card.getAttribute('data-card-id');
-        if (selectedCards.includes(cardId)) {
-            selectedCards = selectedCards.filter(id => id !== cardId);
-            card.classList.remove('selected');
-        } else {
-            selectedCards.push(cardId);
-            card.classList.add('selected');
-        }
-        monitorSelectedCards(); // Check set when 3 cards are selected
-    });
-});
+// ===== WebSocket Setup =====
+function setupWebSocket() {
+    if (gameSocket) {
+        gameSocket.close();  // Close any existing socket before opening a new one
+    }
 
-// Monitor selectedCards array for changes
+    gameSocket = new WebSocket('ws://' + window.location.host + '/ws/game/');
+
+    gameSocket.onopen = function () {
+        startGame(lobbyId);
+    };
+
+    gameSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        console.log('WebSocket message received:', data);
+
+        switch (data.type) {
+            case 'game_state':
+                currentGameState = data.state;
+                updateGameState(data.state);
+                isProcessingMove = false;
+                break;
+            case 'game_started':
+                sessionId = data.session_id;
+                playerIds = data.player_ids;
+                currentGameState = data.state;
+                updateGameState(data.state);
+                isProcessingMove = false;
+                break;
+            case 'game_over':
+                alert('Game over! No more sets are possible.');
+                // Show the rematch button when the game is over
+                const rematchContainer = document.getElementById('rematch-container');
+                if (rematchContainer) {
+                    rematchContainer.style.display = 'block';
+
+                    // Reset the rematch button state
+                    const rematchButton = document.getElementById('rematch-button');
+                    if (rematchButton) {
+                        rematchButton.disabled = false;
+                        rematchButton.textContent = 'Request Rematch';
+                    }
+                }
+                break;
+            case 'rematch_status':
+                updateRematchStatus(data.rematch_status);
+                break;
+        }
+    };
+
+    gameSocket.onclose = function (e) {
+        console.error('Socket closed unexpectedly');
+    };
+}
+
+// Start a new game
+function startGame(lobbyId) {
+    gameSocket.send(JSON.stringify({
+        'type': 'start_game',
+        'lobby_id': lobbyId,
+    }));
+}
+
+// ===== Card Selection and Set Validation =====
 function monitorSelectedCards() {
     if (selectedCards.length === 3) {
         console.log('Automatically checking set');
@@ -28,52 +81,6 @@ function monitorSelectedCards() {
     }
 }
 
-// Function to send a player's move via WebSocket
-function sendMove(username, cardIds) {
-    if (isProcessingMove) {
-        console.error('A move is already being processed.');
-        return;
-    }
-    if (!sessionId) {
-        console.error('Session ID is not set.');
-        return;
-    }
-    if (!username) {
-        console.error('Username is not set.');
-        return;
-    }
-
-    // Validate card IDs against the current board state
-    if (!currentGameState || !currentGameState.board) {
-        console.error('Current game state or board is not defined.');
-        return;
-    }
-
-    // Validate card IDs against the current board state
-    const boardCardIds = Object.values(currentGameState.board).map(id => String(id));
-    if (!cardIds.every(id => boardCardIds.includes(id))) {
-        console.log(cardIds)
-        console.log(boardCardIds)
-        console.error('Invalid card IDs: not all cards are on the board.');
-        return;
-    }
-
-    isProcessingMove = true;
-    console.log('Sending make_move message:', {
-        type: 'make_move',
-        session_id: sessionId,
-        username: username,
-        card_ids: cardIds.map(id => parseInt(id))
-    });
-    gameSocket.send(JSON.stringify({
-        'type': 'make_move',
-        'session_id': sessionId,
-        'username': username,
-        'card_ids': cardIds.map(id => parseInt(id))
-    }));
-}
-
-// Function to check if selected cards form a valid SET
 function checkSet() {
     if (selectedCards.length !== 3) {
         document.getElementById('message').innerText = 'Please select exactly 3 cards.';
@@ -119,7 +126,6 @@ function checkSet() {
     selectedCards = [];
 }
 
-// Function to validate if selected cards form a SET
 function isValidSet(cards) {
     const numbers = new Set(cards.map(card => card.number));
     const symbols = new Set(cards.map(card => card.symbol));
@@ -132,61 +138,7 @@ function isValidSet(cards) {
         (colors.size === 1 || colors.size === 3);
 }
 
-// WebSocket setup
-let gameSocket = null;
-
-function setupWebSocket() {
-    if (gameSocket) {
-        gameSocket.close();  // Close any existing socket before opening a new one
-    }
-
-    gameSocket = new WebSocket(
-        'ws://' + window.location.host + '/ws/game/'
-    );
-
-    gameSocket.onopen = function () {
-        // Function to send a message to start a new game
-        function startGame(lobbyId) {
-            gameSocket.send(JSON.stringify({
-                'type': 'start_game',
-                'lobby_id': lobbyId,  // Pass the lobby ID
-            }));
-        }
-
-        // Example usage: Start a new game
-        startGame(lobbyId);
-    };
-
-    gameSocket.onmessage = function (e) {
-        const data = JSON.parse(e.data);
-        console.log('WebSocket message received:', data);
-
-        if (data.type === 'game_state') {
-            currentGameState = data.state; // Update the current game state
-            updateGameState(data.state);
-            isProcessingMove = false; // Reset the flag after the state is updated
-        } else if (data.type === 'game_started') {
-            sessionId = data.session_id;
-            playerIds = data.player_ids;
-            currentGameState = data.state; // Update the current game state
-            updateGameState(data.state);
-            isProcessingMove = false; // Reset the flag after the state is updated
-        } else if (data.type === 'game_over') {
-            alert('Game over! No more sets are possible.');
-            // Show the rematch button when the game is over
-            document.getElementById('rematch-container').style.display = 'block';
-        } else if (data.type === 'rematch_status') {
-            updateRematchStatus(data.rematch_status);
-        }
-    };
-
-    gameSocket.onclose = function (e) {
-        console.error('Socket closed unexpectedly');
-    };
-}
-
-setupWebSocket();
-
+// ===== Game State Management =====
 function updateGameState(state) {
     console.log('updateGameState called with state:', state);
 
@@ -194,6 +146,13 @@ function updateGameState(state) {
     const rematchContainer = document.getElementById('rematch-container');
     if (rematchContainer) {
         rematchContainer.style.display = 'none';
+
+        // Reset the rematch button state when a new game starts
+        const rematchButton = document.getElementById('rematch-button');
+        if (rematchButton) {
+            rematchButton.disabled = false;
+            rematchButton.textContent = 'Request Rematch';
+        }
     }
 
     // Update the board
@@ -215,7 +174,7 @@ function updateGameState(state) {
             return;
         }
         const cardElement = createCardElement(cardId, cardData);
-        boardContainer.appendChild(cardElement);  // Append card to the board
+        boardContainer.appendChild(cardElement);
     });
 
     // Update the scores
@@ -230,8 +189,6 @@ function updateGameState(state) {
         scoresContainer.appendChild(scoreElement);
     });
 
-    // Update the title with the current score
-    const totalScore = Object.values(state.scores).reduce((a, b) => a + b, 0);
     // Clear the message
     document.getElementById('message').innerText = '';
 }
@@ -267,12 +224,58 @@ function createCardElement(cardId, cardData) {
             selectedCards.push(cardId);
             cardElement.classList.add('selected');
         }
-        monitorSelectedCards(); // Check set when 3 cards are selected
+        monitorSelectedCards();
     });
 
     return cardElement;
 }
 
+// ===== Move Processing =====
+function sendMove(username, cardIds) {
+    if (isProcessingMove) {
+        console.error('A move is already being processed.');
+        return;
+    }
+    if (!sessionId) {
+        console.error('Session ID is not set.');
+        return;
+    }
+    if (!username) {
+        console.error('Username is not set.');
+        return;
+    }
+
+    // Validate card IDs against the current board state
+    if (!currentGameState || !currentGameState.board) {
+        console.error('Current game state or board is not defined.');
+        return;
+    }
+
+    // Validate card IDs against the current board state
+    const boardCardIds = Object.values(currentGameState.board).map(id => String(id));
+    if (!cardIds.every(id => boardCardIds.includes(id))) {
+        console.log(cardIds);
+        console.log(boardCardIds);
+        console.error('Invalid card IDs: not all cards are on the board.');
+        return;
+    }
+
+    isProcessingMove = true;
+    console.log('Sending make_move message:', {
+        type: 'make_move',
+        session_id: sessionId,
+        username: username,
+        card_ids: cardIds.map(id => parseInt(id))
+    });
+    gameSocket.send(JSON.stringify({
+        'type': 'make_move',
+        'session_id': sessionId,
+        'username': username,
+        'card_ids': cardIds.map(id => parseInt(id))
+    }));
+}
+
+// ===== Set Highlighting =====
 function highlightSet() {
     // Get all card elements on the board
     const cards = Array.from(document.querySelectorAll('.card'));
@@ -320,17 +323,7 @@ function highlightSet() {
     alert('No valid set found on the board.');
 }
 
-// Add event listener for the rematch button
-document.addEventListener('DOMContentLoaded', function () {
-    const rematchButton = document.getElementById('rematch-button');
-    if (rematchButton) {
-        rematchButton.addEventListener('click', function () {
-            requestRematch();
-        });
-    }
-});
-
-// Function to request a rematch
+// ===== Rematch Functionality =====
 function requestRematch() {
     if (!sessionId) {
         console.error('Session ID is not set.');
@@ -361,7 +354,6 @@ function requestRematch() {
     }
 }
 
-// Function to update the rematch status
 function updateRematchStatus(rematchStatus) {
     const rematchStatusElement = document.getElementById('rematch-status');
     if (!rematchStatusElement) return;
@@ -378,3 +370,15 @@ function updateRematchStatus(rematchStatus) {
         rematchStatusElement.textContent = `${readyPlayers} out of ${totalPlayers} players ready for rematch`;
     }
 }
+
+// ===== Event Listeners =====
+document.addEventListener('DOMContentLoaded', function () {
+    // Add event listener for the rematch button
+    const rematchButton = document.getElementById('rematch-button');
+    if (rematchButton) {
+        rematchButton.addEventListener('click', requestRematch);
+    }
+
+    // Initialize WebSocket connection
+    setupWebSocket();
+});

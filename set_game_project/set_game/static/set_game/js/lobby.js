@@ -1,13 +1,33 @@
+// ===== Lobby Status Management =====
 function updateLobbyStatus(data) {
     console.log('updateLobbyStatus called with data:', data);
+
+    // Update player list
+    updatePlayerList(data.players);
+
+    // Update UI based on lobby state
+    updateLobbyUI(data);
+
+    // Redirect to game if all players are ready
+    if (data.is_full && data.all_ready && data.game_state_id) {
+        window.location.href = `/game/${data.game_state_id}/`;
+    }
+}
+
+// Update the player list in the UI
+function updatePlayerList(players) {
     const playersDiv = document.getElementById('players');
     playersDiv.innerHTML = '';
-    data.players.forEach(player => {
+
+    players.forEach(player => {
         const playerElement = document.createElement('div');
         playerElement.innerText = `${player.username} ${player.ready ? '✅ Ready' : '❌ Not Ready'}`;
         playersDiv.appendChild(playerElement);
     });
+}
 
+// Update the lobby UI based on the current state
+function updateLobbyUI(data) {
     const waitingMessageDiv = document.getElementById('waiting-message');
     const readyButtonDiv = document.getElementById('ready-button');
 
@@ -32,38 +52,39 @@ function updateLobbyStatus(data) {
             const readyForm = document.getElementById('ready-form');
             readyForm.addEventListener('submit', function (event) {
                 event.preventDefault(); // Prevent the default form submission
-
-                // Send a POST request using fetch
-                fetch('/lobby/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-CSRFToken': data.csrf_token
-                    },
-                    body: new URLSearchParams(new FormData(readyForm))
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data); // For debugging purposes
-                        updateLobbyStatus(data);
-                    })
-                    .catch(error => console.error('Error submitting ready status:', error));
+                submitReadyStatus(data.csrf_token);
             });
-
         } else {
             readyButtonDiv.innerHTML = ''; // Hide the ready button
         }
     }
-
-    if (data.is_full && data.all_ready && data.game_state_id) {
-        // Redirect to the game board when both players are ready
-        window.location.href = `/game/${data.game_state_id}/`;
-    }
 }
 
+// Submit the ready status to the server
+function submitReadyStatus(csrfToken) {
+    const readyForm = document.getElementById('ready-form');
+
+    fetch('/lobby/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken
+        },
+        body: new URLSearchParams(new FormData(readyForm))
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // For debugging purposes
+            updateLobbyStatus(data);
+        })
+        .catch(error => console.error('Error submitting ready status:', error));
+}
+
+// ===== Lobby Polling =====
 // Get the lobby ID from the data attribute
 const lobbyId = document.getElementById('lobby-id').getAttribute('data-lobby-id');
 
+// Poll the server for lobby status updates
 setInterval(() => {
     fetch(`/api/lobby_status/${lobbyId}/`)
         .then(response => response.json())
