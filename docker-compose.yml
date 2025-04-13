@@ -13,6 +13,9 @@ services:
       - redis
     networks:
       - board_game_site_app-network
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
   nginx:
     image: nginx:latest
@@ -33,6 +36,7 @@ services:
 
 volumes:
   static_volume:
+
 
 networks:
   board_game_site_app-network:

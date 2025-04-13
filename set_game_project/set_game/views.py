@@ -4,11 +4,31 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login
-from django.http import JsonResponse, HttpRequest, HttpResponse
-from django.db.models import Count
+from django.http import JsonResponse, HttpRequest, HttpResponse, Http404
+from django.db.models import Count, Q
 from typing import cast
 
 MAX_PLAYERS = 2
+
+def generate_unique_username(base_username: str) -> str:
+    """Generate a unique username by appending a number if needed."""
+    # First try the base username
+    if not User.objects.filter(username=base_username).exists():
+        return base_username
+        
+    # Find the highest number used with this base username
+    pattern = f"{base_username}#"
+    existing_users = User.objects.filter(username__startswith=pattern)
+    
+    if not existing_users.exists():
+        return f"{base_username}#0000"
+        
+    # Get the highest number used
+    numbers = [int(user.username.split('#')[1]) for user in existing_users]
+    next_number = max(numbers) + 1
+    
+    # Format with leading zeros
+    return f"{base_username}#{next_number:04d}"
 
 def home(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
@@ -17,7 +37,10 @@ def home(request: HttpRequest) -> HttpResponse:
             return render(
                 request, "set_game/home.html", {"error": "This field is required."}
             )
-        user, _ = User.objects.get_or_create(username=username)
+            
+        # Generate a unique username
+        unique_username = generate_unique_username(username)
+        user, _ = User.objects.get_or_create(username=unique_username)
         login(request, user, "django.contrib.auth.backends.ModelBackend")
         return redirect("lobby")
     return render(request, "set_game/home.html")
@@ -73,17 +96,26 @@ def lobby(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def game_board(request: HttpRequest, game_state_id: int) -> HttpResponse:
-    game_state = GameState.objects.get(id=game_state_id)
-    lobby = game_state.lobby
-    return render(
-        request,
-        "set_game/game_board.html",
-        {
-            "game_state": game_state,
-            "lobby_id": lobby.id,
-            "current_username": request.user.username,
-        },
-    )
+    """View for the game board."""
+    try:
+        game_state = GameState.objects.get(id=game_state_id)
+        lobby = game_state.lobby
+        
+        # Verify the user is a player in this game
+        if not lobby.players.filter(id=request.user.id).exists():
+            raise Http404("You are not a player in this game")
+            
+        return render(
+            request,
+            "set_game/game_board.html",
+            {
+                "game_state": game_state,
+                "lobby_id": lobby.id,
+                "current_username": request.user.username,
+            },
+        )
+    except GameState.DoesNotExist:
+        raise Http404("Game not found")
 
 
 def lobby_status(request: HttpRequest, lobby_id: int) -> JsonResponse:

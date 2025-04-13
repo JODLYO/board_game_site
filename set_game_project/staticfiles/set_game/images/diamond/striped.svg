@@ -1,6 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <polygon points="50,10 90,50 50,90 10,50" fill="currentColor" opacity="0.5" />
-    <line x1="10" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width="2" />
-    <line x1="20" y1="60" x2="80" y2="60" stroke="currentColor" stroke-width="2" />
-    <line x1="30" y1="70" x2="70" y2="70" stroke="currentColor" stroke-width="2" />
+    <defs>
+        <pattern id="stripes" patternUnits="userSpaceOnUse" width="7" height="10" patternTransform="rotate(58)">
+            <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.9"/>
+        </pattern>
+    </defs>
+    <polygon 
+        points="50,22 95,50 50,78 5,50" 
+        fill="url(#stripes)" 
+        stroke="currentColor" 
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-opacity="0.9"
+    />
 </svg>

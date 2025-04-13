@@ -3,7 +3,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from random import shuffle
+import hashlib
 from itertools import combinations
+from django.utils import timezone
 
 MAX_PLAYERS = 2
 NO_CARDS_IN_SET = 3
@@ -29,10 +31,21 @@ class GameSession(models.Model):
     name = models.CharField(max_length=100)
     players = models.ManyToManyField(User, related_name="game_sessions")
     created_at = models.DateTimeField(auto_now_add=True)
+    last_activity = models.DateTimeField(auto_now=True)
     state = models.JSONField(default=dict)
 
     def __str__(self) -> str:
         return self.name
+    
+    def get_game_hash(self) -> str:
+        """Generate a unique hash for the game session based on game id and player names."""
+        # Create a string with game state ID and sorted player names
+        player_names = sorted([player.username for player in self.players.all()])
+        hash_input = f"{self.id}:{':'.join(player_names)}"
+        
+        # Generate a hash
+        return hashlib.sha256(hash_input.encode()).hexdigest()[:8]  # Use first 8 characters for readability
+
 
     def initialize_game(self) -> None:
         deck = list(Card.objects.all())
@@ -164,6 +177,11 @@ class GameSession(models.Model):
     def end_game(self) -> None:
         self.state["game_over"] = True
 
+    def save(self, *args, **kwargs) -> None:
+        """Update last_activity when saving."""
+        self.last_activity = timezone.now()
+        super().save(*args, **kwargs)
+
 
 class GameMove(models.Model):
     session = models.ForeignKey(GameSession, on_delete=models.CASCADE)
@@ -180,6 +198,7 @@ class Lobby(models.Model):
         User, through="LobbyPlayer"
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    last_activity = models.DateTimeField(auto_now=True)
 
     def is_full(self) -> bool:
         return self.players.count() == MAX_PLAYERS
@@ -189,6 +208,11 @@ class Lobby(models.Model):
 
     def __str__(self) -> str:
         return f"Lobby {self.id}"
+
+    def save(self, *args, **kwargs) -> None:
+        """Update last_activity when saving."""
+        self.last_activity = timezone.now()
+        super().save(*args, **kwargs)
 
 
 class LobbyPlayer(models.Model):

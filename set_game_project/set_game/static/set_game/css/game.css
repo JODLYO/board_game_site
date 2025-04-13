@@ -24,7 +24,7 @@ body {
 /* Scores Styles */
 #scores {
     display: flex;
-    justify-content: space-between; /* Space out left and right scores */
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     font-size: 1.5rem;
@@ -33,7 +33,7 @@ body {
 }
 
 #scores div {
-    margin: 0 1rem; /* Add horizontal spacing between scores */
+    margin: 0 1rem;
     font-weight: bold;
 }
 
@@ -62,13 +62,15 @@ body {
     margin: 0 auto;
     width: 90%;
     border-radius: 10px;
-    grid-template-columns: repeat(4, 1fr); /* Use fractional units for dynamic sizing */
+    grid-template-columns: repeat(4, 1fr);
 }
 
 /* Card Styles */
 .card {
-    width: 100%; /* Cards take up 100% of their grid cell */
-    aspect-ratio: 2 / 3; /* Maintain a 2:3 aspect ratio (width:height) */
+    width: 100%;
+    /* Cards take up 100% of their grid cell */
+    aspect-ratio: 2 / 3;
+    /* Maintain a 2:3 aspect ratio (width:height) */
     border: 2px solid #000;
     border-radius: 10px;
     background-color: #fff;
@@ -100,8 +102,8 @@ body {
 
 /* Symbol Styles */
 .symbol {
-    width: 30px;
-    height: 30px;
+    width: min(10vw, 60px);
+    height: min(8vw, 60px);
     background-color: currentColor;
     mask-repeat: no-repeat;
     mask-position: center;
@@ -195,6 +197,7 @@ body {
     }
 
     #game-board {
-        grid-template-columns: repeat(3, 1fr); /* Adjust for smaller screens */
+        grid-template-columns: repeat(3, 1fr);
+        /* Adjust for smaller screens */
     }
 }
