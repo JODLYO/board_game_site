@@ -31,6 +31,9 @@ services:
 
   redis:
     image: redis:latest
+    sysctls:
+      - vm.overcommit_memory=1
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
     networks:
       - board_game_site_app-network
 
