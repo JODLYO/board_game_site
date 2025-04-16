@@ -36,16 +36,17 @@ class GameSession(models.Model):
 
     def __str__(self) -> str:
         return self.name
-    
+
     def get_game_hash(self) -> str:
         """Generate a unique hash for the game session based on game id and player names."""
         # Create a string with game state ID and sorted player names
         player_names = sorted([player.username for player in self.players.all()])
         hash_input = f"{self.id}:{':'.join(player_names)}"
-        
-        # Generate a hash
-        return hashlib.sha256(hash_input.encode()).hexdigest()[:8]  # Use first 8 characters for readability
 
+        # Generate a hash
+        return hashlib.sha256(hash_input.encode()).hexdigest()[
+            :8
+        ]  # Use first 8 characters for readability
 
     def initialize_game(self) -> None:
         deck = list(Card.objects.all())

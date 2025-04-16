@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('set_game', '0001_initial'),
+        ("set_game", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='gamesession',
-            name='last_activity',
+            model_name="gamesession",
+            name="last_activity",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AddField(
-            model_name='lobby',
-            name='last_activity',
+            model_name="lobby",
+            name="last_activity",
             field=models.DateTimeField(auto_now=True),
         ),
     ]

@@ -1,0 +1,138 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+    
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          .venv
+          ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-poetry-
+    
+    - name: Install dependencies
+      run: poetry install --no-interaction --no-root
+    
+    - name: Install project
+      run: poetry install --no-interaction
+    
+    - name: Run migrations
+      run: |
+        cd set_game_project
+        poetry run python manage.py migrate
+    
+    - name: Run tests
+      run: |
+        cd set_game_project
+        poetry run pytest
+    
+    - name: Run type checking
+      run: |
+        cd set_game_project
+        poetry run mypy .
+    
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+    
+    - name: Install dependencies
+      run: poetry install --no-interaction
+    
+    - name: Run ruff
+      run: poetry run ruff check
+    
+  docker:
+    name: Build and Test Docker
+    needs: [test, lint]
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build Docker images
+      run: docker compose build
+    
+    - name: Start containers with memory limits
+      run: |
+        docker compose up -d --force-recreate
+        docker compose ps
+    
+    - name: Wait for services to be healthy
+      run: |
+        echo "Waiting for services to be ready..."
+        for i in {1..30}; do
+          if docker compose ps | grep -q "healthy"; then
+            echo "Services are healthy"
+            break
+          fi
+          if [ $i -eq 30 ]; then
+            echo "Services failed to become healthy"
+            docker compose logs
+            exit 1
+          fi
+          sleep 5
+        done
+    
+    - name: Verify web service is healthy
+      run: |
+        docker compose ps
+        docker compose logs web
+        docker compose exec web python manage.py check --deploy
+    
+    - name: Run tests inside container
+      run: |
+        docker compose exec web python manage.py test
+        
+    - name: Stop containers
+      if: always()
+      run: docker compose down

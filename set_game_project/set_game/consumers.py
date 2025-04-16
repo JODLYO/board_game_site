@@ -152,37 +152,37 @@ class GameConsumer(AsyncWebsocketConsumer):
                 pk=data["session_id"]
             )
             player = User.objects.get(username=data["username"])
-            
+
             # Initialize rematch status if it doesn't exist
             if "rematch_status" not in game_session.state:
                 game_session.state["rematch_status"] = {}
-            
+
             # Mark the player as ready for rematch
             game_session.state["rematch_status"][str(player.username)] = True
             game_session.save()
-            
+
             # Get all players in the game session
             all_players = list(game_session.players.all())
-            
+
             # Check if all players are ready for rematch
             all_players_ready = all(
                 game_session.state["rematch_status"].get(str(p.username), False)
                 for p in all_players
             ) and len(game_session.state["rematch_status"]) == len(all_players)
-            
+
             if all_players_ready:
                 # Reset the game state for a new game
                 game_session.initialize_game()
                 game_session.state["rematch_status"] = {}
                 game_session.save()
-            
+
             return {
                 "success": True,
                 "rematch_status": game_session.state["rematch_status"],
                 "all_players_ready": all_players_ready,
-                "game_session": game_session
+                "game_session": game_session,
             }
-            
+
         except GameSession.DoesNotExist:
             return {"success": False, "error": "Game session not found"}
         except User.DoesNotExist:

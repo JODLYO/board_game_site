@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from set_game.models import Card, GameSession, Lobby, LobbyPlayer
 
-from unittest.mock import patch
 from django.core.management import call_command
 
 
@@ -38,22 +37,42 @@ class GameSessionModelTest(TestCase):
     def test_initial_board_setup(self):
         session = GameSession.objects.create(name="Test Game Set")
         session.players.set([self.player1, self.player2])
-        
+
         card_ids_containing_set = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 41, 81]
-        deck_with_set = [Card.objects.get(id=card_id) for card_id in card_ids_containing_set]
-        additional_cards = [Card.objects.get(id=card_id) for card_id in [11, 12, 13, 14, 15]]
+        deck_with_set = [
+            Card.objects.get(id=card_id) for card_id in card_ids_containing_set
+        ]
+        additional_cards = [
+            Card.objects.get(id=card_id) for card_id in [11, 12, 13, 14, 15]
+        ]
         deck_with_set.extend(additional_cards)
-        initial_board_cards, remaining_deck = session._get_initial_board_and_deck(deck_with_set)
-        
-        self.assertEqual(len(initial_board_cards), 12, "Board should have 12 cards when set is available")
-        
+        initial_board_cards, remaining_deck = session._get_initial_board_and_deck(
+            deck_with_set
+        )
+
+        self.assertEqual(
+            len(initial_board_cards),
+            12,
+            "Board should have 12 cards when set is available",
+        )
+
         card_ids_without_set = [16, 36, 43, 45, 33, 58, 59, 27, 23, 73, 18, 34]
-        deck_without_set = [Card.objects.get(id=card_id) for card_id in card_ids_without_set]
-        additional_cards = [Card.objects.get(id=card_id) for card_id in [11, 12, 13, 14, 15]]
+        deck_without_set = [
+            Card.objects.get(id=card_id) for card_id in card_ids_without_set
+        ]
+        additional_cards = [
+            Card.objects.get(id=card_id) for card_id in [11, 12, 13, 14, 15]
+        ]
         deck_without_set.extend(additional_cards)
-        initial_board_cards, remaining_deck = session._get_initial_board_and_deck(deck_without_set)
-                
-        self.assertEqual(len(initial_board_cards), 15, "Board should have 15 cards when no set is available")
+        initial_board_cards, remaining_deck = session._get_initial_board_and_deck(
+            deck_without_set
+        )
+
+        self.assertEqual(
+            len(initial_board_cards),
+            15,
+            "Board should have 15 cards when no set is available",
+        )
 
     def test_validate_sets(self):
         """(1, diamond, solid, red) → ID 1

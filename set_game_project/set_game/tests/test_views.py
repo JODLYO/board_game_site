@@ -46,7 +46,7 @@ class LobbyViewTest(TestCase):
     def test_lobby_join_existing(self) -> None:
         """Test that a second user joins an existing lobby if one is open."""
         Lobby.objects.create()
-        user2: AbstractUser = User.objects.create_user(username="testuser2")
+        _: AbstractUser = User.objects.create_user(username="testuser2")
         self.client.login(username="testuser2", password="testpass")
         response: Any = self.client.get(reverse("lobby"))
         self.assertEqual(response.status_code, 200)

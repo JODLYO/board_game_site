@@ -1,7 +1,6 @@
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from django_webtest import WebTest
 from django.urls import reverse
-from django.conf import settings
 
 from set_game.models import Lobby
 
