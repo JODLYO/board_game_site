@@ -107,22 +107,6 @@ jobs:
         docker compose up -d --force-recreate
         docker compose ps
     
-    - name: Wait for services to be healthy
-      run: |
-        echo "Waiting for services to be ready..."
-        for i in {1..30}; do
-          if docker compose ps | grep -q "healthy"; then
-            echo "Services are healthy"
-            break
-          fi
-          if [ $i -eq 30 ]; then
-            echo "Services failed to become healthy"
-            docker compose logs
-            exit 1
-          fi
-          sleep 5
-        done
-    
     - name: Verify web service is healthy
       run: |
         docker compose ps
