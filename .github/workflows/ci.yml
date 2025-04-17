@@ -115,8 +115,8 @@ jobs:
     
     - name: Run tests inside container
       run: |
-        docker compose exec web python manage.py test
-        
+        docker compose exec web pytest
+    
     - name: Stop containers
       if: always()
       run: docker compose down

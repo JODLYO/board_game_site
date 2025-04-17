@@ -4,6 +4,7 @@ FROM python:3.10-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
 
 # Set the working directory
 WORKDIR /app
@@ -40,5 +41,5 @@ EXPOSE 8000
 
 # RUN chmod +x ./start_daphne.sh
 WORKDIR /app/set_game_project
-# Run the star._daphne.sh script to start Daphne
+# Run the start_daphne.sh script to start Daphne
 CMD ["./start_daphne.sh"]
