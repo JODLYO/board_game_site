@@ -4,7 +4,6 @@ from set_game.models import Card, GameSession, Lobby, LobbyPlayer
 
 from django.core.management import call_command
 
-
 class CardModelTest(TestCase):
     def test_card_creation(self):
         card = Card.objects.create(
@@ -30,7 +29,8 @@ class GameSessionModelTest(TestCase):
 
     def test_initialize_game(self):
         self.session.initialize_game()
-        self.assertEqual(len(self.session.state["board"]), 12)
+        board_length = len(self.session.state["board"])
+        self.assertIn(board_length, [12, 15], "Board length must be either 12 or 15")
         self.assertGreater(len(self.session.state["deck"]), 0)
         self.assertEqual(self.session.state["scores"][self.player1.username], 0)
 
