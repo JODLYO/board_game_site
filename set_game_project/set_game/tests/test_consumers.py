@@ -61,10 +61,11 @@ INITIAL_BOARD_MULTIPLE_PLAYERS: Dict[str, str] = {
 
 DECK: List[str] = ["55", "17", "39", "46", "41", "52"]
 
+
 @pytest.fixture
 def event_loop():
     """The most compatible version"""
-    import asyncio
+
     try:
         loop = asyncio.get_event_loop()
     except RuntimeError:
@@ -72,10 +73,11 @@ def event_loop():
     yield loop
     if not loop.is_closed():
         loop.close()
-    
+
     # Cleanup
     loop.close()
     asyncio.set_event_loop(None)
+
 
 # @pytest.fixture(autouse=True)
 # async def setup_db():
@@ -83,6 +85,7 @@ def event_loop():
 #     await sync_to_async(call_command)("migrate")
 #     if not await sync_to_async(Card.objects.exists)():
 #         await sync_to_async(call_command)("populate_cards")
+
 
 @pytest_asyncio.fixture
 async def game_data() -> Dict[str, Any]:
@@ -95,12 +98,13 @@ async def game_data() -> Dict[str, Any]:
     # Create user, lobby, and game session using sync_to_async
     player: User = await sync_to_async(User.objects.create_user)(username="player1")
     lobby: Lobby = await sync_to_async(Lobby.objects.create)()
-    game_session: GameSession = await sync_to_async(GameSession.objects.create)(name="Test Game")
+    create_game = sync_to_async(GameSession.objects.create)
+    game_session: GameSession = await create_game(name="Test Game")
     await sync_to_async(game_session.players.add)(player)
     await sync_to_async(game_session.initialize_game)()
 
     # Get all cards using sync_to_async
-    cards = await sync_to_async(list)(Card.objects.all())
+    cards: List[Card] = await sync_to_async(lambda: list(Card.objects.all()))()
 
     return {
         "player": player,
@@ -108,6 +112,7 @@ async def game_data() -> Dict[str, Any]:
         "game_session": game_session,
         "cards": cards,
     }
+
 
 async def create_websocket_communicator() -> WebsocketCommunicator:
     """Helper function to create and connect a WebSocket communicator."""
@@ -117,6 +122,7 @@ async def create_websocket_communicator() -> WebsocketCommunicator:
     connected, _ = await communicator.connect()
     assert connected
     return communicator
+
 
 async def setup_game_state(
     game_session: GameSession,
@@ -150,9 +156,12 @@ async def setup_game_state(
     )()
     await sync_to_async(game_session.save)()
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_valid_move(game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator) -> None:
+async def test_valid_move(
+    game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator
+) -> None:
     """Ensure a valid move is processed correctly."""
     game_session: GameSession = game_data["game_session"]
     player: User = game_data["player"]
@@ -173,6 +182,7 @@ async def test_valid_move(game_data: Dict[str, Any], websocket_communicator: Web
     assert player.username in response["state"]["scores"]
     assert response["state"]["board"] == EXPECTED_BOARD_AFTER_SET
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
 async def test_invalid_lobby(websocket_communicator: WebsocketCommunicator) -> None:
@@ -188,9 +198,12 @@ async def test_invalid_lobby(websocket_communicator: WebsocketCommunicator) -> N
     assert response["type"] == "error"
     assert response["message"] == "Lobby not found"
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_invalid_move(game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator) -> None:
+async def test_invalid_move(
+    game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator
+) -> None:
     """Ensure an invalid move is rejected."""
     game_session: GameSession = game_data["game_session"]
     player: User = game_data["player"]
@@ -211,9 +224,12 @@ async def test_invalid_move(game_data: Dict[str, Any], websocket_communicator: W
     assert response["type"] == "error"
     assert "Cards not on board" in response["message"]
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_game_over(game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator) -> None:
+async def test_game_over(
+    game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator
+) -> None:
     """Ensure the game ends when no sets are available and the deck is empty."""
     game_session: GameSession = game_data["game_session"]
     player: User = game_data["player"]
@@ -243,9 +259,12 @@ async def test_game_over(game_data: Dict[str, Any], websocket_communicator: Webs
     assert response["type"] == "game_over"
     assert response["message"] == "Game over! No more sets are possible."
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_start_game_multiple_players(websocket_communicator: WebsocketCommunicator) -> None:
+async def test_start_game_multiple_players(
+    websocket_communicator: WebsocketCommunicator,
+) -> None:
     """Ensure a game can start with multiple players."""
     lobby: Lobby = await sync_to_async(Lobby.objects.create)()
     player1: User = await sync_to_async(User.objects.create_user)(username="player1")
@@ -264,9 +283,12 @@ async def test_start_game_multiple_players(websocket_communicator: WebsocketComm
     assert response["type"] == "game_started"
     assert len(response["player_ids"]) == 3
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_player_disconnect(game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator) -> None:
+async def test_player_disconnect(
+    game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator
+) -> None:
     """Ensure player disconnect does not crash the game."""
     game_session: GameSession = game_data["game_session"]
     player: User = game_data["player"]
@@ -288,9 +310,12 @@ async def test_player_disconnect(game_data: Dict[str, Any], websocket_communicat
     )()
     assert session_check, "Game session should still exist after player disconnect"
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_game_over_invalid_last_move(game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator) -> None:
+async def test_game_over_invalid_last_move(
+    game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator
+) -> None:
     """Ensure the game does not end incorrectly if the last move is invalid."""
     game_session: GameSession = game_data["game_session"]
     player: User = game_data["player"]
@@ -313,12 +338,17 @@ async def test_game_over_invalid_last_move(game_data: Dict[str, Any], websocket_
     assert "Cards not on board" in response["message"]
 
     # Game should not be over yet
-    game_over = await sync_to_async(lambda: game_session.state.get("game_over", False))()
+    game_over = await sync_to_async(
+        lambda: game_session.state.get("game_over", False)
+    )()
     assert not game_over
+
 
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_board_update_no_set(game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator) -> None:
+async def test_board_update_no_set(
+    game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator
+) -> None:
     """Ensure that when no valid set is found, 3 cards are added while maintaining card placements."""
     game_session: GameSession = game_data["game_session"]
     player: User = game_data["player"]
@@ -359,9 +389,12 @@ async def test_board_update_no_set(game_data: Dict[str, Any], websocket_communic
     }
     assert response["state"]["board"] == expected_board
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_board_update_after_set(game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator) -> None:
+async def test_board_update_after_set(
+    game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator
+) -> None:
     """Ensure that after a valid set is removed, the board updates correctly from 15 cards to 12 cards."""
     game_session: GameSession = game_data["game_session"]
     player: User = game_data["player"]
@@ -382,9 +415,12 @@ async def test_board_update_after_set(game_data: Dict[str, Any], websocket_commu
     assert response["type"] == "game_state"
     assert response["state"]["board"] == EXPECTED_BOARD_AFTER_SET
 
+
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
-async def test_score_updates_multiple_players(game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator) -> None:
+async def test_score_updates_multiple_players(
+    game_data: Dict[str, Any], websocket_communicator: WebsocketCommunicator
+) -> None:
     """Ensure that scores update correctly for two players."""
     game_session: GameSession = game_data["game_session"]
     player1: User = game_data["player"]

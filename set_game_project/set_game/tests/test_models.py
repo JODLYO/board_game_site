@@ -4,6 +4,7 @@ from set_game.models import Card, GameSession, Lobby, LobbyPlayer
 
 from django.core.management import call_command
 
+
 class CardModelTest(TestCase):
     def test_card_creation(self):
         card = Card.objects.create(
