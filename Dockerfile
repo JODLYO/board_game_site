@@ -1,6 +1,6 @@
 FROM python:3.10-slim
-ARG INSTALL_TYPE=main
-# or all
+ARG INSTALL_TYPE=all
+# or main
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
