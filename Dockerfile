@@ -1,5 +1,5 @@
 FROM python:3.10-slim
-ARG INSTALL_TYPE=all
+ARG INSTALL_TYPE
 # or main
 
 # Set environment variables
