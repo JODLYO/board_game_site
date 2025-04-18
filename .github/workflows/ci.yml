@@ -120,3 +120,24 @@ jobs:
     - name: Stop containers
       if: always()
       run: docker compose down
+
+  release:
+    name: Build & Push Production Docker Image
+    needs: [test, lint, docker]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Log in to DigitalOcean Container Registry
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${{ secrets.DOCR_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+    - name: Build production image
+      run: |
+        docker build \
+          --build-arg INSTALL_TYPE=main \
+          -t ${{ secrets.DOCR_REGISTRY }}/${{ secrets.IMAGE_NAME }}:latest .
+
+    - name: Push image to DOCR
+      run: |
+        docker push ${{ secrets.DOCR_REGISTRY }}/${{ secrets.IMAGE_NAME }}:latest

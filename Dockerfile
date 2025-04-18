@@ -1,5 +1,6 @@
-# Use the official Python image as a base image
 FROM python:3.10-slim
+ARG INSTALL_TYPE=main
+# or all
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -10,11 +11,11 @@ ENV PYTHONPATH=/app
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    build-essential \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && \
+#     apt-get install -y --no-install-recommends \
+#     build-essential \
+#     libpq-dev \
+#     && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry
 RUN pip3 install poetry
@@ -27,7 +28,7 @@ RUN poetry config virtualenvs.create false
 COPY pyproject.toml poetry.lock* ./
 
 # Install dependencies
-RUN poetry install
+RUN poetry install --only ${INSTALL_TYPE}
 
 # Copy the rest of the application code
 COPY . .

@@ -1,4 +1,28 @@
-2025-04-17 11:59:16,294 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
-2025-04-17 11:59:16,296 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-04-17 11:59:16,297 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
-2025-04-17 11:59:16,299 INFO     Listening on TCP address 0.0.0.0:8000
+2025-04-18 07:03:41,204 INFO     Starting server at tcp:port=8000:interface=0.0.0.0
+2025-04-18 07:03:41,204 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-04-18 07:03:41,204 INFO     Configuring endpoint tcp:port=8000:interface=0.0.0.0
+2025-04-18 07:03:41,205 INFO     Listening on TCP address 0.0.0.0:8000
+172.18.0.4:37806 - - [18/Apr/2025:07:04:13] "GET /" 200 2134
+172.18.0.4:34648 - - [18/Apr/2025:07:04:17] "POST /" 302 -
+172.18.0.4:34664 - - [18/Apr/2025:07:04:17] "GET /lobby/" 200 970
+172.18.0.4:34668 - - [18/Apr/2025:07:04:20] "GET /api/lobby_status/41/" 200 178
+172.18.0.4:34676 - - [18/Apr/2025:07:04:23] "GET /api/lobby_status/41/" 200 178
+172.18.0.4:34692 - - [18/Apr/2025:07:04:25] "GET /" 200 2134
+172.18.0.4:58176 - - [18/Apr/2025:07:04:26] "GET /api/lobby_status/41/" 200 178
+172.18.0.4:58190 - - [18/Apr/2025:07:04:29] "POST /" 302 -
+172.18.0.4:58204 - - [18/Apr/2025:07:04:29] "GET /lobby/" 200 970
+172.18.0.4:58218 - - [18/Apr/2025:07:04:29] "GET /api/lobby_status/41/" 200 214
+172.18.0.4:58224 - - [18/Apr/2025:07:04:32] "GET /api/lobby_status/41/" 200 214
+172.18.0.4:58228 - - [18/Apr/2025:07:04:32] "GET /api/lobby_status/41/" 200 214
+172.18.0.4:58238 - - [18/Apr/2025:07:04:33] "POST /lobby/" 200 174
+172.18.0.4:58240 - - [18/Apr/2025:07:04:35] "GET /api/lobby_status/41/" 200 213
+172.18.0.4:58242 - - [18/Apr/2025:07:04:35] "GET /api/lobby_status/41/" 200 213
+172.18.0.4:58258 - - [18/Apr/2025:07:04:36] "POST /lobby/" 200 172
+172.18.0.4:33138 - - [18/Apr/2025:07:04:38] "GET /api/lobby_status/41/" 200 209
+172.18.0.4:33146 - - [18/Apr/2025:07:04:38] "GET /game/37/" 200 1472
+172.18.0.4:33162 - - [18/Apr/2025:07:04:38] "WSCONNECTING /ws/game/" - -
+172.18.0.4:33176 - - [18/Apr/2025:07:04:38] "GET /api/lobby_status/41/" 200 209
+172.18.0.4:33162 - - [18/Apr/2025:07:04:38] "WSCONNECT /ws/game/" - -
+172.18.0.4:33182 - - [18/Apr/2025:07:04:38] "GET /game/37/" 200 1473
+172.18.0.4:33192 - - [18/Apr/2025:07:04:38] "WSCONNECTING /ws/game/" - -
+172.18.0.4:33192 - - [18/Apr/2025:07:04:38] "WSCONNECT /ws/game/" - -
